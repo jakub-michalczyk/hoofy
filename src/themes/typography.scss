@@ -1,0 +1,45 @@
+@use './functions.scss';
+
+$minHeadingSizeCode: 1;
+$maxHeadingSizeCode: 3;
+
+$minBodySizeCode: 1;
+$maxBodySizeCode: 3;
+
+@for $i from $maxHeadingSizeCode through $minHeadingSizeCode {
+  $fontSize: 24px + (($maxHeadingSizeCode - $i) * 12px);
+
+  .h#{$i} {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: $fontSize;
+    line-height: 1;
+  }
+}
+
+@for $i from $minBodySizeCode through $maxBodySizeCode {
+  $reversedIndex: $maxBodySizeCode - $i;
+  $fontSize: functions.to-rem(14 + ($reversedIndex * 2));
+
+  .body-#{$i} {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: $fontSize;
+    line-height: 1.5;
+
+    &-thin {
+      @extend .body-#{$i};
+      font-weight: 100;
+    }
+
+    &-light {
+      @extend .body-#{$i};
+      font-weight: 300;
+    }
+
+    &-bold {
+      @extend .body-#{$i};
+      font-weight: 700;
+    }
+  }
+}

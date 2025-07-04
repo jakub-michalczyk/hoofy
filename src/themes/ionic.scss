@@ -1,0 +1,21 @@
+@use './typography.scss';
+@use './functions.scss';
+
+ion-button {
+  @extend .body-3;
+  letter-spacing: normal;
+  text-transform: none;
+  --background: #{theme('colors.orange.450')};
+  --background-hover: #{theme('colors.white')};
+
+  --color: #{theme('colors.white')};
+
+  --border-radius: 4px;
+
+  --ripple-color: #{theme('colors.orange.450')};
+
+  --box-shadow: none;
+
+  --padding-top: functions.to-rem(12);
+  --padding-bottom: functions.to-rem(12);
+}
