@@ -1,6 +1,10 @@
 @use './typography.scss';
 @use './functions.scss';
 
+a {
+  color: #{theme('colors.black')} !important;
+}
+
 ion-button {
   @extend .body-3;
   letter-spacing: normal;
@@ -18,4 +22,27 @@ ion-button {
 
   --padding-top: functions.to-rem(12);
   --padding-bottom: functions.to-rem(12);
+  &._contrast {
+    --background: #{theme('colors.white')};
+    --background-hover: #{theme('colors.white')};
+
+    --color: #{theme('colors.black')};
+  }
+}
+
+ion-button[fill='outline'] {
+  --background: transparent;
+  --background-hover: transparent;
+  --color: #{theme('colors.orange.450')};
+  --border-radius: 4px;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-color: #{theme('colors.orange.450')};
+  &._outlined-contrast {
+    --color: #{theme('colors.white')};
+    --background: transparent;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #{theme('colors.white')};
+  }
 }
