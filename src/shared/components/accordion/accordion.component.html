@@ -1,0 +1,18 @@
+<div class="border-b border-stone-200 overflow-hidden p-4">
+  <!-- HEADER -->
+  <button
+    class="items-center cursor-pointer select-none flex justify-between w-full"
+    (click)="toggle()"
+  >
+    <h3 class="body-2">{{ title }}</h3>
+    <ion-icon
+      [name]="open() ? 'chevron-up-outline' : 'chevron-down-outline'"
+      class="text-xl transition-transform duration-200 ml-6"
+    ></ion-icon>
+  </button>
+
+  <!-- CONTENT -->
+  <div class="box-border" [@expandCollapse]="open() ? 'open' : 'closed'">
+    <ng-content></ng-content>
+  </div>
+</div>

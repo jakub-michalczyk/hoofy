@@ -1,0 +1,41 @@
+<div (mouseleave)="navigation.reset()">
+  <div class="w-full p-6 flex items-center justify-between">
+    <!-- LOGO -->
+    <hoof-logo></hoof-logo>
+
+    <!-- MENU -->
+    <div class="hidden lg:block">
+      <hoof-navigation></hoof-navigation>
+    </div>
+
+    <!-- ACTIONS -->
+    <hoof-auth-actions class="hidden lg:block"></hoof-auth-actions>
+
+    <!-- HAMBURGER -->
+    <button
+      class="cursor-pointer relative flex flex-col gap-1 lg:hidden"
+      (click)="navigation.toggleSideMenu()"
+      (keydown)="navigation.toggleSideMenu()"
+    >
+      <div
+        class="bg-black h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
+        [ngClass]="{
+          '!rotate-45 translate-y-[6px]': navigation.sideMenuOpened(),
+        }"
+      ></div>
+      <div
+        class="bg-black h-0.5 w-6 rounded-full transition-opacity opacity-100"
+        [ngClass]="{ '!opacity-0': navigation.sideMenuOpened() }"
+      ></div>
+      <div
+        class="bg-black h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
+        [ngClass]="{
+          '!-rotate-45 -translate-y-[6px]': navigation.sideMenuOpened(),
+        }"
+      ></div>
+    </button>
+  </div>
+
+  <!-- SUBMENU -->
+  <hoof-sub-menu class="hidden lg:block"></hoof-sub-menu>
+</div>

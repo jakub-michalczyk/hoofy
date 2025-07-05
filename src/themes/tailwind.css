@@ -4,3 +4,14 @@
   --color-stone-250: #ddd5d5;
   --color-orange-450: #f19a3e;
 }
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply !m-0;
+  }
+}

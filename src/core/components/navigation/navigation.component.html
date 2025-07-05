@@ -1,0 +1,29 @@
+<nav class="lg:bg-white rounded-full lg:shadow-xl lg:py-4 lg:px-12">
+  <ul class="flex-col lg:flex-row flex justify-between lg:items-center lg:gap-8">
+    @for (link of navigation.links(); track $index) {
+      <a
+        class="!text-black border-b border-stone-200 py-4 lg:py-0 px-6 lg:px-0 lg:border-0 hidden lg:block"
+        (mouseenter)="navigation.build($index)"
+        (focus)="navigation.build($index)"
+      >
+        <li class="body-2 group lg:text-center">
+          <span class="group-hover:font-bold inline-block w-26">
+            {{ link.text }}
+          </span>
+        </li>
+      </a>
+
+      <hoof-accordion
+        [title]="link.text"
+        class="block lg:hidden"
+        (click)="navigation.build($index)"
+      >
+        <hoof-sub-menu></hoof-sub-menu>
+      </hoof-accordion>
+
+      @if (!$last) {
+        <div class="hidden lg:block bg-orange-450 rounded-full w-1.5 h-1.5"></div>
+      }
+    }
+  </ul>
+</nav>
