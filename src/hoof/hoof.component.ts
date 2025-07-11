@@ -1,7 +1,4 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { TopBarComponent } from '../core/components/top-bar/top-bar.component';
-import { OffCanvasComponent } from '../core/components/off-canvas/off-canvas.component';
-import { NavigationService } from '../core/services/navigation.service';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { chevronDown, chevronUp, locationOutline, searchOutline } from 'ionicons/icons';
@@ -9,6 +6,9 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HeroComponent } from '../features/homepage/components/hero/hero.component';
 import { IonContent } from '@ionic/angular/standalone';
+import { OffCanvasComponent } from '../features/core/components/off-canvas/off-canvas.component';
+import { TopBarComponent } from '../features/core/components/top-bar/top-bar.component';
+import { NavigationService } from '../features/core/services/navigation.service';
 
 @Component({
   selector: 'hoof-root',

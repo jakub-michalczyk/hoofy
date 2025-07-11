@@ -1,4 +1,4 @@
-import { ICategory } from '../../../../core/model/hero.model';
+import { ICategory } from '../../../core/model/hero.model';
 
 export const CATEGORIES: ICategory[] = [
   {
