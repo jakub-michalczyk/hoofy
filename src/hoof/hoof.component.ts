@@ -4,13 +4,15 @@ import { OffCanvasComponent } from '../core/components/off-canvas/off-canvas.com
 import { NavigationService } from '../core/services/navigation.service';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { chevronDown, chevronUp } from 'ionicons/icons';
+import { chevronDown, chevronUp, locationOutline, searchOutline } from 'ionicons/icons';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HeroComponent } from '../features/homepage/components/hero/hero.component';
+import { IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'hoof-root',
-  imports: [TopBarComponent, OffCanvasComponent, CommonModule],
+  imports: [TopBarComponent, OffCanvasComponent, CommonModule, HeroComponent, IonContent],
   templateUrl: './hoof.component.html',
 })
 export class AppComponent {
@@ -27,6 +29,8 @@ export class AppComponent {
     addIcons({
       'chevron-down-outline': chevronDown,
       'chevron-up-outline': chevronUp,
+      'location-outline': locationOutline,
+      'search-outline': searchOutline,
     });
   }
 
