@@ -6,40 +6,60 @@ $maxHeadingSizeCode: 3;
 $minBodySizeCode: 1;
 $maxBodySizeCode: 3;
 
-@for $i from $maxHeadingSizeCode through $minHeadingSizeCode {
-  $fontSize: 24px + (($maxHeadingSizeCode - $i) * 12px);
+$breakpoints: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
 
-  .h#{$i} {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: $fontSize;
-    line-height: 1;
+@mixin generate-typography-classes($prefix: '') {
+  @for $i from $maxHeadingSizeCode through $minHeadingSizeCode {
+    $fontSize: 24px + (($maxHeadingSizeCode - $i) * 12px);
+    .#{$prefix}h#{$i} {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: $fontSize;
+      line-height: 1;
+    }
+  }
+
+  @for $i from $minBodySizeCode through $maxBodySizeCode {
+    $rev: $maxBodySizeCode - $i;
+    $fontSize: functions.to-rem(14 + ($rev * 2));
+
+    .#{$prefix}body-#{$i} {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: $fontSize;
+      line-height: 1.5;
+    }
+    .#{$prefix}body-#{$i}-thin {
+      font-family: 'Inter', sans-serif;
+      font-weight: 100;
+      font-size: $fontSize;
+      line-height: 1.5;
+    }
+    .#{$prefix}body-#{$i}-light {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: $fontSize;
+      line-height: 1.5;
+    }
+    .#{$prefix}body-#{$i}-bold {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: $fontSize;
+      line-height: 1.5;
+    }
   }
 }
 
-@for $i from $minBodySizeCode through $maxBodySizeCode {
-  $reversedIndex: $maxBodySizeCode - $i;
-  $fontSize: functions.to-rem(14 + ($reversedIndex * 2));
+@include generate-typography-classes();
 
-  .body-#{$i} {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: $fontSize;
-    line-height: 1.5;
-
-    &-thin {
-      @extend .body-#{$i};
-      font-weight: 100;
-    }
-
-    &-light {
-      @extend .body-#{$i};
-      font-weight: 300;
-    }
-
-    &-bold {
-      @extend .body-#{$i};
-      font-weight: 700;
-    }
+@each $name, $width in $breakpoints {
+  @media (min-width: $width) {
+    $prefix: '#{$name}\\:';
+    @include generate-typography-classes($prefix);
   }
 }

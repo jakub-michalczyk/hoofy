@@ -1,0 +1,70 @@
+<div class="bg-no-repeat bg-left-top">
+  <div
+    class="lg:bg-[url(/assets/images/homepage_bg.png)] bg-no-repeat bg-right-top w-full min-h-screen bg-contain flex items-center pt-24"
+  >
+    <div class="pt-24 w-full lg:w-auto lg:min-w-2/3 mx-auto px-12 lg:px-36">
+      <h1 class="h2 md:h1">Znajdź to, czego szukasz <span class="text-orange-450">.</span></h1>
+      <div class="mt-12 border-b border-stone-200 pb-16">
+        <div class="flex flex-col md:flex-row gap-2">
+          <div class="relative w-full">
+            <ion-icon
+              name="search-outline"
+              class="text-2xl absolute top-1/2 -translate-y-1/2 left-1.5 text-stone-400"
+            ></ion-icon>
+            <input type="text" placeholder="Szukaj ogłoszeń" class="_input" />
+          </div>
+
+          <div class="w-full md:!w-2/6 relative">
+            <ion-icon
+              name="location-outline"
+              class="text-2xl absolute top-1/2 -translate-y-1/2 left-1.5 text-stone-400"
+            ></ion-icon>
+            <input type="text" placeholder="Polska" search-icon="location-outline" class="_input" />
+            <!--
+              TODO @if (location.results().length) {
+              
+                            <ul class="mt-2 bg-white z-20 rounded shadow-2xl absolute">
+                @for (result of location.results(); track $index) {
+                  <li class="px-4 body-3 py-3 hover:bg-gray-100 cursor-pointer">
+                    {{ result.display_name }}
+                  </li>
+                }
+              </ul>
+              
+            }-->
+          </div>
+        </div>
+
+        <ion-button class="inline-block mt-4">Szukaj</ion-button>
+      </div>
+      <div class="mt-16">
+        <h2 class="h3 md:h2">Kategorie:</h2>
+        <div class="flex flex-wrap justify-center sm:justify-between md:justify-start gap-8 mt-6">
+          @for (category of store.categories(); track $index) {
+            <button
+              class="md:shadow-xl transition-transform duration-300 hover:scale-90 hover:opacity-50"
+              (click)="store.toggleCategory($index)"
+              [ngClass]="category.active || category.active === null ? 'opacity-100' : 'opacity-50'"
+            >
+              <div class="cursor-pointer relative w-40 h-40">
+                <img
+                  [src]="category.image"
+                  class="w-full h-full rounded-full md:rounded-t-sm md:rounded-b-none object-contain"
+                  alt="Category Icon"
+                />
+                <div
+                  class="absolute bottom-0 body-3 uppercase text-center p-2 w-40 text-white bg-gradient-to-b from-transparent to-black hidden md:block"
+                >
+                  {{ category.name }}
+                </div>
+              </div>
+              <div class="body-3 w-full uppercase text-center p-2 text-black block md:hidden">
+                {{ category.name }}
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

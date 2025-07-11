@@ -2,13 +2,13 @@ import { signalStore, withState, patchState, withMethods } from '@ngrx/signals';
 import { INavigationMenuElement } from '../../model/navigation.model';
 import { MENU } from './navigation.data';
 
-interface NavigationState {
+interface INavigationState {
   links: INavigationMenuElement[];
   submenuElement: INavigationMenuElement | null;
   sideMenuOpened: boolean;
 }
 
-const initialState: NavigationState = {
+const initialState: INavigationState = {
   links: MENU,
   submenuElement: null,
   sideMenuOpened: false,
