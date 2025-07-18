@@ -20,4 +20,12 @@
   ._input {
     @apply w-full block shadow-xl py-2 pl-10 pr-4 border border-stone-300 placeholder:text-stone-400 rounded bg-white focus:outline-0;
   }
+
+  ._bullet {
+    @apply w-3 h-3 outline outline-orange-450 outline-offset-2 rounded-full block cursor-pointer;
+  }
+
+  ._bullet.swiper-pagination-bullet-active {
+    @apply bg-orange-450;
+  }
 }
