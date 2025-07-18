@@ -11,6 +11,12 @@ import {
   heartOutline,
   heart,
   cashOutline,
+  logoFacebook,
+  logoInstagram,
+  logoLinkedin,
+  logoTiktok,
+  logoYoutube,
+  mailOutline,
 } from 'ionicons/icons';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,6 +27,7 @@ import { TopBarComponent } from '../features/core/components/top-bar/top-bar.com
 import { NavigationService } from '../features/core/services/navigation.service';
 import { CarouselComponent } from '../features/shared/components/carousel/carousel.component';
 import { FeaturedListingsComponent } from '../features/homepage/components/featured-listings/featured-listings.component';
+import { FooterComponent } from '../features/core/components/footer/footer.component';
 
 @Component({
   selector: 'hoof-root',
@@ -32,6 +39,7 @@ import { FeaturedListingsComponent } from '../features/homepage/components/featu
     IonContent,
     CarouselComponent,
     FeaturedListingsComponent,
+    FooterComponent,
   ],
   templateUrl: './hoof.component.html',
 })
@@ -56,6 +64,12 @@ export class AppComponent {
       'heart-outline': heartOutline,
       heart: heart,
       'cash-outline': cashOutline,
+      'logo-facebook': logoFacebook,
+      'logo-instagram': logoInstagram,
+      'logo-linkedin': logoLinkedin,
+      'logo-tiktok': logoTiktok,
+      'logo-youtube': logoYoutube,
+      'mail-outline': mailOutline,
     });
   }
 
