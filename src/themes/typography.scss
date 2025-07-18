@@ -1,10 +1,17 @@
 @use './functions.scss';
 
-$minHeadingSizeCode: 1;
-$maxHeadingSizeCode: 3;
+$heading-sizes: (
+  1: functions.to-rem(64),
+  2: functions.to-rem(48),
+  3: functions.to-rem(36),
+  4: functions.to-rem(24),
+);
 
-$minBodySizeCode: 1;
-$maxBodySizeCode: 3;
+$body-sizes: (
+  1: functions.to-rem(18),
+  2: functions.to-rem(16),
+  3: functions.to-rem(14),
+);
 
 $breakpoints: (
   'sm': 640px,
@@ -14,8 +21,8 @@ $breakpoints: (
 );
 
 @mixin generate-typography-classes($prefix: '') {
-  @for $i from $maxHeadingSizeCode through $minHeadingSizeCode {
-    $fontSize: 24px + (($maxHeadingSizeCode - $i) * 12px);
+  // HEADINGS
+  @each $i, $fontSize in $heading-sizes {
     .#{$prefix}h#{$i} {
       font-family: 'Inter', sans-serif;
       font-weight: 700;
@@ -24,28 +31,29 @@ $breakpoints: (
     }
   }
 
-  @for $i from $minBodySizeCode through $maxBodySizeCode {
-    $rev: $maxBodySizeCode - $i;
-    $fontSize: functions.to-rem(14 + ($rev * 2));
-
+  // BODY TEXT
+  @each $i, $fontSize in $body-sizes {
     .#{$prefix}body-#{$i} {
       font-family: 'Inter', sans-serif;
       font-weight: 400;
       font-size: $fontSize;
       line-height: 1.5;
     }
+
     .#{$prefix}body-#{$i}-thin {
       font-family: 'Inter', sans-serif;
       font-weight: 100;
       font-size: $fontSize;
       line-height: 1.5;
     }
+
     .#{$prefix}body-#{$i}-light {
       font-family: 'Inter', sans-serif;
       font-weight: 300;
       font-size: $fontSize;
       line-height: 1.5;
     }
+
     .#{$prefix}body-#{$i}-bold {
       font-family: 'Inter', sans-serif;
       font-weight: 700;
@@ -59,7 +67,7 @@ $breakpoints: (
 
 @each $name, $width in $breakpoints {
   @media (min-width: $width) {
-    $prefix: '#{$name}\\:';
+    $prefix: '#{$name}\\:'; // e.g. md\:h1
     @include generate-typography-classes($prefix);
   }
 }
