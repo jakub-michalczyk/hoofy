@@ -10,6 +10,7 @@ import {
   arrowForwardOutline,
   heartOutline,
   heart,
+  cashOutline,
 } from 'ionicons/icons';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,6 +20,7 @@ import { OffCanvasComponent } from '../features/core/components/off-canvas/off-c
 import { TopBarComponent } from '../features/core/components/top-bar/top-bar.component';
 import { NavigationService } from '../features/core/services/navigation.service';
 import { CarouselComponent } from '../features/shared/components/carousel/carousel.component';
+import { FeaturedListingsComponent } from '../features/homepage/components/featured-listings/featured-listings.component';
 
 @Component({
   selector: 'hoof-root',
@@ -29,6 +31,7 @@ import { CarouselComponent } from '../features/shared/components/carousel/carous
     HeroComponent,
     IonContent,
     CarouselComponent,
+    FeaturedListingsComponent,
   ],
   templateUrl: './hoof.component.html',
 })
@@ -52,6 +55,7 @@ export class AppComponent {
       'arrow-forward-outline': arrowForwardOutline,
       'heart-outline': heartOutline,
       heart: heart,
+      'cash-outline': cashOutline,
     });
   }
 

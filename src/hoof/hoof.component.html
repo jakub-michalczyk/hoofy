@@ -1,13 +1,18 @@
 <ion-content>
-  <div class="min-h-screen w-full">
-    <hoof-top-bar></hoof-top-bar>
-    <hoof-off-canvas></hoof-off-canvas>
-    <hoof-hero></hoof-hero>
-  </div>
-  <div class="mt-12">
-    <hoof-carousel
-      carouselTitle="Najnowsze ogłoszenia"
-      [slides]="[1, 2, 3, 4, 5, 6]"
-    ></hoof-carousel>
+  <div class="lg:bg-[url(/assets/images/homepage_bg.png)] bg-no-repeat bg-right-top">
+    <div class="min-h-screen w-full">
+      <hoof-top-bar></hoof-top-bar>
+      <hoof-off-canvas></hoof-off-canvas>
+      <hoof-hero></hoof-hero>
+    </div>
+    <div class="mt-12">
+      <hoof-featured-listings title="Promowane ogłoszenia"></hoof-featured-listings>
+    </div>
+    <div class="mt-24">
+      <hoof-carousel
+        carouselTitle="Najnowsze ogłoszenia"
+        [slides]="[1, 2, 3, 4, 5, 6]"
+      ></hoof-carousel>
+    </div>
   </div>
 </ion-content>
