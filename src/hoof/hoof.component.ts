@@ -1,7 +1,16 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { chevronDown, chevronUp, locationOutline, searchOutline } from 'ionicons/icons';
+import {
+  chevronDown,
+  chevronUp,
+  locationOutline,
+  searchOutline,
+  arrowBackOutline,
+  arrowForwardOutline,
+  heartOutline,
+  heart,
+} from 'ionicons/icons';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HeroComponent } from '../features/homepage/components/hero/hero.component';
@@ -9,10 +18,18 @@ import { IonContent } from '@ionic/angular/standalone';
 import { OffCanvasComponent } from '../features/core/components/off-canvas/off-canvas.component';
 import { TopBarComponent } from '../features/core/components/top-bar/top-bar.component';
 import { NavigationService } from '../features/core/services/navigation.service';
+import { CarouselComponent } from '../features/shared/components/carousel/carousel.component';
 
 @Component({
   selector: 'hoof-root',
-  imports: [TopBarComponent, OffCanvasComponent, CommonModule, HeroComponent, IonContent],
+  imports: [
+    TopBarComponent,
+    OffCanvasComponent,
+    CommonModule,
+    HeroComponent,
+    IonContent,
+    CarouselComponent,
+  ],
   templateUrl: './hoof.component.html',
 })
 export class AppComponent {
@@ -31,6 +48,10 @@ export class AppComponent {
       'chevron-up-outline': chevronUp,
       'location-outline': locationOutline,
       'search-outline': searchOutline,
+      'arrow-back-outline': arrowBackOutline,
+      'arrow-forward-outline': arrowForwardOutline,
+      'heart-outline': heartOutline,
+      heart: heart,
     });
   }
 
