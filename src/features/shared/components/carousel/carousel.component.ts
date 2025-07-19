@@ -34,10 +34,10 @@ export class CarouselComponent implements AfterViewInit {
       },
       breakpoints: {
         1600: {
-          slidesPerView: 5,
+          slidesPerView: 6,
         },
         600: {
-          slidesPerView: 3,
+          slidesPerView: 4,
         },
         430: {
           slidesPerView: 2,
