@@ -1,16 +1,18 @@
 <a [routerLink]="data?.url" class="cursor-pointer">
   <div class="bg-white rounded-md h-auto relative border border-stone-200">
-    <div class="p-2">
+    <div>
       <img src="assets/images/placeholder.png" alt="Listing Image" class="rounded" />
     </div>
-    <div class="px-4 py-2">
-      <h3 class="body-2-light">Sprzedam młodą klacz</h3>
-      <div class="flex justify-between mt-2">
-        <span class="body-3-bold">10000 PLN</span>
+    <div class="px-4 py-4">
+      <h3 class="body-2-light flex justify-between">
+        Sprzedam młodą klacz
         <hoof-add-to-favourites></hoof-add-to-favourites>
+      </h3>
+      <div>
+        <span class="body-3-bold">10000 PLN</span>
       </div>
-      <div class="mt-4">
-        <span class="bg-orange-450 text-white rounded px-2 py-1 body-3">Katowice, 11.07</span>
+      <div class="mt-2">
+        <span class="text-stone-400 body-3">Katowice, 11.07</span>
       </div>
     </div>
   </div>
