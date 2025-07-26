@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Signal, signal } from '@angular/core';
 import { ListingItemComponent } from '../../../shared/components/listing-item/listing-item.component';
+import { IListingItem } from '../../../shared/components/listing-item/listing-item.model';
 
 @Component({
   selector: 'hoof-featured-listings',
@@ -8,4 +9,5 @@ import { ListingItemComponent } from '../../../shared/components/listing-item/li
 })
 export class FeaturedListingsComponent {
   @Input() title = '';
+  @Input() listings: Signal<IListingItem[]> = signal([]);
 }

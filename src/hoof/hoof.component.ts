@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, computed, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import {
@@ -28,6 +28,7 @@ import { NavigationService } from '../features/core/services/navigation.service'
 import { CarouselComponent } from '../features/shared/components/carousel/carousel.component';
 import { FeaturedListingsComponent } from '../features/homepage/components/featured-listings/featured-listings.component';
 import { FooterComponent } from '../features/core/components/footer/footer.component';
+import { ListingsStore } from '../features/homepage/components/store/listings.store';
 
 @Component({
   selector: 'hoof-root',
@@ -46,11 +47,18 @@ import { FooterComponent } from '../features/core/components/footer/footer.compo
 export class AppComponent {
   navigation = inject(NavigationService);
   breakpointObserver = inject(BreakpointObserver);
+  store = inject(ListingsStore);
+  featured = computed(() => this.store.featured());
+  latest = computed(() => this.store.latest());
+
   private destroyerRef = inject(DestroyRef);
 
   constructor() {
     this.registerIcons();
     this.initResizeObserver();
+
+    this.store.refetchFeatured();
+    this.store.refetchLatest();
   }
 
   registerIcons() {

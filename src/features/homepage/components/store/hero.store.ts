@@ -1,6 +1,6 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
-import { CATEGORIES } from './hero.data';
+import { CATEGORIES } from '../hero/hero.data';
 import { ICategory } from '../../../core/model/hero.model';
 
 interface IHeroState {
