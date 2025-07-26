@@ -6,13 +6,13 @@
       <hoof-hero></hoof-hero>
     </div>
     <div class="mt-12">
-      <hoof-featured-listings title="Promowane ogłoszenia"></hoof-featured-listings>
+      <hoof-featured-listings
+        title="Promowane ogłoszenia"
+        [listings]="featured"
+      ></hoof-featured-listings>
     </div>
     <div class="mt-24">
-      <hoof-carousel
-        carouselTitle="Najnowsze ogłoszenia"
-        [slides]="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"
-      ></hoof-carousel>
+      <hoof-carousel carouselTitle="Najnowsze ogłoszenia" [slides]="latest"></hoof-carousel>
     </div>
   </div>
   <hoof-footer></hoof-footer>

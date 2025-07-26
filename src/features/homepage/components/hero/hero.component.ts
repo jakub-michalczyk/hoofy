@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonButton, IonIcon } from '@ionic/angular/standalone';
-import { HeroStore } from './hero.store';
+import { HeroStore } from '../store/hero.store';
 import { CommonModule } from '@angular/common';
 
 @Component({

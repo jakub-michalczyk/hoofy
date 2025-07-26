@@ -1,19 +1,30 @@
-<a [routerLink]="data?.url" class="cursor-pointer">
-  <div class="bg-white rounded-md h-auto relative border border-stone-200">
-    <div>
-      <img src="assets/images/placeholder.png" alt="Listing Image" class="rounded" />
-    </div>
-    <div class="px-4 py-4">
-      <h3 class="body-2-light flex justify-between">
-        Sprzedam młodą klacz
-        <hoof-add-to-favourites></hoof-add-to-favourites>
-      </h3>
-      <div>
-        <span class="body-3-bold">10000 PLN</span>
+@if (data) {
+  <a [routerLink]="data.url" class="cursor-pointer h-full">
+    <div class="bg-white rounded-md relative border border-stone-200 h-full flex flex-col">
+      <div class="min-h-32 w-full relative">
+        <hoof-add-to-favourites class="absolute p-2 top-0 right-0"></hoof-add-to-favourites>
+        <img [src]="data.image" alt="Listing Image" class="rounded-t w-full h-full object-cover" />
       </div>
-      <div class="mt-2">
-        <span class="text-stone-400 body-3">Katowice, 11.07</span>
+      <div class="px-3 py-3 flex flex-col justify-between h-40 gap-2">
+        <div>
+          <h3 class="body-2-light">
+            {{ data.title.slice(0, 30) }}{{ data.title.length >= 30 ? '...' : '' }}
+          </h3>
+          <div>
+            <span class="body-3-bold">{{ data.price }} PLN</span>
+          </div>
+          @if (showDescription) {
+            <div class="mt-2 text-stone-400 body-2-light hidden sm:block">
+              {{ data.description.slice(0, 60) }}{{ data.description.length >= 60 ? '...' : '' }}
+            </div>
+          }
+        </div>
+        <div>
+          <span class="text-stone-400 body-4"
+            >{{ data.city }}, {{ data.createdAt | date: 'dd.MM' }}</span
+          >
+        </div>
       </div>
     </div>
-  </div>
-</a>
+  </a>
+}

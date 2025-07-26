@@ -1,53 +1,63 @@
 import {
-  AfterViewInit,
   Component,
-  ContentChild,
   CUSTOM_ELEMENTS_SCHEMA,
-  ElementRef,
   Input,
+  Signal,
+  signal,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  effect,
 } from '@angular/core';
 import { SwiperContainer } from 'swiper/element';
 import { ListingItemComponent } from '../listing-item/listing-item.component';
+import { IListingItem } from '../listing-item/listing-item.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'hoof-carousel',
-  imports: [ListingItemComponent],
+  standalone: true,
+  imports: [ListingItemComponent, CommonModule],
   templateUrl: './carousel.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CarouselComponent implements AfterViewInit {
   @Input() carouselTitle = 'Title';
-  @Input() slides: unknown[] = [];
-  @ContentChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
+  @Input() slides: Signal<IListingItem[]> = signal([]);
+  @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
+  showPagination = signal(false);
 
-  ngAfterViewInit() {
-    const swiperEl = document.querySelector('swiper-container') as SwiperContainer;
+  constructor() {
+    effect(() => {
+      if (this.slides().length > 6) {
+        this.showPagination.update(() => true);
+      }
+    });
+  }
 
+  ngAfterViewInit(): void {
+    if (this.swiperRef?.nativeElement) {
+      this.initSwiper(this.swiperRef?.nativeElement);
+    }
+  }
+
+  private initSwiper(swiperEl: SwiperContainer): void {
     Object.assign(swiperEl, {
       slidesPerView: 5,
       pagination: {
         el: '._pagination',
         clickable: true,
-        renderBullet: (index: number, className: string) => {
-          return `<span class="${className} _bullet"></span>`;
-        },
+        renderBullet: (idx: number, className: string) =>
+          `<span class="${className} _bullet"></span>`,
       },
       breakpoints: {
-        1600: {
-          slidesPerView: 6,
-        },
-        600: {
-          slidesPerView: 4,
-        },
-        430: {
-          slidesPerView: 2,
-        },
-        0: {
-          slidesPerView: 1,
-        },
+        1600: { slidesPerView: 6 },
+        830: { slidesPerView: 4 },
+        600: { slidesPerView: 3 },
+        430: { slidesPerView: 2 },
+        0: { slidesPerView: 1 },
       },
     });
-
     swiperEl.initialize();
   }
 }
