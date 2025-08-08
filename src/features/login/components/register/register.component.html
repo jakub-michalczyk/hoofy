@@ -1,0 +1,18 @@
+<hoof-auth-view>
+  <h1 class="h2">Rejestracja</h1>
+  <p class="body-1 mt-2">Miło Cię poznać!</p>
+  <div class="flex flex-col gap-4 mt-8 w-full md:px-24 max-w-xl">
+    <hoof-email-password [repeatPassword]="true"></hoof-email-password>
+    <ion-checkbox class="my-4 body-3" labelPlacement="end" [formControl]="termsAccepted">
+      Oświadczam, że zapoznałem(-am) się i akceptuję
+      <a class="!text-orange-450 body-3-bold hover:underline" routerLink="terms">Regulamin</a>
+      serwisu oraz
+      <a class="!text-orange-450 body-3-bold hover:underline" routerLink="privacy-policy"
+        >Politykę prywatności</a
+      >.
+    </ion-checkbox>
+    <ion-button fill="solid" routerLink="login" [disabled]="isFormInvalid()" (click)="onRegister()"
+      >Zarejestruj się</ion-button
+    >
+  </div>
+</hoof-auth-view>

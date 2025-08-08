@@ -1,19 +1,8 @@
 <ion-content>
-  <div class="lg:bg-[url(/assets/images/homepage_bg.png)] bg-no-repeat bg-right-top">
-    <div class="min-h-screen w-full">
-      <hoof-top-bar></hoof-top-bar>
-      <hoof-off-canvas></hoof-off-canvas>
-      <hoof-hero></hoof-hero>
-    </div>
-    <div class="mt-12">
-      <hoof-featured-listings
-        title="Promowane ogłoszenia"
-        [listings]="featured"
-      ></hoof-featured-listings>
-    </div>
-    <div class="mt-24">
-      <hoof-carousel carouselTitle="Najnowsze ogłoszenia" [slides]="latest"></hoof-carousel>
-    </div>
+  <hoof-top-bar></hoof-top-bar>
+  <hoof-off-canvas></hoof-off-canvas>
+  <div class="min-h-screen">
+    <router-outlet></router-outlet>
   </div>
   <hoof-footer></hoof-footer>
 </ion-content>

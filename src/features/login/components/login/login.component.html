@@ -1,0 +1,70 @@
+<hoof-auth-view>
+  @if (isPasswordResetMode()) {
+    <ng-container *ngTemplateOutlet="resetPasswordTemplate"></ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="loginTemplate"></ng-container>
+  }
+</hoof-auth-view>
+
+<ng-template #resetPasswordTemplate>
+  <h1 class="h2">Resetuj hasło</h1>
+  <p class="body-1 mt-2">Wprowadź swój adres e-mail, aby zresetować hasło.</p>
+  <div class="flex flex-col gap-4 mt-8 w-full md:px-24">
+    <hoof-email-password [hasPassword]="false"></hoof-email-password>
+    <ion-button fill="solid" (click)="onResetPassword()" [disabled]="isFormInvalid()">
+      Wyślij link resetujący
+    </ion-button>
+  </div>
+  <div class="mt-6">
+    <button
+      routerLink="login"
+      class="body-3 mt-6 hover:underline"
+      (click)="resetPasswordModeToggle()"
+    >
+      Powrót do logowania
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #loginTemplate>
+  <h1 class="h2">Zaloguj się</h1>
+  <p class="body-1 mt-2">Witaj z powrotem!</p>
+  <div class="flex flex-col gap-4 mt-8 w-full md:px-24">
+    <hoof-email-password></hoof-email-password>
+    <ion-button fill="solid" routerLink="login" (click)="onLogin()" [disabled]="isFormInvalid()">
+      Zaloguj się
+    </ion-button>
+  </div>
+  @if (loginErrors()) {
+    <hoof-form-error [errorMessage]="loginErrors()"></hoof-form-error>
+  }
+  <div class="mt-6">
+    <button
+      routerLink="reset-password"
+      class="body-3 hover:underline"
+      (click)="resetPasswordModeToggle()"
+    >
+      Zapomniałeś hasła?
+    </button>
+  </div>
+
+  <div class="body-3-bold flex items-center my-6 w-full md:px-24">
+    <div class="bg-black h-px w-full"></div>
+    <span class="px-4">LUB</span>
+    <div class="bg-black h-px w-full"></div>
+  </div>
+  <div class="flex gap-4 justify-center">
+    @for (loginMethod of loginMethods; track $index) {
+      <button
+        class="!rounded-full !border-stone-200 !border !p-3 w-12 h-12 flex items-center hover:bg-stone-100 cursor-pointer"
+        (click)="onCustomLogin(loginMethod)"
+      >
+        <img
+          class="w-full"
+          [src]="'/assets/images/' + loginMethod + '.svg'"
+          [alt]="loginMethod + 'Logo'"
+        />
+      </button>
+    }
+  </div>
+</ng-template>
