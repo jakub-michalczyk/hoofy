@@ -1,7 +1,7 @@
 <div (mouseleave)="navigation.reset()" class="absolute top-0 left-0 w-full z-50">
   <div class="w-full p-6 flex items-center justify-between">
     <!-- LOGO -->
-    <hoof-logo></hoof-logo>
+    <hoof-logo [contrast]="contrast"></hoof-logo>
 
     <!-- MENU -->
     <div class="hidden lg:block">
@@ -9,7 +9,27 @@
     </div>
 
     <!-- ACTIONS -->
-    <hoof-auth-actions class="hidden lg:block"></hoof-auth-actions>
+    @if (!!auth.currentUser()) {
+      @if (auth.currentUser()?.photoURL) {
+        <div class="w-12" id="account-options">
+          <img class="rounded-full" [src]="auth.currentUser()?.photoURL" alt="User Image" />
+        </div>
+      } @else {
+        <ion-icon
+          id="account-options"
+          class="text-5xl text-white"
+          name="person-circle-outline"
+        ></ion-icon>
+      }
+
+      <ion-popover trigger="account-options" triggerAction="click">
+        <ng-template>
+          <button class="body-2" (click)="auth.logout()">Wyloguj się</button>
+        </ng-template>
+      </ion-popover>
+    } @else {
+      <hoof-auth-actions class="hidden lg:block"></hoof-auth-actions>
+    }
 
     <!-- HAMBURGER -->
     <button

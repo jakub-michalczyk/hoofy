@@ -1,5 +1,5 @@
-@use './themes/ionic.scss';
 @use './themes/typography.scss';
+@import './themes/ionic.scss';
 @import './themes/tailwind.css';
 @import '@ionic/angular/css/core.css';
 @import '@ionic/angular/css/normalize.css';
@@ -8,5 +8,5 @@
 
 body,
 html {
-  background-color: #fff !important;
+  background-color: #e4e4e4 !important;
 }
