@@ -1,0 +1,14 @@
+<div class="lg:bg-[url(/assets/images/homepage_bg.png)] bg-no-repeat bg-top">
+  <div class="min-h-screen w-full">
+    <hoof-hero></hoof-hero>
+  </div>
+  <div class="mt-12">
+    <hoof-featured-listings
+      title="Promowane ogłoszenia"
+      [listings]="featured"
+    ></hoof-featured-listings>
+  </div>
+  <div class="mt-24">
+    <hoof-carousel carouselTitle="Najnowsze ogłoszenia" [slides]="latest"></hoof-carousel>
+  </div>
+</div>

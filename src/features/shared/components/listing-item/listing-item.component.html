@@ -1,6 +1,9 @@
 @if (data) {
   <a [routerLink]="data.url" class="cursor-pointer h-full">
-    <div class="bg-white rounded-md relative border border-stone-200 h-full flex flex-col">
+    <div
+      class="bg-white rounded-md relative border border-stone-200 h-full flex flex-col"
+      [ngClass]="{ 'shadow-2xl': isCarouselItem }"
+    >
       <div class="min-h-32 w-full relative">
         <hoof-add-to-favourites class="absolute p-2 top-0 right-0"></hoof-add-to-favourites>
         <img [src]="data.image" alt="Listing Image" class="rounded-t w-full h-full object-cover" />
@@ -13,7 +16,7 @@
           <div>
             <span class="body-3-bold">{{ data.price }} PLN</span>
           </div>
-          @if (showDescription) {
+          @if (isCarouselItem) {
             <div class="mt-2 text-stone-400 body-2-light hidden sm:block">
               {{ data.description.slice(0, 60) }}{{ data.description.length >= 60 ? '...' : '' }}
             </div>
