@@ -1,4 +1,4 @@
-<div class="w-full min-h-screen flex items-center pt-24">
+<div class="w-full min-h-screen flex items-center pt-24 text-white">
   <div class="pt-24 w-full md:max-w-7xl mx-auto px-12">
     <h1 class="h3 md:h1">Znajdź to, czego szukasz <span class="text-orange-450">.</span></h1>
     <p class="body-2-light mt-4 hidden md:block">
@@ -7,8 +7,8 @@
       Prosto, wygodnie i bez zbędnych przeszkód.
     </p>
     <div class="mt-12 border-b border-stone-200 pb-16">
-      <div class="flex flex-col md:flex-row gap-2">
-        <div class="relative w-full">
+      <div class="flex flex-col items-center justify-center md:flex-row gap-2">
+        <div class="relative w-full md:w-3/5">
           <ion-icon
             name="search-outline"
             class="text-xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
@@ -16,7 +16,7 @@
           <input type="text" placeholder="Szukaj ogłoszeń" class="_input" />
         </div>
 
-        <div class="w-full md:!w-2/6 relative">
+        <div class="w-full md:w-1/5 relative">
           <ion-icon
             name="location-outline"
             class="text-xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
@@ -35,13 +35,10 @@
               
             }-->
         </div>
+        <ion-button class="inline-block w-48 ml-12">Szukaj</ion-button>
       </div>
-
-      <ion-button class="inline-block mt-4 w-48">Szukaj</ion-button>
     </div>
     <div class="mt-16">
-      <h2 class="h3 md:h2">Kategorie:</h2>
-
       <div class="flex flex-wrap justify-center sm:justify-between gap-8 mt-6">
         @for (category of store.categories(); track $index) {
           <button
