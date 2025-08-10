@@ -1,4 +1,4 @@
-<div (mouseleave)="navigation.reset()" class="absolute top-0 left-0 w-full z-50">
+<div (mouseleave)="navigation.reset()" class="absolute p-4 top-0 left-0 w-full z-50">
   <div class="w-full p-6 flex items-center justify-between">
     <!-- LOGO -->
     <hoof-logo [contrast]="contrast"></hoof-logo>
@@ -38,17 +38,17 @@
       (keydown)="navigation.toggleSideMenu()"
     >
       <div
-        class="bg-black h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
+        class="bg-white h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
         [ngClass]="{
           '!rotate-45 translate-y-[6px]': navigation.sideMenuOpened(),
         }"
       ></div>
       <div
-        class="bg-black h-0.5 w-6 rounded-full transition-opacity opacity-100"
+        class="bg-white h-0.5 w-6 rounded-full transition-opacity opacity-100"
         [ngClass]="{ '!opacity-0': navigation.sideMenuOpened() }"
       ></div>
       <div
-        class="bg-black h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
+        class="bg-white h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
         [ngClass]="{
           '!-rotate-45 -translate-y-[6px]': navigation.sideMenuOpened(),
         }"

@@ -19,6 +19,7 @@ import {
   lockClosedOutline,
   alertCircleOutline,
   personCircleOutline,
+  pinOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -43,6 +44,7 @@ export class IconService {
       'lock-closed-outline': lockClosedOutline,
       'alert-circle-outline': alertCircleOutline,
       'person-circle-outline': personCircleOutline,
+      'pin-outline': pinOutline,
     });
   }
 }
