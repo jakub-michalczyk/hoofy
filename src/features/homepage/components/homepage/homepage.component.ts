@@ -1,8 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
-import { ListingsStore } from '../store/listings.store';
+import { Component, inject } from '@angular/core';
 import { FeaturedListingsComponent } from '../featured-listings/featured-listings.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { HeroComponent } from '../hero/hero.component';
+import { ListingStore } from '../../../listing/store/listing.store';
 
 @Component({
   selector: 'hoof-homepage',
@@ -10,12 +10,12 @@ import { HeroComponent } from '../hero/hero.component';
   templateUrl: './homepage.component.html',
 })
 export class HomepageComponent {
-  store = inject(ListingsStore);
-  featured = computed(() => this.store.featured());
-  latest = computed(() => this.store.latest());
+  store = inject(ListingStore);
+  featured = this.store.featured;
+  latest = this.store.latest;
 
   constructor() {
-    this.store.refetchFeatured();
-    this.store.refetchLatest();
+    this.store.loadFeatured();
+    this.store.loadLatest();
   }
 }

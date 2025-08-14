@@ -10,9 +10,13 @@ import {
   effect,
 } from '@angular/core';
 import { SwiperContainer } from 'swiper/element';
-import { ListingItemComponent } from '../listing-item/listing-item.component';
-import { IListingItem } from '../listing-item/listing-item.model';
+
 import { CommonModule } from '@angular/common';
+import { ListingItemComponent } from '../../../listing/components/listing-item/listing-item.component';
+import {
+  EListingItemType,
+  IListingItem,
+} from '../../../listing/components/listing-item/listing-item.model';
 
 @Component({
   selector: 'hoof-carousel',
@@ -26,6 +30,8 @@ export class CarouselComponent implements AfterViewInit {
   @Input() slides: Signal<IListingItem[]> = signal([]);
   @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
   showPagination = signal(false);
+
+  EListingItemType = EListingItemType;
 
   constructor() {
     effect(() => {

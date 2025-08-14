@@ -17,7 +17,7 @@
     >
       @for (slide of slides(); track $index) {
         <swiper-slide class="h-full">
-          <hoof-listing-item [data]="slide"></hoof-listing-item>
+          <hoof-listing-item [data]="slide" [type]="EListingItemType.CAROUSEL"></hoof-listing-item>
         </swiper-slide>
       }
     </swiper-container>

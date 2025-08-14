@@ -3,7 +3,7 @@ import { Firestore, collection, query, where, orderBy, limit } from '@angular/fi
 import { collectionData } from 'rxfire/firestore';
 import { signalStore, withState, withMethods, patchState } from '@ngrx/signals';
 import { tap } from 'rxjs';
-import { IListingItem } from '../../../shared/components/listing-item/listing-item.model';
+import { IListingItem } from '../../../listing/components/listing-item/listing-item.model';
 
 interface ListingsState {
   featured: IListingItem[];

@@ -1,5 +1,9 @@
 import { signalStore, withState, patchState, withMethods } from '@ngrx/signals';
-import { INavigationMenuElement } from '../../model/navigation.model';
+import {
+  INavigationMenuElement,
+  INavigationSubmenuColumn,
+  INavigationSubmenuItem,
+} from '../../model/navigation.model';
 import { MENU } from './navigation.data';
 
 interface INavigationState {
@@ -35,6 +39,28 @@ export const NavigationStore = signalStore(
 
     closeSideMenu() {
       patchState(store, { sideMenuOpened: false });
+    },
+
+    getMainCategories(): INavigationSubmenuColumn[] {
+      const listingSections = store.links().filter(link => link.slug === 'listing');
+      return listingSections.flatMap(section => section.submenu ?? []);
+    },
+
+    getSubcategories(mainSlug: string): INavigationSubmenuItem[] {
+      const listingSections = store.links().filter(link => link.slug === mainSlug);
+      return listingSections.flatMap(section => section.submenu?.flatMap(col => col.items) ?? []);
+    },
+
+    getMainCategoryBySlug(slug: string): INavigationMenuElement | undefined {
+      return store.links().find(link => link.slug === slug);
+    },
+
+    getSubcategoryBySlug(mainSlug: string, subSlug: string) {
+      const subColumn = store
+        .links()
+        .flatMap(link => link.submenu ?? [])
+        .find(sub => sub.slug === mainSlug);
+      return subColumn?.items.find(item => item.slug === subSlug);
     },
   }))
 );
