@@ -6,6 +6,7 @@ import { HeroComponent } from '../../../homepage/components/hero/hero.component'
 import { ListingItemComponent } from '../listing-item/listing-item.component';
 import { SortOptionsComponent } from '../sort-options/sort-options.component';
 import { EGridMode } from '../sort-options/sort-options.model';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'hoof-listing',
@@ -17,6 +18,7 @@ import { EGridMode } from '../sort-options/sort-options.model';
     ListingItemComponent,
     HeroComponent,
     SortOptionsComponent,
+    PaginationComponent,
   ],
   templateUrl: './listing.component.html',
 })

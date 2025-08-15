@@ -1,0 +1,35 @@
+<div class="flex justify-center items-center gap-6 md:gap-12 mt-8">
+  <button
+    class="text-lg !border flex items-center justify-center !rounded-full w-10 h-10"
+    (click)="prev()"
+    [ngClass]="{ 'opacity-20': currentPage === 1 }"
+    [disabled]="currentPage === 1"
+  >
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </button>
+
+  <div class="flex gap-4">
+    @for (page of pages; track $index) {
+      <button
+        class="text-lg w-10 h-10 !rounded-full flex items-center justify-center !border"
+        (click)="goTo(page)"
+        [disabled]="page === '...' || page === currentPage"
+        [ngClass]="{
+          ' bg-orange-450 text-white': page === currentPage,
+          'cursor-default text-gray-500': page === '...',
+        }"
+      >
+        {{ page }}
+      </button>
+    }
+  </div>
+
+  <button
+    class="text-lg !border flex items-center justify-center !rounded-full w-10 h-10"
+    (click)="next()"
+    [ngClass]="{ 'opacity-20': currentPage === totalPages }"
+    [disabled]="currentPage === totalPages"
+  >
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+  </button>
+</div>

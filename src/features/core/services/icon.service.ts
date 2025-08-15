@@ -24,6 +24,8 @@ import {
   listOutline,
   gridOutline,
   pricetagOutline,
+  chevronForwardOutline,
+  chevronBackOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +55,8 @@ export class IconService {
       'list-outline': listOutline,
       'grid-outline': gridOutline,
       'pricetag-outline': pricetagOutline,
+      'chevron-forward-outline': chevronForwardOutline,
+      'chevron-back-outline': chevronBackOutline,
     });
   }
 }

@@ -17,6 +17,10 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   WithFieldValue,
+  DocumentSnapshot,
+  startAfter,
+  getDocs,
+  getCountFromServer,
 } from 'firebase/firestore';
 import { IListingItem } from '../components/listing-item/listing-item.model';
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
@@ -75,6 +79,11 @@ export interface ListingState {
   priceTo: number | null;
   pendingPriceFrom: number | null;
   pendingPriceTo: number | null;
+
+  currentPage: number;
+  pageSize: number;
+  pageCursors: DocumentSnapshot[];
+  totalCount: number;
 }
 
 export const ListingStore = signalStore(
@@ -96,6 +105,10 @@ export const ListingStore = signalStore(
     priceTo: null,
     pendingPriceFrom: null,
     pendingPriceTo: null,
+    currentPage: 1,
+    pageSize: 10,
+    pageCursors: [],
+    totalCount: 0,
   }),
 
   withMethods(store => {
@@ -165,7 +178,18 @@ export const ListingStore = signalStore(
       patchState(store, { priceTo });
     }
 
-    function searchListings(): void {
+    function setPage(page: number) {
+      const totalPages = Math.ceil(store.totalCount() / store.pageSize());
+      const next = Math.min(Math.max(page, 1), totalPages);
+      patchState(store, { currentPage: next });
+      searchListings();
+    }
+
+    function setTotalCount(n: number) {
+      patchState(store, { totalCount: n });
+    }
+
+    async function searchListings(): Promise<Promise<void>> {
       patchState(store, { isSearching: true });
 
       const searchTerm = store.searchTerm();
@@ -176,6 +200,9 @@ export const ListingStore = signalStore(
       const sorting = store.sorting();
       const priceFrom = store.priceFrom();
       const priceTo = store.priceTo();
+      const currentPage = store.currentPage();
+      const pageCursors = store.pageCursors();
+      const pageSize = store.pageSize();
 
       const coll = collection(firestore, 'listings').withConverter(listingConverter);
       const constraints: QueryConstraint[] = [];
@@ -221,17 +248,28 @@ export const ListingStore = signalStore(
         constraints.push(where('price', '<=', priceTo));
       }
 
-      collectionData(query(coll, ...constraints), { idField: 'id' }).subscribe({
-        next: (results: IListingItem[]) => {
-          patchState(store, {
-            searchResults: results,
-            isSearching: false,
-          });
-        },
-        error: err => {
-          console.log(err);
-          patchState(store, { isSearching: false });
-        },
+      const countQuery = query(coll, ...constraints);
+      const countSnap = await getCountFromServer(countQuery);
+      setTotalCount(countSnap.data().count);
+
+      const pageConstraints = constraints.slice();
+      if (currentPage > 1 && pageCursors[currentPage - 2]) {
+        pageConstraints.push(startAfter(pageCursors[currentPage - 2]));
+      }
+      pageConstraints.push(limit(pageSize));
+
+      const pageQuery = query(coll, ...pageConstraints);
+      const snap = await getDocs(pageQuery);
+
+      const items = snap.docs.map(d => d.data());
+      const last = snap.docs[snap.docs.length - 1];
+      const cursors = [...store.pageCursors()];
+      cursors[currentPage - 1] = last;
+
+      patchState(store, {
+        searchResults: items,
+        pageCursors: cursors,
+        isSearching: false,
       });
     }
 
@@ -253,6 +291,9 @@ export const ListingStore = signalStore(
       setPriceTo,
 
       searchListings,
+
+      setPage,
+      setTotalCount,
     };
   })
 );
