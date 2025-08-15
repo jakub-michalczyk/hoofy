@@ -69,6 +69,20 @@ ion-select {
   border: solid 1px #{theme('colors.white')};
   color: #{theme('colors.white')};
   padding: 0 20px !important;
+  &._contrast {
+    --highlight-color: #{theme('colors.black')};
+    --highlight-focused: #{theme('colors.black')};
+    --ion-color-step-500: #{theme('colors.black')};
+    border: solid 1px #{theme('colors.black')};
+    color: #{theme('colors.black')};
+  }
+  &._contrast::part(label) {
+    color: #{theme('colors.black')} !important;
+    &:focus,
+    &:active {
+      color: #{theme('colors.black')} !important;
+    }
+  }
 }
 
 ion-select::part(label) {
@@ -77,24 +91,4 @@ ion-select::part(label) {
   &:active {
     color: #{theme('colors.white')} !important;
   }
-}
-
-ion-radio {
-  --background: red;
-  --background-focused: red;
-  --bakground-focused-opacity: 0.5;
-  --background-hover: red;
-  --bakground-hover-opacity: 0.5;
-}
-
-ion-popover {
-  --background: rgba(40, 173, 218, 0.6);
-  --backdrop-opacity: 0.6;
-  --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
-  --color: white;
-  --width: 300px;
-}
-
-ion-popover ion-content {
-  --background: red;
 }

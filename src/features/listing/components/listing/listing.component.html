@@ -1,17 +1,25 @@
 <div class="min-h-screen pb-24">
   <hoof-hero [isListing]="true"></hoof-hero>
 
-  <div class="mt-24">
-    @if (listings$ | async; as listings) {
+  <div class="mt-12 px-0 xl:px-48">
+    <hoof-sort-options></hoof-sort-options>
+    @if (store.searchResults(); as listings) {
       @if (listings.length) {
-        <div class="grid grid-cols-1 gap-6 px-48">
+        <div
+          class="grid items-stretch"
+          [ngClass]="
+            store.gridMode() === EGridMode.LIST
+              ? 'grid-cols-1 gap-6 md:gap-12'
+              : 'grid-cols-5 gap-4'
+          "
+        >
           @for (item of listings; track $index) {
             <hoof-listing-item [data]="item"></hoof-listing-item>
           }
         </div>
+      } @else {
+        <p class="h2 text-center my-48">Brak ogłoszeń do wyświetlenia.</p>
       }
-    } @else {
-      <p class="h2">Brak ogłoszeń do wyświetlenia.</p>
     }
   </div>
 </div>

@@ -5,11 +5,11 @@ import { IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { NavigationStore } from '../../../core/components/navigation/navigation.store';
 import { ListingStore } from '../../../listing/store/listing.store';
-import { CategorySelectComponent } from '../../../core/components/category-select/category-select.component';
+import { SearchFiltersComponent } from '../../../core/components/search-filters/search-filters.component';
 
 @Component({
   selector: 'hoof-hero',
-  imports: [IonIcon, FormsModule, CommonModule, CategorySelectComponent],
+  imports: [IonIcon, FormsModule, CommonModule, SearchFiltersComponent],
   templateUrl: './hero.component.html',
 })
 export class HeroComponent implements OnInit {
@@ -34,12 +34,17 @@ export class HeroComponent implements OnInit {
   onSearch() {
     const activeCategory = this.categories.find(cat => cat.active);
     const commands = ['/listing'];
+
     if (activeCategory?.slug) {
       commands.push(activeCategory.slug);
     }
 
     this.store.setSearchTerm(this.searchTerm);
-    this.router.navigate(commands);
+    this.store.searchListings();
+
+    if (!this.router.url.includes('listing')) {
+      this.router.navigate(commands);
+    }
   }
 
   toggleCategory(index: number) {

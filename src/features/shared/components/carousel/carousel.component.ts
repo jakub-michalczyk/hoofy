@@ -14,7 +14,7 @@ import { SwiperContainer } from 'swiper/element';
 import { CommonModule } from '@angular/common';
 import { ListingItemComponent } from '../../../listing/components/listing-item/listing-item.component';
 import {
-  EListingItemType,
+  EListingItemView,
   IListingItem,
 } from '../../../listing/components/listing-item/listing-item.model';
 
@@ -31,7 +31,7 @@ export class CarouselComponent implements AfterViewInit {
   @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
   showPagination = signal(false);
 
-  EListingItemType = EListingItemType;
+  EListingItemView = EListingItemView;
 
   constructor() {
     effect(() => {

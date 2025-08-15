@@ -14,11 +14,23 @@
   h6 {
     @apply !m-0;
   }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
 }
 
 @layer components {
   ._input {
     @apply w-full block shadow-xl py-2 pl-12 pr-4 border border-stone-200 placeholder:text-stone-500 rounded bg-white focus:outline-0;
+  }
+
+  ._input-transparent {
+    @apply w-full block shadow-xl py-2 px-4 border border-white placeholder:text-white rounded bg-transparent focus:outline-0 text-white;
   }
 
   ._bullet {

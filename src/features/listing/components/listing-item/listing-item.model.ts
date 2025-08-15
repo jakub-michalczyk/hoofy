@@ -7,15 +7,14 @@ export interface IListingItem {
   createdAt: number;
   promoted?: boolean;
   price?: number;
-  image: string;
+  images: string[];
   city: string;
   date: string;
   url: string;
   type: string;
 }
 
-export enum EListingItemType {
-  CAROUSEL,
-  FEATURED,
-  LISTING,
+export enum EListingItemView {
+  SIMPLE,
+  DETAILED,
 }

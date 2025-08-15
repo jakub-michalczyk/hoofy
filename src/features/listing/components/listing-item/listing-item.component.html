@@ -1,49 +1,96 @@
 @if (data) {
   <a [routerLink]="data.url" class="cursor-pointer h-full">
     <div
-      class="bg-white rounded-md relative border border-stone-200 h-full flex"
+      class="bg-white rounded-md relative border border-stone-200 h-full flex shadow-2xl"
       [ngClass]="{
-        'shadow-2xl': type === EListingItemType.FEATURED || type === EListingItemType.LISTING,
-        'flex-col': type === EListingItemType.FEATURED || type === EListingItemType.CAROUSEL,
-        'flex-row': type === EListingItemType.LISTING,
+        'flex-col': !isDetailedMode,
+        'flex-row': isDetailedMode,
       }"
     >
+      <!-- IMAGE SECTION -->
       <div
-        class="min-h-32 max-h-96 relative"
-        [ngClass]="type === EListingItemType.LISTING ? 'w-1/3' : 'w-full'"
+        class="min-h-32 relative"
+        [ngClass]="{
+          'w-1/2 md:w-1/3 max-h-96': isDetailedMode,
+          'w-full h-48': !isDetailedMode,
+        }"
       >
-        @if (type !== EListingItemType.LISTING) {
+        @if (view === EListingItemView.SIMPLE) {
           <hoof-add-to-favourites class="absolute p-2 top-0 right-0"></hoof-add-to-favourites>
         }
 
         <img
-          [src]="!!data.image.length ? '/assets/images/placeholder.png' : data.image"
+          [src]="data.images.length === 0 ? '/assets/images/placeholder.png' : data.images[0]"
           alt="Listing Image"
           class="rounded-t h-full object-cover w-full"
         />
       </div>
+
+      <!-- CONTENT SECTION -->
       <div
-        class="px-3 py-3 flex flex-col justify-between gap-2"
-        [ngClass]="EListingItemType.LISTING ? 'h-full' : 'h-40'"
-        [class.w-full]="type === EListingItemType.LISTING"
+        class="flex flex-col justify-between gap-2 relative"
+        [ngClass]="isDetailedMode ? 'h-full p-4 md:p-6' : 'h-32 p-3'"
+        [class.w-full]="true"
       >
         <div>
-          <h3 class="body-2-light">
-            {{ data.title.slice(0, 30) }}{{ data.title.length >= 30 ? '...' : '' }}
-          </h3>
+          <div class="flex justify-between gap-4">
+            <h3 class="body-2-light">
+              {{ data.title.slice(0, view === EListingItemView.DETAILED ? 100 : 30) }}
+              {{
+                data.title.length >= (view === EListingItemView.DETAILED ? 100 : 30) ? '...' : ''
+              }}
+            </h3>
+
+            @if (isDetailedMode) {
+              <hoof-add-to-favourites
+                [contrast]="true"
+                class="hidden sm:block"
+              ></hoof-add-to-favourites>
+            }
+          </div>
+
           <div>
             <span class="body-3-bold">{{ data.price }} PLN</span>
           </div>
-          @if (type !== EListingItemType.CAROUSEL) {
+
+          @if (isDetailedMode) {
             <div class="mt-2 text-stone-400 body-2-light hidden sm:block">
-              {{ data.description.slice(0, 60) }}{{ data.description.length >= 60 ? '...' : '' }}
+              {{ data.description.slice(0, view === EListingItemView.DETAILED ? 300 : 60) }}
+              {{
+                data.description.length >= (view === EListingItemView.DETAILED ? 300 : 60)
+                  ? '...'
+                  : ''
+              }}
             </div>
           }
         </div>
-        <div>
-          <span class="text-stone-400 body-4"
-            >{{ data.city }}, {{ data.createdAt | date: 'dd.mm.yyyy' }}</span
-          >
+
+        <!-- FOOTER -->
+
+        <div class="flex justify-between items-end flex-wrap gap-x-12 gap-y-4 mt-4">
+          <span class="text-stone-400 body-4">
+            {{ data.city }}, {{ data.createdAt | date: 'dd.MM.yyyy' }}
+          </span>
+
+          @if (isDetailedMode && data.images.length > 1) {
+            <div class="md:flex gap-2 hidden">
+              @for (img of data.images.slice(1, 4); track $index) {
+                <img
+                  [src]="img"
+                  class="w-20 h-20 rounded object-cover shadow-2xl"
+                  alt="Gallery Image"
+                />
+              }
+              @if (data.images.length > 4) {
+                <div
+                  class="w-20 h-20 bg-gray-200 flex flex-col items-center body-3 text-center justify-center rounded text-gray-600 shadow-2xl"
+                >
+                  <span class="text-4xl block">+</span>
+                  {{ data.images.length - 4 }} więcej
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
     </div>
