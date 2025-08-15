@@ -1,6 +1,6 @@
 <div
   class="flex items-center text-white h-[700px] w-full bg-no-repeat rounded-2xl bg-cover"
-  [ngClass]="'bg-[url(/assets/images/' + bgImage + '.jpg)]'"
+  [ngStyle]="{ 'background-image': 'url(/assets/images/' + bgImage + '.jpg)' }"
 >
   <div class="w-full md:max-w-3xl lg:max-w-5xl mx-auto px-12">
     <h1 class="h3 sm:h2 lg:h1 text-center">
@@ -13,8 +13,14 @@
             name="search-outline"
             class="text-xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-500"
           ></ion-icon>
-          <input type="text" placeholder="Czego dziś szukasz?" class="rounded-full _input" />
+          <input
+            type="text"
+            placeholder="Czego dziś szukasz?"
+            class="rounded-full _input !text-black"
+            [(ngModel)]="searchTerm"
+          />
           <button
+            (click)="onSearch()"
             class="!rounded-full bg-orange-450 absolute right-1 top-1 w-9 h-9 flex justify-center items-center"
           >
             <ion-icon name="arrow-forward-outline" class="text-2xl text-white block"></ion-icon>
@@ -42,27 +48,31 @@
         </div>
       </div>
     </div>
-    <div class="mt-16">
-      <div
-        class="flex flex-wrap justify-center items-center md:justify-between mt-6 gap-1 gap-y-2 md:gap-0"
-      >
-        @for (category of store.categories(); track $index) {
-          <button
-            class="body-3 !rounded-full !border !py-1 !px-4 transition-colors"
-            [ngClass]="{
-              '!bg-orange-450 !border-orange-450 text-white': category.active,
-              'bg-transparent !border-white text-white hover:bg-orange-450 hover:!border-orange-450':
-                !category.active,
-            }"
-            (click)="store.toggleCategory($index)"
-          >
-            {{ category.name }}
-          </button>
-          @if (!$last) {
-            <div class="rounded-full bg-orange-450 lg:w-2 lg:h-2"></div>
+    <div [ngClass]="!isListing ? 'mt-16' : 'mt-8'">
+      @if (!isListing) {
+        <div
+          class="flex flex-wrap justify-center items-center md:justify-between mt-6 gap-x-1 gap-y-3 md:gap-x-0"
+        >
+          @for (category of categories; track $index) {
+            <button
+              class="body-3 !rounded-full !border !py-1 !px-4 transition-colors"
+              [ngClass]="{
+                '!bg-orange-450 !border-orange-450 text-white': category.active,
+                'bg-transparent !border-white text-white hover:bg-orange-450 hover:!border-orange-450':
+                  !category.active,
+              }"
+              (click)="toggleCategory($index)"
+            >
+              {{ category.title }}
+            </button>
+            @if (!$last) {
+              <div class="rounded-full bg-orange-450 lg:w-2 lg:h-2"></div>
+            }
           }
-        }
-      </div>
+        </div>
+      } @else {
+        <hoof-search-filters></hoof-search-filters>
+      }
     </div>
   </div>
 </div>

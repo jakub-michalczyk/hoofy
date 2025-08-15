@@ -59,3 +59,36 @@ ion-checkbox::part(container) {
 ion-checkbox::part(label) {
   white-space: normal;
 }
+
+ion-select {
+  --highlight-color: #{theme('colors.white')};
+  --highlight-focused: #{theme('colors.white')};
+  --ion-color-step-500: #{theme('colors.white')};
+  --highlight-height: 0px;
+  border-radius: 30px;
+  border: solid 1px #{theme('colors.white')};
+  color: #{theme('colors.white')};
+  padding: 0 20px !important;
+  &._contrast {
+    --highlight-color: #{theme('colors.black')};
+    --highlight-focused: #{theme('colors.black')};
+    --ion-color-step-500: #{theme('colors.black')};
+    border: solid 1px #{theme('colors.black')};
+    color: #{theme('colors.black')};
+  }
+  &._contrast::part(label) {
+    color: #{theme('colors.black')} !important;
+    &:focus,
+    &:active {
+      color: #{theme('colors.black')} !important;
+    }
+  }
+}
+
+ion-select::part(label) {
+  color: #{theme('colors.white')} !important;
+  &:focus,
+  &:active {
+    color: #{theme('colors.white')} !important;
+  }
+}

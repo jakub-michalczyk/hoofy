@@ -20,6 +20,12 @@ import {
   alertCircleOutline,
   personCircleOutline,
   pinOutline,
+  funnelOutline,
+  listOutline,
+  gridOutline,
+  pricetagOutline,
+  chevronForwardOutline,
+  chevronBackOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -45,6 +51,12 @@ export class IconService {
       'alert-circle-outline': alertCircleOutline,
       'person-circle-outline': personCircleOutline,
       'pin-outline': pinOutline,
+      'funnel-outline': funnelOutline,
+      'list-outline': listOutline,
+      'grid-outline': gridOutline,
+      'pricetag-outline': pricetagOutline,
+      'chevron-forward-outline': chevronForwardOutline,
+      'chevron-back-outline': chevronBackOutline,
     });
   }
 }

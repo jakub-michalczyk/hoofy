@@ -1,84 +1,104 @@
+import { ECategoryName, ESubCategoryName } from '../../model/category.model';
 import { INavigationMenuElement } from '../../model/navigation.model';
 
 export const MENU: INavigationMenuElement[] = [
   {
     text: 'Ogłoszenia',
-    url: '/ads',
+    slug: 'listing',
+    url: '/listing',
     submenu: [
       {
         title: 'Konie',
+        slug: ECategoryName.HORSES,
+        url: `/listing/${ECategoryName.HORSES}`,
+        active: false,
         items: [
-          { text: 'Konie sportowe', url: '/ads/horses/sport' },
-          { text: 'Źrebaki', url: '/ads/horses/foals' },
-          { text: 'Konie do adopcji', url: '/ads/horses/adopt' },
+          {
+            text: 'Konie sportowe',
+            slug: ESubCategoryName.SPORT,
+            url: `/listing/${ECategoryName.HORSES}/${ESubCategoryName.SPORT}`,
+          },
+          {
+            text: 'Źrebaki',
+            slug: ESubCategoryName.FOALS,
+            url: `/listing/${ECategoryName.HORSES}/${ESubCategoryName.FOALS}`,
+          },
+          {
+            text: 'Konie do adopcji',
+            slug: ESubCategoryName.ADOPT,
+            url: `/listing/${ECategoryName.HORSES}/${ESubCategoryName.ADOPT}`,
+          },
         ],
       },
       {
         title: 'Sprzęt i akcesoria',
+        slug: 'equipment',
+        url: '/listing/equipment',
+        active: false,
         items: [
-          { text: 'Sprzęt dla koni', url: '/ads/equipment/saddles' },
-          { text: 'Sprzęt dla jeźdźca', url: '/ads/equipment/clothing' },
-          { text: 'Stajnia i wyposażenie', url: '/ads/stable' },
+          { text: 'Sprzęt dla koni', slug: 'horse-gear', url: '/listing/equipment/horse-gear' },
+          { text: 'Sprzęt dla jeźdźca', slug: 'rider-gear', url: '/listing/equipment/rider-gear' },
+          { text: 'Stajnia i wyposażenie', slug: 'stable', url: '/listing/equipment/stable' },
         ],
       },
       {
         title: 'Żywienie i pielęgnacja',
+        slug: 'care',
+        url: '/listing/care',
+        active: false,
         items: [
-          { text: 'Pasze i sieczki', url: '/ads/feeds' },
-          { text: 'Suplementy', url: '/ads/supplements' },
-          { text: 'Kosmetyki dla koni', url: '/ads/care' },
+          { text: 'Pasze i sieczki', slug: 'feeds', url: '/listing/care/feeds' },
+          { text: 'Suplementy', slug: 'supplements', url: '/listing/care/supplements' },
+          { text: 'Kosmetyki dla koni', slug: 'cosmetics', url: '/listing/care/cosmetics' },
         ],
       },
     ],
   },
   {
     text: 'Usługi',
-    url: '/services',
+    slug: 'listing',
+    url: '/listing',
     submenu: [
       {
-        title: 'Specjaliści',
+        title: 'Pensjonaty',
+        slug: 'stables',
+        url: '/listing/stables',
+        active: false,
         items: [
-          { text: 'Kowale', url: '/services/farrier' },
-          { text: 'Weterynarze', url: '/services/vet' },
-          { text: 'Inni', url: '/services/other' },
+          { text: 'Stajna z boksami', slug: 'box', url: '/listing/stables/box' },
+          {
+            text: 'Stajnia wolnowybiegowa',
+            slug: 'paddock',
+            url: '/listing/stables/paddock',
+          },
+        ],
+      },
+      {
+        title: 'Specjaliści',
+        slug: 'specialists',
+        url: '/listing/specialists',
+        active: false,
+        items: [
+          { text: 'Kowale', slug: 'farrier', url: '/listing/specialists/farrier' },
+          { text: 'Weterynarze', slug: 'vet', url: '/listing/specialists/vet' },
         ],
       },
       {
         title: 'Trening i jazda',
+        slug: 'training',
+        url: '/listing/training',
+        active: false,
         items: [
-          { text: 'Instruktorzy', url: '/services/trainers' },
-          { text: 'Zajęcia dla dzieci', url: '/services/kids' },
-          { text: 'Trening koni', url: '/services/training' },
-        ],
-      },
-      {
-        title: 'Pensjonaty',
-        items: [
-          { text: 'Stajna z boksami', url: '/services/stables/box' },
-          { text: 'Stajnia wolnowybiegowa', url: '/services/stables/paddock' },
+          { text: 'Instruktorzy', slug: 'trainers', url: '/listing/training/trainers' },
+          { text: 'Zajęcia dla dzieci', slug: 'kids', url: '/listing/training/kids' },
+          { text: 'Trening koni', slug: 'horse-training', url: '/listing/training/horse-training' },
         ],
       },
     ],
   },
   {
-    text: 'Społeczność',
-    url: '/community',
-    submenu: [
-      {
-        title: 'Forum',
-        items: [
-          { text: 'Dyskusje ogólne', url: '/community/forum/general' },
-          { text: 'Pytania i porady', url: '/community/forum/questions' },
-          { text: 'Ogłoszenia klubowe', url: '/community/forum/clubs' },
-        ],
-      },
-      {
-        title: 'Blog',
-        items: [
-          { text: 'Porady jeździeckie', url: '/community/blog/tips' },
-          { text: 'Relacje z zawodów', url: '/community/blog/events' },
-        ],
-      },
-    ],
+    text: 'Mapa',
+    slug: 'map',
+    url: '/map',
   },
 ];

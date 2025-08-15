@@ -1,6 +1,7 @@
 <button class="block">
   <ion-icon
-    class="text-white text-2xl"
+    class="text-2xl"
+    [ngClass]="contrast ? 'text-blak' : 'text-white'"
     [name]="!added() ? 'heart-outline' : 'heart'"
     (click)="onChange()"
   ></ion-icon>
