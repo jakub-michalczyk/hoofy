@@ -26,7 +26,7 @@
 
 @layer components {
   ._input {
-    @apply w-full block shadow-xl py-2 pl-12 pr-4 border border-stone-200 placeholder:text-stone-500 rounded bg-white focus:outline-0;
+    @apply w-full block shadow-lg py-2 pl-12 pr-4 border border-stone-200 placeholder:text-stone-500 rounded bg-white focus:outline-0;
   }
 
   ._input-transparent {

@@ -1,0 +1,46 @@
+@if (auth.currentUser()?.photoURL) {
+  <div id="account-options" [ngClass]="isAccountView ? 'w-24 relative' : 'w-12'">
+    @if (isAccountView) {
+      <div
+        class="w-full h-full rounded-full bg-white/50 top-0 left-0 absolute flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+      >
+        <button class="block">
+          <ion-icon
+            name="create-outline"
+            class="text-4xl text-white p-4 hover:opacity-50"
+          ></ion-icon>
+        </button>
+      </div>
+    }
+    <img
+      class="rounded-full"
+      ngSrc="{{ auth.currentUser()?.photoURL }}"
+      alt="User Image"
+      width="96"
+      height="96"
+    />
+  </div>
+} @else {
+  <ion-icon
+    id="account-options"
+    class="text-5xl text-white"
+    name="person-circle-outline"
+  ></ion-icon>
+}
+
+<ion-popover trigger="account-options" triggerAction="click" class="!p-6">
+  <ng-template>
+    <a routerLink="/account" class="p-2 body-2 text-center flex items-center gap-4 justify-center">
+      <ion-icon name="person-outline" class="text-2xl"></ion-icon>
+      Moje konto
+    </a>
+    <a routerLink="/chat" class="p-2 body-2 text-center flex items-center gap-4 justify-center">
+      <ion-icon name="chatbubbles-outline" class="text-2xl"></ion-icon>
+      Wiadomości
+    </a>
+    <button class="body-2 !p-2 flex items-center gap-4 justify-center" (click)="auth.logout()">
+      <ion-icon name="log-out-outline" class="text-2xl"></ion-icon>
+      Wyloguj się
+    </button>
+  </ng-template>
+</ion-popover>

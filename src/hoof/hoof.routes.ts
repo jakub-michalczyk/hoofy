@@ -3,19 +3,14 @@ import { HomepageComponent } from '../features/homepage/components/homepage/home
 import { LoginComponent } from '../features/login/components/login/login.component';
 import { RegisterComponent } from '../features/login/components/register/register.component';
 import { ListingComponent } from '../features/listing/components/listing/listing.component';
+import { authGuard } from '../features/core/guard/auth.guard';
+import { AccountViewComponent } from '../features/login/components/account-view/account-view.component';
+import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomepageComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
   },
   {
     path: 'listing',
@@ -24,6 +19,26 @@ export const routes: Routes = [
       { path: ':mainCat', component: ListingComponent },
       { path: ':mainCat/:subCat', component: ListingComponent },
     ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'account',
+    component: AccountViewComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'chat',
+    component: ChatContainerComponent,
+    canActivate: [authGuard],
   },
   {
     path: '**',

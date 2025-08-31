@@ -6,7 +6,7 @@ import { SubMenuComponent } from '../sub-menu/sub-menu.component';
 import { LogoComponent } from '../../../shared/components/logo/logo.component';
 import { AuthActionsComponent } from '../../../shared/components/auth-actions/auth-actions.component';
 import { AuthService } from '../../../login/services/auth.service';
-import { IonIcon, IonPopover } from '@ionic/angular/standalone';
+import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
 
 @Component({
   selector: 'hoof-top-bar',
@@ -16,8 +16,7 @@ import { IonIcon, IonPopover } from '@ionic/angular/standalone';
     SubMenuComponent,
     LogoComponent,
     AuthActionsComponent,
-    IonIcon,
-    IonPopover,
+    ProfilePictureComponent,
   ],
   templateUrl: './top-bar.component.html',
 })
