@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, DestroyRef, inject, signal, ViewChild } from '@angular/core';
 import { EmailPasswordComponent } from '../email-password/email-password.component';
 import { IonButton } from '@ionic/angular/standalone';
-import { AuthViewComponent } from '../auth-view/auth-view.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { ELoginMethoded } from '../../models/auth.model';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormErrorComponent } from '../form-error/form-error.component';
+import { AuthViewComponent } from '../auth-view/auth-view.component';
 
 @Component({
   selector: 'hoof-login',
@@ -51,7 +51,7 @@ export class LoginComponent implements AfterViewInit {
   async onLogin() {
     const { email, password } = this.emailPasswordComp.form.value;
     try {
-      await firstValueFrom(this.authService.register(email, password));
+      await firstValueFrom(this.authService.register(email, password, 'User')); // TODO
       this.router.navigate(['/']);
     } catch (err: unknown) {
       this.loginErrors.set(this.getErrorMessage((err as Error).message));

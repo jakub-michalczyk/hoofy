@@ -26,6 +26,11 @@ import {
   pricetagOutline,
   chevronForwardOutline,
   chevronBackOutline,
+  createOutline,
+  logOutOutline,
+  personOutline,
+  chatbubblesOutline,
+  chatbubbleOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -57,6 +62,11 @@ export class IconService {
       'pricetag-outline': pricetagOutline,
       'chevron-forward-outline': chevronForwardOutline,
       'chevron-back-outline': chevronBackOutline,
+      'create-outline': createOutline,
+      'log-out-outline': logOutOutline,
+      'person-outline': personOutline,
+      'chatbubbles-outline': chatbubblesOutline,
+      'chatbubble-outline': chatbubbleOutline,
     });
   }
 }

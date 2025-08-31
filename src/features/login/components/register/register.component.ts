@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, DestroyRef, inject, signal, ViewChild } from '@angular/core';
-import { AuthViewComponent } from '../auth-view/auth-view.component';
 import { IonButton, IonCheckbox } from '@ionic/angular/standalone';
 import { EmailPasswordComponent } from '../email-password/email-password.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -7,6 +6,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { AuthViewComponent } from '../auth-view/auth-view.component';
 
 @Component({
   selector: 'hoof-register',
@@ -44,7 +44,7 @@ export class RegisterComponent implements AfterViewInit {
   async onRegister() {
     const { email, password } = this.emailPasswordComp.form.value;
     try {
-      await firstValueFrom(this.authService.register(email, password));
+      await firstValueFrom(this.authService.register(email, password, 'User')); // TODO
       this.router.navigate(['/']);
     } catch (err) {
       console.error('Registration error:', err);

@@ -1,0 +1,11 @@
+<div
+  class="rounded-2xl h-48 md:h-80 bg-black flex justify-end items-end bg-[url(/assets/images/account_bg.jpg)] bg-cover"
+>
+  <input type="file" id="bannerUpload" class="hidden" (change)="onFileSelected()" />
+
+  @if (isEditMode) {
+    <label for="bannerUpload" class="cursor-pointer block">
+      <ion-icon name="create-outline" class="text-3xl text-white p-4 hover:opacity-50"></ion-icon>
+    </label>
+  }
+</div>
