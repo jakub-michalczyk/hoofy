@@ -1,0 +1,18 @@
+<form (submit)="subscribe($event)" class="flex flex-wrap sm:flex-nowrap gap-2 w-full">
+  <div class="relative w-full">
+    <ion-icon
+      name="mail-outline"
+      class="text-2xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
+    ></ion-icon>
+    <input
+      class="_input min-w-0 md:min-w-64 !text-black"
+      type="text"
+      placeholder="Adres e-mail..."
+      [value]="email()"
+      (input)="setNewsletterValue($event.target)"
+    />
+  </div>
+  <ion-button fill="solid" class="flex-shrink-0" (click)="subscribe($event)"
+    >Zarejestruj się</ion-button
+  >
+</form>

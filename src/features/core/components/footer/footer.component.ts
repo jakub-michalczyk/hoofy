@@ -1,17 +1,66 @@
-import { Component, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { LogoComponent } from '../../../shared/components/logo/logo.component';
-import { IonButton, IonIcon } from '@ionic/angular/standalone';
-import { NavigationService } from '../../services/navigation.service';
+import { IonIcon } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-import { SOCIALS } from './footer.data';
+import { CITIES, FOOTER_MENU, SOCIALS } from './footer.data';
+import { NavigationService } from '../../services/navigation.service';
+import { NewsletterComponent } from '../newsletter/newsletter.component';
+import { debounceTime, fromEvent } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'hoof-footer',
-  imports: [LogoComponent, IonButton, IonIcon, RouterLink],
+  imports: [LogoComponent, IonIcon, RouterLink, NewsletterComponent, CommonModule],
   templateUrl: './footer.component.html',
 })
-export class FooterComponent {
-  socials = SOCIALS;
-  year = new Date().getFullYear();
+export class FooterComponent implements AfterViewInit {
+  @ViewChild('footerTop', { static: true })
+  footerTop!: ElementRef<HTMLElement>;
+  @ViewChildren('footerItem', { read: ElementRef })
+  footerItems!: QueryList<ElementRef<HTMLElement>>;
+
   navigation = inject(NavigationService);
+  year = new Date().getFullYear();
+
+  socials = SOCIALS;
+  cities = CITIES;
+  footerMenu = FOOTER_MENU;
+
+  menuWrapped = false;
+
+  ngAfterViewInit(): void {
+    this.checkWrap();
+
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(100))
+      .subscribe(() => this.checkWrap());
+  }
+
+  private checkWrap(): void {
+    this.menuWrapped = false;
+
+    requestAnimationFrame(() => {
+      const containerEl = this.footerTop.nativeElement;
+      const containerWidth = containerEl.clientWidth;
+
+      const style = window.getComputedStyle(containerEl);
+      const gap = parseFloat(style.columnGap || '0');
+
+      let sumWidths = 0;
+      this.footerItems.forEach(item => {
+        sumWidths += item.nativeElement.offsetWidth;
+      });
+
+      const total = sumWidths + gap * (this.footerItems.length - 1);
+      this.menuWrapped = total > containerWidth;
+    });
+  }
 }
