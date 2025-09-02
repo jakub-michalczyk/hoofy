@@ -92,3 +92,8 @@ ion-select::part(label) {
     color: #{theme('colors.white')} !important;
   }
 }
+
+ion-toast {
+  --min-width: 16rem;
+  --max-width: 32rem;
+}

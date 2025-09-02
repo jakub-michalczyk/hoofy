@@ -1,13 +1,17 @@
-<div class="bg-stone-900 px-12 md:px-24 py-12 text-white">
-  <div class="pb-12 flex flex-wrap justify-between items-stretch gap-24 min-h-full">
-    <div class="flex flex-wrap gap-6 md:flex-col justify-between h-full w-full md:w-auto">
+<div class="bg-black px-12 md:px-24 py-12 text-white">
+  <div #footerTop class="pb-12 flex flex-wrap justify-between items-stretch gap-16 min-h-full">
+    <!-- LOGO SOCIALS -->
+    <div
+      #footerItem
+      class="flex flex-wrap gap-6 md:flex-col justify-between h-full w-full md:w-auto"
+    >
       <div>
         <hoof-logo></hoof-logo>
-        <p class="body-1-bold">Twoja stajnia ogłoszeń</p>
+        <p class="body-1-thin">Twoja stajnia ogłoszeń</p>
       </div>
       <div class="flex gap-2 text-3xl md:mt-10">
         @for (social of socials; track $index) {
-          <a [routerLink]="social.url">
+          <a [href]="social.url">
             <ion-icon
               [name]="'logo-' + social.text"
               class="hover:bg-stone-800 rounded-full p-2 text-white"
@@ -17,31 +21,29 @@
       </div>
     </div>
 
-    <div class="flex-1 flex-col justify-between h-full max-w-196">
-      <div>
-        <h3 class="h4">Newsletter</h3>
-        <div class="flex flex-wrap sm:flex-nowrap gap-2 mt-6 w-full">
-          <div class="relative w-full">
-            <ion-icon
-              name="mail-outline"
-              class="text-2xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
-            ></ion-icon>
-            <input class="_input min-w-0 md:min-w-64" type="text" placeholder="Podaj e-mail" />
-          </div>
-          <ion-button fill="solid" class="flex-shrink-0">Zarejestruj się</ion-button>
-        </div>
+    <!-- NEWSLETTER -->
+    <div #footerItem class="flex-1 max-w-196 flex-col justify-between h-full">
+      <div class="body-2-thin mb-4 flex items-center gap-2">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Podaj swój adres e-mail, aby być na bieżąco!
       </div>
+      <hoof-newsletter></hoof-newsletter>
       <div class="w-36 flex gap-2 mt-8">
         <img src="assets/images/google.png" alt="Google Store Button" />
         <img src="assets/images/apple.png" alt="App Store Button" />
       </div>
     </div>
 
-    <div class="hidden lg:flex flex-col justify-between h-full">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 body-3">
+    <!-- MENU -->
+    <div
+      #footerItem
+      class="hidden lg:flex flex-col justify-between h-full"
+      [class.w-full]="menuWrapped"
+    >
+      <div class="grid gap-8 body-3" [ngClass]="menuWrapped ? 'grid-cols-5' : 'lg:grid-cols-4'">
         @for (link of navigation.links(); track $index) {
           @for (subMenu of link.submenu; track $index) {
-            <ul class="max-w-64">
+            <ul>
               @for (subMenuLink of subMenu.items; track $index) {
                 <a [routerLink]="subMenuLink.url" class="!text-white">
                   <li class="hover:underline">{{ subMenuLink.text }}</li>
@@ -50,11 +52,28 @@
             </ul>
           }
         }
+
+        <ul>
+          @for (menuLink of footerMenu; track $index) {
+            <a [routerLink]="menuLink.url" class="!text-white">
+              <li class="hover:underline">{{ menuLink.text }}</li>
+            </a>
+          }
+        </ul>
       </div>
     </div>
   </div>
 
-  <div class="border-t border-stone-400 pt-12 text-stone-400 body-3-light text-center">
-    Copyright &copy; Hoofy {{ year }}
+  <!-- CITIES -->
+  <div class="mt-4">
+    <h3 class="body-1">Sprawdź ogłoszenia w wybranym mieście:</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-6">
+      @for (city of cities; track $index) {
+        <a>
+          <div class="text-white body-3-thin hover:underline cursor-pointer">{{ city }}</div>
+        </a>
+      }
+    </div>
   </div>
+  <div class="text-stone-600 body-3-light text-center mt-24">Copyright &copy; Hoofy {{ year }}</div>
 </div>
