@@ -12,6 +12,17 @@ export interface IListingItem {
   date: string;
   url: string;
   type: string;
+  userName: string;
+  details?: IListingItemDetails;
+}
+
+export interface IListingItemDetails {
+  [key: string]: string | number;
+  age: number;
+  gender: string;
+  breed: string;
+  color: string;
+  height: number;
 }
 
 export enum EListingItemView {

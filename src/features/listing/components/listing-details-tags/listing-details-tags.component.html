@@ -1,0 +1,14 @@
+<div class="flex flex-wrap gap-2">
+  @for (entry of data.details | keyvalue; track $index) {
+    <div
+      class="body-4-light border border-stone-200 rounded-full px-3 py-1 flex items-center gap-2"
+    >
+      <ion-icon [name]="entry.key"></ion-icon>
+      {{ detailLabels[entry.key] }}: {{ entry.value }}
+
+      @if (detailUnits[entry.key]) {
+        {{ detailUnits[entry.key] }}
+      }
+    </div>
+  }
+</div>

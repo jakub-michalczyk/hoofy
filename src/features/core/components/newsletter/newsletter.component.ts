@@ -18,13 +18,13 @@ export class NewsletterComponent {
     const emailValue = this.email().trim();
 
     if (!this.validateEmail(emailValue)) {
-      this.showToast('Nieprawidłowy adres e-mail', 'danger');
+      this.showToast('Nieprawidłowy adres e-mail');
       return;
     }
 
     const exists = await this.checkIfEmailExists(emailValue);
     if (exists) {
-      this.showToast('Ten adres już jest zapisany.', 'warning');
+      this.showToast('Ten adres już jest zapisany.');
       return;
     }
 
@@ -34,10 +34,10 @@ export class NewsletterComponent {
         timestamp: new Date(),
       });
       this.email.set('');
-      this.showToast('Dziękujemy za zapis!', 'success');
+      this.showToast('Dziękujemy za zapis!');
     } catch (err) {
       console.error('Błąd zapisu:', err);
-      this.showToast('Wystąpił błąd. Spróbuj ponownie.', 'danger');
+      this.showToast('Wystąpił błąd. Spróbuj ponownie.');
     }
   }
 
@@ -57,13 +57,12 @@ export class NewsletterComponent {
     return !snapshot.empty;
   }
 
-  async showToast(message: string, color: 'success' | 'danger' | 'warning') {
+  async showToast(message: string) {
     const toast = await this.toastController.create({
       message,
       duration: 3000,
       position: 'bottom',
-      color,
-      cssClass: 'text-center body-2',
+      cssClass: 'text-center body-4',
     });
     await toast.present();
   }

@@ -21,10 +21,13 @@ import {
   startAfter,
   getDocs,
   getCountFromServer,
+  doc,
+  getDoc,
 } from 'firebase/firestore';
 import { IListingItem } from '../components/listing-item/listing-item.model';
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { from, map, Observable } from 'rxjs';
 
 export const listingConverter: FirestoreDataConverter<IListingItem> = {
   toFirestore(item: WithFieldValue<IListingItem>): DocumentData {
@@ -55,6 +58,8 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
       type: data['type'],
       category: data['category'],
       subCategory: data['subCategory'],
+      userName: data['userName'],
+      details: data['details'],
     };
   },
 };
@@ -185,6 +190,11 @@ export const ListingStore = signalStore(
       searchListings();
     }
 
+    function getListingById(id: string): Observable<IListingItem | null> {
+      const ref = doc(firestore, 'listings', id).withConverter(listingConverter);
+      return from(getDoc(ref)).pipe(map(snap => (snap.exists() ? snap.data() : null)));
+    }
+
     function setTotalCount(n: number) {
       patchState(store, { totalCount: n });
     }
@@ -294,6 +304,8 @@ export const ListingStore = signalStore(
 
       setPage,
       setTotalCount,
+
+      getListingById,
     };
   })
 );

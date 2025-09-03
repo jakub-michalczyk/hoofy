@@ -1,20 +1,34 @@
-<div (mouseleave)="navigation.reset()" class="absolute p-4 top-0 left-0 w-full z-50">
-  <div class="w-full p-6 flex gap-4 items-center justify-between">
+<div
+  (mouseleave)="navigation.reset()"
+  class="absolute top-0 left-0 w-full z-50"
+  [ngClass]="contrast ? 'shadow-md p-2' : 'p-4'"
+>
+  <div
+    class="w-full p-6 flex gap-4 items-center"
+    [ngClass]="!contrast ? 'justify-between' : 'justify-between lg:justify-start'"
+  >
     <!-- LOGO -->
-    <hoof-logo class="w-1/4"></hoof-logo>
+    <hoof-logo [ngClass]="{ 'w-1/4': !contrast }" [contrast]="contrast"></hoof-logo>
 
     <!-- MENU -->
     <div class="hidden lg:block">
-      <hoof-navigation></hoof-navigation>
+      <hoof-navigation [contrast]="contrast"></hoof-navigation>
     </div>
 
     <!-- ACTIONS -->
     @if (!!auth.currentUser()) {
-      <div class="gap-8 items-center w-1/4 justify-end hidden lg:flex">
+      <div
+        class="gap-8 items-center justify-end hidden lg:flex"
+        [ngClass]="!contrast ? 'w-1/4' : 'w-full'"
+      >
         <hoof-profile-picture></hoof-profile-picture>
       </div>
     } @else {
-      <hoof-auth-actions class="w-1/4 hidden lg:flex justify-end"></hoof-auth-actions>
+      <hoof-auth-actions
+        class="hidden lg:flex justify-end"
+        [ngClass]="!contrast ? 'w-1/4' : 'w-full'"
+        [contrast]="contrast"
+      ></hoof-auth-actions>
     }
 
     <!-- HAMBURGER -->
@@ -27,16 +41,18 @@
         class="bg-white h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
         [ngClass]="{
           '!rotate-45 translate-y-[6px]': navigation.sideMenuOpened(),
+          '!bg-black': contrast,
         }"
       ></div>
       <div
         class="bg-white h-0.5 w-6 rounded-full transition-opacity opacity-100"
-        [ngClass]="{ '!opacity-0': navigation.sideMenuOpened() }"
+        [ngClass]="{ '!opacity-0': navigation.sideMenuOpened(), '!bg-black': contrast }"
       ></div>
       <div
         class="bg-white h-0.5 w-8 rounded-full rotate-0 transform origin-center transition-transform"
         [ngClass]="{
           '!-rotate-45 -translate-y-[6px]': navigation.sideMenuOpened(),
+          '!bg-black': contrast,
         }"
       ></div>
     </button>
