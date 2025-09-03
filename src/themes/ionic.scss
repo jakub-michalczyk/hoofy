@@ -94,6 +94,7 @@ ion-select::part(label) {
 }
 
 ion-toast {
-  --min-width: 16rem;
-  --max-width: 32rem;
+  --min-width: 8rem;
+  --max-width: 16rem;
+  --background: #{theme('colors.stone-800')} !important;
 }

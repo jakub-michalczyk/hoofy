@@ -6,6 +6,7 @@ import { ListingComponent } from '../features/listing/components/listing/listing
 import { authGuard } from '../features/core/guard/auth.guard';
 import { AccountViewComponent } from '../features/login/components/account-view/account-view.component';
 import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
+import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,7 @@ export const routes: Routes = [
       { path: '', component: ListingComponent },
       { path: ':mainCat', component: ListingComponent },
       { path: ':mainCat/:subCat', component: ListingComponent },
+      { path: ':mainCat/:subCat/:id', component: ListingDetailsComponent },
     ],
   },
   {

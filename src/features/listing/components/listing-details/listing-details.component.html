@@ -1,0 +1,53 @@
+@if (listing$ | async; as listing) {
+  <div
+    class="mt-32 lg:mt-42 xl:px-24 flex-col md:flex-row flex justify-center w-full h-full gap-8 pb-12 md:pb-24 items-stretch"
+  >
+    <div class="flex justify-between w-full md:w-1/2 h-full">
+      <div class="flex flex-col">
+        <div>
+          <img [src]="listing.images[0]" alt="Zdjęcie" class="object-cover rounded-2xl shadow" />
+        </div>
+        <div class="grid grid-cols-4 gap-4 mt-4 w-full">
+          @for (img of listing.images.slice(1); track $index) {
+            <img [src]="img" alt="Zdjęcie" class="flex-1 fobject-cover rounded shadow" />
+          }
+        </div>
+        <div class="mt-8">
+          <div class="flex gap-4 flex-wrap justify-between items-center">
+            <h1 class="h4 lg:h3">{{ listing.title }}</h1>
+            <div>
+              <div class="flex gap-2 justify-end">
+                <button
+                  class="text-xl flex !rounded-full hover:bg-stone-100 transition-colors !p-1"
+                  (click)="share()"
+                >
+                  <ion-icon name="share-outline"></ion-icon>
+                </button>
+
+                <hoof-add-to-favourites [contrast]="true"></hoof-add-to-favourites>
+              </div>
+            </div>
+          </div>
+          <button
+            class="body-4-light !border !border-stone-200 hover:bg-stone-100 !rounded-full !px-3 !py-1 flex items-center gap-2 max-w-24 text-center justify-center mt-2"
+          >
+            <ion-icon name="person-outline"></ion-icon>
+            {{ listing.userName }}
+          </button>
+          <div class="mt-6 items-stretch">
+            <hoof-listing-details-tags [data]="listing"></hoof-listing-details-tags>
+            <p class="mt-6 body-3 md:body-2 text-gray-500">
+              {{ listing.description }}
+            </p>
+            <div class="mt-12 flex gap-2">
+              <ion-button fill="solid">Napisz wiadomość</ion-button>
+              <ion-button fill="outline">Zarezerwuj</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TODO MAP -->
+    <div class="w-full md:w-1/2 bg-stone-200 h-screen rounded-2xl"></div>
+  </div>
+}

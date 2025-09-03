@@ -1,4 +1,4 @@
-<nav class="lg:bg-white rounded-full lg:shadow-xl lg:py-4 lg:px-12">
+<nav class="lg:bg-white rounded-full lg:py-4 lg:px-12" [ngClass]="{ 'lg:shadow-2xl': !contrast }">
   <ul class="flex-col lg:flex-row flex justify-between lg:items-center lg:gap-8">
     @for (link of navigation.links(); track $index) {
       <a
@@ -22,7 +22,7 @@
         <hoof-sub-menu></hoof-sub-menu>
       </hoof-accordion>
 
-      @if (!$last) {
+      @if (!$last && !contrast) {
         <div class="hidden lg:block bg-orange-450 rounded-full w-1.5 h-1.5"></div>
       }
     }

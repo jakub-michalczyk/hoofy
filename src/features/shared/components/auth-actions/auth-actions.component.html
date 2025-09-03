@@ -1,4 +1,4 @@
-<div class="hidden lg:block">
+<div [ngClass]="!contrast ? 'hidden lg:block' : 'hidden'">
   <div class="gap-2 flex">
     <ion-button fill="solid" class="_contrast" routerLink="login">Zaloguj</ion-button>
     <ion-button fill="outline" class="_outlined-contrast" routerLink="register"
@@ -7,9 +7,9 @@
   </div>
 </div>
 
-<div class="block lg:hidden">
+<div [ngClass]="!contrast ? 'block lg:hidden' : 'block'">
   <div class="flex gap-2">
-    <ion-button fill="solid">Zaloguj</ion-button>
-    <ion-button fill="outline">Zarejestruj</ion-button>
+    <ion-button fill="solid" routerLink="login">Zaloguj</ion-button>
+    <ion-button fill="outline" routerLink="register">Zarejestruj</ion-button>
   </div>
 </div>

@@ -32,6 +32,8 @@ import {
   chatbubblesOutline,
   chatbubbleOutline,
   informationCircleOutline,
+  shareOutline,
+  map,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -70,6 +72,13 @@ export class IconService {
       'chatbubble-outline': chatbubbleOutline,
       'information-circle-outline': informationCircleOutline,
       'logo-x': '/assets/icons/x.svg',
+      'share-outline': shareOutline,
+      breed: '/assets/icons/breed.svg',
+      gender: '/assets/icons/gender.svg',
+      color: '/assets/icons/color.svg',
+      age: '/assets/icons/age.svg',
+      height: '/assets/icons/height.svg',
+      map: map,
     });
   }
 }

@@ -6,10 +6,18 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AddToFavouritesComponent } from '../../../shared/add-to-favourites/add-to-favourites.component';
 import { ListingStore } from '../../store/listing.store';
 import { EGridMode } from '../sort-options/sort-options.model';
+import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-details-tags.component';
 
 @Component({
   selector: 'hoof-listing-item',
-  imports: [AddToFavouritesComponent, RouterLink, DatePipe, CommonModule],
+  imports: [
+    AddToFavouritesComponent,
+    RouterLink,
+    DatePipe,
+    CommonModule,
+
+    ListingDetailsTagsComponent,
+  ],
   templateUrl: './listing-item.component.html',
 })
 export class ListingItemComponent {
