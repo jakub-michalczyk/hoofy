@@ -69,7 +69,11 @@
     <h3 class="body-1">Sprawdź ogłoszenia w wybranym mieście:</h3>
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 mt-6">
       @for (city of cities; track $index) {
-        <a>
+        <a
+          [routerLink]="['/listing']"
+          [queryParams]="{ location: city, page: 1 }"
+          queryParamsHandling="merge"
+        >
           <div class="text-white body-3-thin hover:underline cursor-pointer">{{ city }}</div>
         </a>
       }

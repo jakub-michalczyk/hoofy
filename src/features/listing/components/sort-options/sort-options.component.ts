@@ -3,6 +3,7 @@ import { IonIcon, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { EGridMode, ESortingOptions } from './sort-options.model';
 import { CommonModule } from '@angular/common';
 import { ListingStore } from '../../store/listing.store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hoof-sort-options',
@@ -11,6 +12,7 @@ import { ListingStore } from '../../store/listing.store';
 })
 export class SortOptionsComponent {
   store = inject(ListingStore);
+  router = inject(Router);
   EGridMode = EGridMode;
   ESortingOptions = ESortingOptions;
 
@@ -22,6 +24,11 @@ export class SortOptionsComponent {
 
   onSortingChange(value: ESortingOptions) {
     this.store.setSorting(value);
+
+    this.router.navigate([], {
+      queryParams: { sorting: value, page: 1 },
+      queryParamsHandling: 'merge',
+    });
     this.store.searchListings();
   }
 }

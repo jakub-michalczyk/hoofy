@@ -1,0 +1,76 @@
+<div class="flex items-center gap-8">
+  <ion-select
+    labelPlacement="stacked"
+    class="_contrast min-w-36"
+    label="Płeć"
+    [value]="horse.gender"
+    interface="popover"
+    (ionChange)="update('gender', $event.target.value)"
+  >
+    @for (gender of genders; track $index) {
+      <ion-select-option [value]="gender">{{ gender }}</ion-select-option>
+    }
+  </ion-select>
+
+  <ion-select
+    labelPlacement="stacked"
+    class="_contrast min-w-36"
+    label="Umaszczenie"
+    [value]="horse['coat']"
+    interface="popover"
+    (ionChange)="update('coat', $event.target.value)"
+  >
+    @for (coat of availableCoats; track $index) {
+      <ion-select-option [value]="coat">
+        {{ coat }}
+      </ion-select-option>
+    }
+  </ion-select>
+
+  <ion-button
+    fill="outline"
+    class="_filter h-[58px] min-w-64 flex items-center"
+    (click)="openBreedPopover($event)"
+  >
+    <div class="flex items-center justify-center">
+      <div class="body-3-light pr-2">Rasa:</div>
+      <div class="body-3">{{ store.horseFilters().breed }}</div>
+    </div>
+    <ion-icon class="ml-4" name="add-circle-outline"></ion-icon>
+  </ion-button>
+</div>
+<div class="mt-6 flex gap-12">
+  <div class="w-52">
+    <div class="body-3-light">Maks. wzrost w kłębie (cm)</div>
+    <div class="flex gap-6 items-center">
+      <div class="body-4 flex gap-2 items-center">
+        <ion-icon name="height"></ion-icon>
+        {{ store.horseFilters().height }}cm
+      </div>
+      <ion-range
+        [value]="horse.height"
+        [min]="100"
+        [max]="220"
+        [pin]="true"
+        (ionChange)="onRangeChange($event.detail.value, 'height')"
+      ></ion-range>
+    </div>
+  </div>
+  <div>
+    <div class="w-52">
+      <div class="body-3-light flex justify-between">Maks. wiek</div>
+      <div class="flex gap-6 items-center">
+        <div class="body-4 flex gap-2 items-center">
+          <ion-icon name="age"></ion-icon>
+          {{ store.horseFilters().age }} lat
+        </div>
+        <ion-range
+          [value]="store.horseFilters().age"
+          [min]="1"
+          [max]="30"
+          (ionChange)="onRangeChange($event.detail.value, 'age')"
+        ></ion-range>
+      </div>
+    </div>
+  </div>
+</div>
