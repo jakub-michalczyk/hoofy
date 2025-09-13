@@ -3,8 +3,8 @@ import {
   INavigationMenuElement,
   INavigationSubmenuColumn,
   INavigationSubmenuItem,
-} from '../../model/navigation.model';
-import { MENU } from './navigation.data';
+} from '../model/navigation.model';
+import { MENU } from '../components/navigation/navigation.data';
 
 interface INavigationState {
   links: INavigationMenuElement[];

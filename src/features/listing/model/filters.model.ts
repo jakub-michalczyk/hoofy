@@ -1,14 +1,13 @@
-import { Type } from '@angular/core';
-import {
-  ICareFilter,
-  IEquipmentFilter,
-  IHorseDetails,
-  ISpecialistFilter,
-  IStableFilter,
-  ITrainingFilter,
-} from '../listing-item/listing-item.model';
+export interface IFiltersState {
+  horseFilters: IHorseDetails;
+  equipmentFilters: IEquipmentFilter;
+  careFilters: ICareFilter;
+  stableFilters: IStableFilter;
+  specialistFilters: ISpecialistFilter;
+  trainingFilters: ITrainingFilter;
+}
 
-export interface FilterModels {
+export interface IFilterModels {
   horses: IHorseDetails;
   equipment: IEquipmentFilter;
   care: ICareFilter;
@@ -17,15 +16,12 @@ export interface FilterModels {
   training: ITrainingFilter;
 }
 
-export type Category = keyof FilterModels;
-
-export interface FilterComponent<T> {
-  filters: T;
+export enum EHorseGender {
+  MARE = 'Klacz',
+  STALION = 'Ogier',
+  GELDING = 'Wałach',
+  ANY = 'Każda',
 }
-
-export type FilterComponentTypes = {
-  [K in Category]: Type<FilterComponent<FilterModels[K]>>;
-};
 
 export enum EHorseBreed {
   ANY = 'Każda',
@@ -259,7 +255,6 @@ export enum EHorseBreed {
 export enum EHorseCoat {
   ANY = 'Wszystkie',
   OTHER = 'Inne',
-
   BAY = 'Gniady',
   CHESTNUT = 'Kasztanowaty',
   BLACK = 'Kary',
@@ -283,6 +278,58 @@ export enum EHorseCoat {
   DOMINANT_WHITE = 'Dominująca biel',
   LEOPARD_SPOTTING = 'Leopardowy wzór',
   RABICANO = 'Rabicano',
+}
+
+export interface IHorseDetails {
+  [key: string]: string | number;
+  age: number;
+  gender: EHorseGender;
+  breed: string;
+  coat: string;
+  height: number;
+}
+
+export interface IEquipmentFilter {
+  type: string;
+  condition: 'new' | 'used';
+  brand: string;
+  material: string;
+  color: string;
+}
+
+export interface ICareFilter {
+  productType: string;
+  brand: string;
+  forAgeGroup?: string;
+  forCondition?: string;
+  organic?: boolean;
+}
+
+export interface IStableFilter {
+  location: string;
+  boxType: string;
+  services: string[];
+  maxCapacity?: number;
+  indoorArena?: boolean;
+  outdoorArena?: boolean;
+}
+
+export interface ISpecialistFilter {
+  specialization: string;
+  location: string;
+  mobileService?: boolean;
+  experienceYears?: number;
+  certifications?: string[];
+  availableDays?: string[];
+}
+
+export interface ITrainingFilter {
+  discipline: string;
+  trainerLevel: string;
+  location: string;
+  forLevel: string;
+  groupSize?: number;
+  indoor?: boolean;
 }
 
 export const breedToCoatsMap: Partial<Record<EHorseBreed, EHorseCoat[]>> = {

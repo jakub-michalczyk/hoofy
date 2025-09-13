@@ -1,31 +1,33 @@
-<div class="flex items-center gap-8">
-  <ion-select
-    labelPlacement="stacked"
-    class="_contrast min-w-36"
-    label="Płeć"
-    [value]="horse.gender"
-    interface="popover"
-    (ionChange)="update('gender', $event.target.value)"
-  >
-    @for (gender of genders; track $index) {
-      <ion-select-option [value]="gender">{{ gender }}</ion-select-option>
-    }
-  </ion-select>
+<div class="flex items-start md:items-center gap-8 flex-col md:flex-row">
+  <div class="flex items-center gap-8">
+    <ion-select
+      labelPlacement="stacked"
+      class="_contrast min-w-36"
+      label="Płeć"
+      [value]="horse.gender"
+      interface="popover"
+      (ionChange)="update('gender', $event.target.value)"
+    >
+      @for (gender of genders; track $index) {
+        <ion-select-option [value]="gender">{{ gender }}</ion-select-option>
+      }
+    </ion-select>
 
-  <ion-select
-    labelPlacement="stacked"
-    class="_contrast min-w-36"
-    label="Umaszczenie"
-    [value]="horse['coat']"
-    interface="popover"
-    (ionChange)="update('coat', $event.target.value)"
-  >
-    @for (coat of availableCoats; track $index) {
-      <ion-select-option [value]="coat">
-        {{ coat }}
-      </ion-select-option>
-    }
-  </ion-select>
+    <ion-select
+      labelPlacement="stacked"
+      class="_contrast min-w-36"
+      label="Umaszczenie"
+      [value]="horse['coat']"
+      interface="popover"
+      (ionChange)="update('coat', $event.target.value)"
+    >
+      @for (coat of availableCoats; track $index) {
+        <ion-select-option [value]="coat">
+          {{ coat }}
+        </ion-select-option>
+      }
+    </ion-select>
+  </div>
 
   <ion-button
     fill="outline"
@@ -34,18 +36,18 @@
   >
     <div class="flex items-center justify-center">
       <div class="body-3-light pr-2">Rasa:</div>
-      <div class="body-3">{{ store.horseFilters().breed }}</div>
+      <div class="body-3">{{ filtersStore.horseFilters().breed }}</div>
     </div>
     <ion-icon class="ml-4" name="add-circle-outline"></ion-icon>
   </ion-button>
 </div>
-<div class="mt-6 flex gap-12">
+<div class="mt-6 flex gap-12 flex-wrap">
   <div class="w-52">
     <div class="body-3-light">Maks. wzrost w kłębie (cm)</div>
     <div class="flex gap-6 items-center">
       <div class="body-4 flex gap-2 items-center">
         <ion-icon name="height"></ion-icon>
-        {{ store.horseFilters().height }}cm
+        {{ filtersStore.horseFilters().height }}cm
       </div>
       <ion-range
         [value]="horse.height"
@@ -62,10 +64,10 @@
       <div class="flex gap-6 items-center">
         <div class="body-4 flex gap-2 items-center">
           <ion-icon name="age"></ion-icon>
-          {{ store.horseFilters().age }} lat
+          {{ filtersStore.horseFilters().age }} lat
         </div>
         <ion-range
-          [value]="store.horseFilters().age"
+          [value]="filtersStore.horseFilters().age"
           [min]="1"
           [max]="30"
           (ionChange)="onRangeChange($event.detail.value, 'age')"

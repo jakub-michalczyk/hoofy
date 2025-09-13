@@ -24,10 +24,10 @@
     interface="popover"
     label="Kategoria główna"
     label-placement="floating"
-    [value]="selectedMainCategory?.slug"
+    [value]="selectedMain()?.slug"
     (ionChange)="onMainCategoryChange($event.detail.value)"
   >
-    @for (category of mainCategories; track $index) {
+    @for (category of mainCategories(); track $index) {
       <ion-select-option [value]="category.slug">
         {{ category.title }}
       </ion-select-option>
@@ -38,17 +38,17 @@
     interface="popover"
     label="Kategoria dodatkowa"
     label-placement="floating"
-    [disabled]="!selectedMainCategory"
-    [value]="selectedSubcategory?.slug"
+    [disabled]="!selectedMain()"
+    [value]="selectedSub()?.slug"
     (ionChange)="onSubcategoryChange($event.detail.value)"
   >
-    @for (sub of subcategories; track $index) {
+    @for (sub of subcategories(); track $index) {
       <ion-select-option [value]="sub.slug">
         {{ sub.text }}
       </ion-select-option>
     }
 
-    @if (selectedSubcategory?.slug) {
+    @if (selectedSub()?.slug) {
       <ion-button
         class="_transparent"
         slot="end"

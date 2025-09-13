@@ -1,8 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  NavigationStore,
-  NavigationStoreInstance,
-} from '../components/navigation/navigation.store';
+import { NavigationStore, NavigationStoreInstance } from '../store/navigation.store';
 
 @Injectable({ providedIn: 'root' })
 export class NavigationService {
