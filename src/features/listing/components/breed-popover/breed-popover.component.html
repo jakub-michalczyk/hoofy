@@ -1,0 +1,31 @@
+<ion-header class="!shadow-none">
+  <ion-toolbar class="px-4">
+    <div class="relative w-full py-4">
+      <ion-icon
+        name="search-outline"
+        class="text-xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
+      ></ion-icon>
+      <input
+        type="email"
+        placeholder="Szukaj rasy"
+        class="_input"
+        [(ngModel)]="search"
+        (input)="filter()"
+      />
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @for (b of filteredBreeds; track $index) {
+      <ion-item button (click)="select(b)" class="body-4-light">
+        {{ b }}
+      </ion-item>
+    }
+
+    @if (filteredBreeds.length === 0) {
+      <ion-item> Brak wyników </ion-item>
+    }
+  </ion-list>
+</ion-content>

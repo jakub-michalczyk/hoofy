@@ -34,6 +34,9 @@ import {
   informationCircleOutline,
   shareOutline,
   map,
+  closeCircleOutline,
+  addCircleOutline,
+  calendarClearOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -79,6 +82,9 @@ export class IconService {
       age: '/assets/icons/age.svg',
       height: '/assets/icons/height.svg',
       map: map,
+      'close-circle-outline': closeCircleOutline,
+      'add-circle-outline': addCircleOutline,
+      'calendar-clear-outline': calendarClearOutline,
     });
   }
 }

@@ -29,22 +29,38 @@
 
         <div class="w-full md:w-1/3 lg:w-1/4 relative">
           <ion-icon
-            name="pin-outline"
+            name="location-outline"
             class="text-xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-500"
           ></ion-icon>
-          <input type="text" placeholder="Lokalizacja" class="rounded-full _input" />
-          <!--
-              TODO @if (location.results().length) {
-              
-                            <ul class="mt-2 bg-white z-20 rounded shadow-2xl absolute">
-                @for (result of location.results(); track $index) {
-                  <li class="px-4 body-3 py-3 hover:bg-gray-100 cursor-pointer">
-                    {{ result.display_name }}
+          <input
+            type="text"
+            placeholder="Lokalizacja"
+            [(ngModel)]="cityTerm"
+            (input)="onCityInput()"
+            autocomplete="off"
+            class="rounded-full _input !text-black"
+          />
+          @if (cityTerm) {
+            <button
+              (click)="selectCity(null)"
+              class="text-xl absolute top-1/2 -translate-y-1/2 right-[12px] text-stone-500 flex"
+            >
+              <ion-icon name="close-circle-outline"></ion-icon>
+            </button>
+          }
+          @if (citySuggestions.length) {
+            <ul
+              class="mt-2 bg-white z-20 rounded shadow-2xl absolute w-full max-h-60 overflow-auto"
+            >
+              @for (suggestion of citySuggestions; track $index) {
+                <button (click)="selectCity(suggestion)" class="w-full">
+                  <li class="px-4 body-3 py-3 hover:bg-gray-200 cursor-pointer text-black">
+                    {{ suggestion }}
                   </li>
-                }
-              </ul>
-              
-            }-->
+                </button>
+              }
+            </ul>
+          }
         </div>
       </div>
     </div>
@@ -53,7 +69,7 @@
         <div
           class="flex flex-wrap justify-center items-center md:justify-between mt-6 gap-x-1 gap-y-3 md:gap-x-0"
         >
-          @for (category of categories; track $index) {
+          @for (category of mainCategories; track $index) {
             <button
               class="body-3 !rounded-full !border !py-1 !px-4 transition-colors"
               [ngClass]="{

@@ -24,10 +24,21 @@ import {
   doc,
   getDoc,
 } from 'firebase/firestore';
-import { IListingItem } from '../components/listing-item/listing-item.model';
+import {
+  EHorseGender,
+  ICareFilter,
+  IEquipmentFilter,
+  IHorseDetails,
+  IListingItem,
+  ISpecialistFilter,
+  IStableFilter,
+  ITag,
+  ITrainingFilter,
+} from '../components/listing-item/listing-item.model';
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { from, map, Observable } from 'rxjs';
+import { EHorseBreed, EHorseCoat } from '../components/details-filter/details-filter.model';
 
 export const listingConverter: FirestoreDataConverter<IListingItem> = {
   toFirestore(item: WithFieldValue<IListingItem>): DocumentData {
@@ -42,19 +53,25 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
     options?: SnapshotOptions
   ): IListingItem {
     const data = snapshot.data(options);
-    const ts = data['createdAt'] as Timestamp;
+
+    const rawCreatedAt = data['createdAt'];
+    const createdAt =
+      rawCreatedAt instanceof Timestamp
+        ? rawCreatedAt.toMillis()
+        : typeof rawCreatedAt === 'number'
+          ? rawCreatedAt
+          : Number(rawCreatedAt);
 
     return {
       id: snapshot.id,
       title: data['title'],
       description: data['description'],
-      createdAt: ts.toMillis(),
+      createdAt,
       promoted: data['promoted'],
       price: data['price'],
       images: data['images'],
       city: data['city'],
       date: data['date'],
-      url: data['url'],
       type: data['type'],
       category: data['category'],
       subCategory: data['subCategory'],
@@ -89,6 +106,13 @@ export interface ListingState {
   pageSize: number;
   pageCursors: DocumentSnapshot[];
   totalCount: number;
+
+  horseFilters: IHorseDetails;
+  equipmentFilters: IEquipmentFilter;
+  careFilters: ICareFilter;
+  stableFilters: IStableFilter;
+  specialistFilters: ISpecialistFilter;
+  trainingFilters: ITrainingFilter;
 }
 
 export const ListingStore = signalStore(
@@ -114,10 +138,62 @@ export const ListingStore = signalStore(
     pageSize: 10,
     pageCursors: [],
     totalCount: 0,
+    horseFilters: {
+      age: 40,
+      gender: EHorseGender.ANY,
+      breed: EHorseBreed.ANY,
+      coat: EHorseCoat.ANY,
+      height: 220,
+    },
+    equipmentFilters: { type: '', condition: 'new', brand: '', material: '', color: '' },
+    careFilters: {
+      productType: '',
+      brand: '',
+      forAgeGroup: undefined,
+      forCondition: undefined,
+      organic: undefined,
+    },
+    stableFilters: {
+      location: '',
+      boxType: '',
+      services: [],
+      maxCapacity: undefined,
+      indoorArena: undefined,
+      outdoorArena: undefined,
+    },
+    specialistFilters: {
+      specialization: '',
+      location: '',
+      mobileService: undefined,
+      experienceYears: undefined,
+      certifications: undefined,
+      availableDays: undefined,
+    },
+    trainingFilters: {
+      discipline: '',
+      trainerLevel: '',
+      location: '',
+      forLevel: '',
+      groupSize: undefined,
+      indoor: undefined,
+    },
   }),
 
   withMethods(store => {
     const firestore = inject(Firestore);
+
+    function setHorseFilters(filters: IHorseDetails) {
+      patchState(store, { horseFilters: filters });
+    }
+
+    function updateHorseFilter<K extends keyof IHorseDetails>(key: K, value: IHorseDetails[K]) {
+      patchState(store, {
+        horseFilters: {
+          ...store.horseFilters(),
+          [key]: value,
+        },
+      });
+    }
 
     function setSearchTerm(searchTerm: string) {
       patchState(store, { searchTerm });
@@ -199,6 +275,99 @@ export const ListingStore = signalStore(
       patchState(store, { totalCount: n });
     }
 
+    function buildHorseTags(h: IHorseDetails): ITag[] {
+      return [
+        { icon: 'age', label: 'Wiek', value: h.age, unit: 'lat' },
+        { icon: 'gender', label: 'Płeć', value: h.gender },
+        { icon: 'breed', label: 'Rasa', value: h.breed },
+        { icon: 'color', label: 'Maść', value: h.coat },
+        { icon: 'height', label: 'Wzrost w kłębie', value: h.height, unit: 'cm' },
+      ];
+    }
+
+    function buildEquipmentTags(e: IEquipmentFilter): ITag[] {
+      return [
+        { icon: 'construct', label: 'Typ', value: e.type },
+        { icon: 'clipboard', label: 'Stan', value: e.condition },
+        { icon: 'pricetag', label: 'Marka', value: e.brand },
+        { icon: 'color-fill', label: 'Materiał', value: e.material },
+        { icon: 'color-palette', label: 'Kolor', value: e.color },
+      ];
+    }
+
+    function buildCareTags(c: ICareFilter): ITag[] {
+      const base: ITag[] = [
+        { icon: 'medkit', label: 'Typ produktu', value: c.productType },
+        { icon: 'pricetag', label: 'Marka', value: c.brand },
+      ];
+      if (c.forAgeGroup) {
+        base.push({ icon: 'people', label: 'Wiek użytkownika', value: c.forAgeGroup });
+      }
+      if (c.forCondition) {
+        base.push({ icon: 'heart', label: 'Stan', value: c.forCondition });
+      }
+      if (c.organic !== undefined) {
+        base.push({ icon: 'leaf', label: 'Organiczne', value: c.organic ? 'tak' : 'nie' });
+      }
+      return base;
+    }
+
+    function buildStableTags(s: IStableFilter): ITag[] {
+      const base: ITag[] = [
+        { icon: 'location', label: 'Lokalizacja', value: s.location },
+        { icon: 'cube', label: 'Rodzaj boksu', value: s.boxType },
+        { icon: 'people', label: 'Usługi', value: s.services.join(', ') },
+      ];
+      if (s.maxCapacity !== undefined) {
+        base.push({ icon: 'people', label: 'Max pojemność', value: s.maxCapacity });
+      }
+      if (s.indoorArena) {
+        base.push({ icon: 'home', label: 'Arena wewnętrzna', value: 'tak' });
+      }
+      if (s.outdoorArena) {
+        base.push({ icon: 'sunny', label: 'Arena zewnętrzna', value: 'tak' });
+      }
+      return base;
+    }
+
+    function buildSpecialistTags(sp: ISpecialistFilter): ITag[] {
+      const base: ITag[] = [
+        { icon: 'medical', label: 'Specjalizacja', value: sp.specialization },
+        { icon: 'location', label: 'Lokalizacja', value: sp.location },
+        { icon: 'calendar', label: 'Mobilny serwis', value: sp.mobileService ? 'tak' : 'nie' },
+      ];
+      if (sp.experienceYears !== undefined) {
+        base.push({ icon: 'trophy', label: 'Doświadczenie', value: sp.experienceYears });
+      }
+      if (sp.certifications?.length) {
+        base.push({ icon: 'ribbon', label: 'Certyfikaty', value: sp.certifications.join(', ') });
+      }
+      if (sp.availableDays?.length) {
+        base.push({
+          icon: 'calendar-number',
+          label: 'Dostępne dni',
+          value: sp.availableDays.join(', '),
+        });
+      }
+      return base;
+    }
+
+    function buildTrainingTags(t: ITrainingFilter): ITag[] {
+      const base: ITag[] = [
+        { icon: 'sport', label: 'Dyscyplina', value: t.discipline },
+        { icon: 'star', label: 'Poziom trenera', value: t.trainerLevel },
+        { icon: 'location', label: 'Lokalizacja', value: t.location },
+        { icon: 'school', label: 'Dla poziomu', value: t.forLevel },
+      ];
+      if (t.groupSize !== undefined) {
+        base.push({ icon: 'people', label: 'Wielkość grupy', value: t.groupSize });
+      }
+      if (t.indoor !== undefined) {
+        base.push({ icon: 'home', label: 'Sala wewnętrzna', value: t.indoor ? 'tak' : 'nie' });
+      }
+      return base;
+    }
+
     async function searchListings(): Promise<Promise<void>> {
       patchState(store, { isSearching: true });
 
@@ -213,6 +382,7 @@ export const ListingStore = signalStore(
       const currentPage = store.currentPage();
       const pageCursors = store.pageCursors();
       const pageSize = store.pageSize();
+      const horseFilters = store.horseFilters();
 
       const coll = collection(firestore, 'listings').withConverter(listingConverter);
       const constraints: QueryConstraint[] = [];
@@ -256,6 +426,26 @@ export const ListingStore = signalStore(
       }
       if (priceTo != null) {
         constraints.push(where('price', '<=', priceTo));
+      }
+
+      if (horseFilters.age !== undefined && horseFilters.age !== null) {
+        constraints.push(where('details.age', '<=', horseFilters.age));
+      }
+
+      if (horseFilters.height !== undefined && horseFilters.height !== null) {
+        constraints.push(where('details.height', '<=', horseFilters.height));
+      }
+
+      if (horseFilters.gender && horseFilters.gender !== EHorseGender.ANY) {
+        constraints.push(where('details.gender', '==', horseFilters.gender));
+      }
+
+      if (horseFilters.breed && horseFilters.breed !== EHorseBreed.ANY) {
+        constraints.push(where('details.breed', '==', horseFilters.breed));
+      }
+
+      if (horseFilters.coat && horseFilters.coat !== EHorseCoat.ANY) {
+        constraints.push(where('details.coat', '==', horseFilters.coat));
       }
 
       const countQuery = query(coll, ...constraints);
@@ -306,6 +496,16 @@ export const ListingStore = signalStore(
       setTotalCount,
 
       getListingById,
+
+      setHorseFilters,
+      updateHorseFilter,
+
+      buildHorseTags,
+      buildEquipmentTags,
+      buildCareTags,
+      buildSpecialistTags,
+      buildStableTags,
+      buildTrainingTags,
     };
   })
 );

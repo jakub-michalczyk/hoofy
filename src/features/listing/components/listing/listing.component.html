@@ -2,11 +2,15 @@
   <hoof-hero [isListing]="true"></hoof-hero>
 
   <div class="mt-12 px-0 xl:px-48">
-    <hoof-sort-options></hoof-sort-options>
+    <div class="flex justify-between pb-12 border-b border-stone-300">
+      <hoof-details-filter></hoof-details-filter>
+      <hoof-sort-options></hoof-sort-options>
+    </div>
+
     @if (store.searchResults(); as listings) {
       @if (listings.length) {
         <div
-          class="grid items-stretch"
+          class="grid items-stretch pt-16"
           [ngClass]="
             store.gridMode() === EGridMode.LIST
               ? 'grid-cols-1 gap-6 md:gap-12'

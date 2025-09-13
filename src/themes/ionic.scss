@@ -22,6 +22,10 @@ ion-button {
 
   --padding-top: functions.to-rem(12);
   --padding-bottom: functions.to-rem(12);
+
+  &._transparent {
+    --background: transparent;
+  }
   &._contrast {
     --background: #{theme('colors.white')};
     --background-hover: #{theme('colors.white')};
@@ -38,6 +42,14 @@ ion-button[fill='outline'] {
   --border-width: 1px;
   --border-style: solid;
   --border-color: #{theme('colors.orange.450')};
+  &._filter {
+    --color: #{theme('colors.black')};
+    --background: transparent;
+    --border-radius: 30px;
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: #{theme('colors.black')};
+  }
   &._outlined-contrast {
     --color: #{theme('colors.white')};
     --background: transparent;
@@ -97,4 +109,11 @@ ion-toast {
   --min-width: 8rem;
   --max-width: 16rem;
   --background: #{theme('colors.stone-800')} !important;
+}
+
+ion-range {
+  --bar-background: #{theme('colors.gray-300')};
+  --bar-background-active: #{theme('colors.orange-450')};
+  --knob-background: #{theme('colors.orange-450')};
+  --pin-background: #{theme('colors.orange-450')};
 }

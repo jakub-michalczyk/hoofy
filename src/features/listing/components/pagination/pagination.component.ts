@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ListingStore } from '../../../listing/store/listing.store';
 import { IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hoof-pagination',
@@ -10,6 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PaginationComponent {
   store = inject(ListingStore);
+  router = inject(Router);
   pageRange = 5;
 
   get currentPage() {
@@ -56,16 +58,30 @@ export class PaginationComponent {
   }
 
   prev() {
-    if (this.currentPage > 1) this.store.setPage(this.currentPage - 1);
+    if (this.currentPage > 1) {
+      this.changePage(this.currentPage - 1);
+      this.store.setPage(this.currentPage - 1);
+    }
   }
 
   next() {
-    if (this.currentPage < this.totalPages) this.store.setPage(this.currentPage + 1);
+    if (this.currentPage < this.totalPages) {
+      this.changePage(this.currentPage + 1);
+      this.store.setPage(this.currentPage + 1);
+    }
   }
 
   goTo(page: number | '...') {
     if (typeof page === 'number' && page !== this.currentPage) {
       this.store.setPage(page);
+      this.changePage(page);
     }
+  }
+
+  changePage(newPage: number) {
+    this.router.navigate([], {
+      queryParams: { page: newPage },
+      queryParamsHandling: 'merge',
+    });
   }
 }

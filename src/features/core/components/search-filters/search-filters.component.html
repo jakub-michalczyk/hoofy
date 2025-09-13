@@ -4,7 +4,8 @@
       type="number"
       class="_input-transparent rounded-full"
       placeholder="Cena od"
-      [(ngModel)]="priceFrom"
+      [ngModel]="priceFrom"
+      (ngModelChange)="onPriceFromChange($event)"
     />
   </div>
   <div class="relative w-full">
@@ -12,7 +13,8 @@
       type="number"
       class="_input-transparent rounded-full"
       placeholder="Cena do"
-      [(ngModel)]="priceTo"
+      [ngModel]="priceTo"
+      (ngModelChange)="onPriceToChange($event)"
     />
   </div>
 </div>
@@ -44,6 +46,17 @@
       <ion-select-option [value]="sub.slug">
         {{ sub.text }}
       </ion-select-option>
+    }
+
+    @if (selectedSubcategory?.slug) {
+      <ion-button
+        class="_transparent"
+        slot="end"
+        aria-label="Clear"
+        (click)="onSubcategoryChange('')"
+      >
+        <ion-icon slot="icon-only" name="close-circle-outline" aria-hidden="true"></ion-icon>
+      </ion-button>
     }
   </ion-select>
 </div>

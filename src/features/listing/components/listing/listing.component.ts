@@ -7,6 +7,7 @@ import { ListingItemComponent } from '../listing-item/listing-item.component';
 import { SortOptionsComponent } from '../sort-options/sort-options.component';
 import { EGridMode } from '../sort-options/sort-options.model';
 import { PaginationComponent } from '../pagination/pagination.component';
+import { DetailsFilterComponent } from '../details-filter/details-filter.component';
 
 @Component({
   selector: 'hoof-listing',
@@ -19,6 +20,7 @@ import { PaginationComponent } from '../pagination/pagination.component';
     HeroComponent,
     SortOptionsComponent,
     PaginationComponent,
+    DetailsFilterComponent,
   ],
   templateUrl: './listing.component.html',
 })
