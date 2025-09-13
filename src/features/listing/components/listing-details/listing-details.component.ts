@@ -5,7 +5,7 @@ import { Observable, switchMap } from 'rxjs';
 import { ListingStore } from '../../store/listing.store';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { IonButton, IonIcon, ToastController } from '@ionic/angular/standalone';
-import { AddToFavouritesComponent } from '../../../shared/add-to-favourites/add-to-favourites.component';
+import { AddToFavouritesComponent } from '../../../shared/components/add-to-favourites/add-to-favourites.component';
 import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-details-tags.component';
 
 @Component({

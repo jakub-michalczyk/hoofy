@@ -35,11 +35,8 @@ export class LocationService {
           population: g.population || 0,
         }))
       ),
-      // 2. Sortuj malejąco po populacji
       map(arr => arr.sort((a, b) => b.population - a.population)),
-      // 3. Wyciągnij unikalne nazwy (kolejność zachowana po sortowaniu)
       map(arr => Array.from(new Map(arr.map(item => [item.name, item])).values())),
-      // 4. Mapuj do tablicy stringów
       map(arr => arr.map(item => item.name))
     );
   }

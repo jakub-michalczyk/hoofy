@@ -1,3 +1,12 @@
+export interface IFiltersState {
+  horseFilters: IHorseDetails;
+  equipmentFilters: IEquipmentFilter;
+  careFilters: ICareFilter;
+  stableFilters: IStableFilter;
+  specialistFilters: ISpecialistFilter;
+  trainingFilters: ITrainingFilter;
+}
+
 export interface IFilterModels {
   horses: IHorseDetails;
   equipment: IEquipmentFilter;
