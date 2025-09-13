@@ -1,9 +1,8 @@
 import { Component, computed, inject, Signal } from '@angular/core';
 import { ListingStore } from '../../store/listing.store';
-
-import { Category } from './details-filter.model';
 import { HorseFilterComponent } from '../horse-filter/horse-filter.component';
 import { CommonModule } from '@angular/common';
+import { ECategoryName } from '../../../core/model/category.model';
 
 @Component({
   selector: 'hoof-details-filter',
@@ -12,5 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 export class DetailsFilterComponent {
   private store = inject(ListingStore);
-  readonly category: Signal<Category> = computed(() => this.store.category() as Category);
+  readonly category: Signal<ECategoryName> = computed(() => this.store.category() as ECategoryName);
 }

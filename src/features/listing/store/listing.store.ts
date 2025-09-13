@@ -24,21 +24,22 @@ import {
   doc,
   getDoc,
 } from 'firebase/firestore';
+
+import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import { from, map, Observable } from 'rxjs';
+import { IListingItem, ITag } from '../components/listing-item/listing-item.model';
 import {
+  EHorseBreed,
+  EHorseCoat,
   EHorseGender,
   ICareFilter,
   IEquipmentFilter,
   IHorseDetails,
-  IListingItem,
   ISpecialistFilter,
   IStableFilter,
-  ITag,
   ITrainingFilter,
-} from '../components/listing-item/listing-item.model';
-import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { from, map, Observable } from 'rxjs';
-import { EHorseBreed, EHorseCoat } from '../components/details-filter/details-filter.model';
+} from '../model/filters.model';
 
 export const listingConverter: FirestoreDataConverter<IListingItem> = {
   toFirestore(item: WithFieldValue<IListingItem>): DocumentData {

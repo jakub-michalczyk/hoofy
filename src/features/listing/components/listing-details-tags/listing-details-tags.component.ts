@@ -1,18 +1,17 @@
 import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import {
-  ICareFilter,
-  IEquipmentFilter,
-  IHorseDetails,
-  IListingItem,
-  ISpecialistFilter,
-  IStableFilter,
-  ITag,
-  ITrainingFilter,
-} from '../listing-item/listing-item.model';
 
 import { IonIcon } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { ListingStore } from '../../store/listing.store';
+import { IListingItem, ITag } from '../listing-item/listing-item.model';
+import {
+  ICareFilter,
+  IEquipmentFilter,
+  IHorseDetails,
+  ISpecialistFilter,
+  IStableFilter,
+  ITrainingFilter,
+} from '../../model/filters.model';
 
 @Component({
   selector: 'hoof-listing-details-tags',
