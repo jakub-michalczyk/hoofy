@@ -46,6 +46,8 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
       subCategory: data['subCategory'],
       userName: data['userName'],
       details: data['details'],
+      lng: data['lng'],
+      lat: data['lat'],
     };
   },
 };

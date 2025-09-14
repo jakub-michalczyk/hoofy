@@ -6,6 +6,13 @@
       [listings]="featured"
     ></hoof-featured-listings>
   </div>
+  <div class="my-12 px-6 md:px-12 lg:px-36 xl:px-48 rounded-2xl">
+    <h2 class="h3">Mapa</h2>
+    <div id="map" class="map h-96 mt-8"></div>
+    <a routerLink="/map">
+      <ion-button fill="solid" routerLink="login" class="mt-8">Otwórz mape</ion-button>
+    </a>
+  </div>
   <div class="mt-24">
     <hoof-carousel carouselTitle="Najnowsze ogłoszenia" [slides]="latest"></hoof-carousel>
   </div>
