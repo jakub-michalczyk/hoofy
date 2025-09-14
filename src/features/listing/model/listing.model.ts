@@ -27,4 +27,6 @@ export interface IListingState {
   pageSize: number;
   pageCursors: DocumentSnapshot[];
   totalCount: number;
+
+  visible: IListingItem[];
 }

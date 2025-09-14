@@ -1,12 +1,52 @@
 <div>
   <hoof-hero></hoof-hero>
-  <div class="mt-12">
+
+  <section class="mt-12">
     <hoof-featured-listings
       title="Promowane ogłoszenia"
       [listings]="featured"
     ></hoof-featured-listings>
-  </div>
-  <div class="mt-24">
+  </section>
+
+  <section class="my-16 px-6 md:px-12 lg:px-36 xl:px-48 rounded-2xl">
+    <h2 class="h3">Mapa</h2>
+    <div id="map" class="map h-96 mt-8"></div>
+    <a routerLink="/map">
+      <ion-button fill="solid" routerLink="login" class="mt-8">Otwórz mape</ion-button>
+    </a>
+  </section>
+
+  <section class="py-16 md:py-24 bg-stone-900 rounded text-white">
+    <div class="container mx-auto px-4 text-center flex flex-col items-center gap-4">
+      <h1 class="h4 md:h3 mb-8">Ogłoszenia z dziedziny jeździectwa</h1>
+
+      <p class="body-4 md:body-3 text-gray-400 max-w-2xl mx-auto leading-relaxed mt-4">
+        Hoofy to Twój kompleksowy portal jeździecki. Wśród dostępnych kategorii znajdziesz takie
+        jak: Zakup konia, Zakup sprzętu jeździeckiego, Zakup akcesorii jeździeckich, Zakup pokarmu
+        dla konii, Zakup środków pielęgnacji konia, Najem pensjonatów, Usługi specjalistów do konii,
+        Usługi treningu i jazdy konnej. Aplikacja oferuje wbudowany czat umożliwiający bezpośrednią
+        komunikację między użytkownikami oraz intuicyjny system rezerwacji lekcji i usług
+        jeździeckich.
+      </p>
+    </div>
+
+    <div>
+      <ul
+        class="flex gap-2 justify-center mt-12 w-full flex-wrap max-w-full md:max-w-1/2 mx-auto body-4 px-6"
+      >
+        @for (link of subCategoriesLinks; track $index) {
+          <a
+            [routerLink]="link.url"
+            class="!text-white bg-transparent border-white border rounded-2xl px-2 py-1 hover:!bg-white hover:!text-black transition-colors"
+          >
+            <li>{{ link.text }}</li>
+          </a>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="mt-16">
     <hoof-carousel carouselTitle="Najnowsze ogłoszenia" [slides]="latest"></hoof-carousel>
-  </div>
+  </section>
 </div>

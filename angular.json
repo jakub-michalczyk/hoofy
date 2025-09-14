@@ -62,7 +62,8 @@
               },
               {
                 "input": "node_modules/@ionic/angular/css/flex-utils.css"
-              }
+              },
+              "node_modules/ol/ol.css"
             ],
             "scripts": []
           },

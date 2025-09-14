@@ -28,6 +28,7 @@ import {
 export class CarouselComponent implements AfterViewInit {
   @Input() carouselTitle = 'Title';
   @Input() slides: Signal<IListingItem[]> = signal([]);
+  @Input() hasPagination = false;
   @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
   showPagination = signal(false);
 
@@ -55,6 +56,9 @@ export class CarouselComponent implements AfterViewInit {
         clickable: true,
         renderBullet: (idx: number, className: string) =>
           `<span class="${className} _bullet"></span>`,
+      },
+      autoplay: {
+        delay: 2500,
       },
       breakpoints: {
         1600: { slidesPerView: 6 },

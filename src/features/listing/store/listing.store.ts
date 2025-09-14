@@ -40,6 +40,7 @@ export const LISTING_STATE: IListingState = {
   pageSize: 10,
   pageCursors: [],
   totalCount: 0,
+  visible: [],
 };
 
 export const ListingStore = signalStore(
@@ -113,6 +114,29 @@ export const ListingStore = signalStore(
 
     function setTotalCount(n: number) {
       patchState(store, { totalCount: n });
+    }
+
+    async function loadInViewport(bounds: {
+      latMin: number;
+      lngMin: number;
+      latMax: number;
+      lngMax: number;
+    }): Promise<IListingItem[]> {
+      const collRef = collection(firestore, 'listings').withConverter(listingConverter);
+
+      const q = query(
+        collRef,
+        where('lat', '>=', bounds.latMin),
+        where('lat', '<=', bounds.latMax),
+        where('lng', '>=', bounds.lngMin),
+        where('lng', '<=', bounds.lngMax)
+      );
+
+      const snap = await getDocs(q);
+      const items = snap.docs.map(d => d.data() as IListingItem);
+
+      patchState(store, { visible: items });
+      return items;
     }
 
     async function searchListings(): Promise<Promise<void>> {
@@ -239,6 +263,8 @@ export const ListingStore = signalStore(
 
       setPage,
       setTotalCount,
+
+      loadInViewport,
 
       getListingById,
     };

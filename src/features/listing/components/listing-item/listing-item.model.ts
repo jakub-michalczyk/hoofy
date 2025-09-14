@@ -21,6 +21,8 @@ export interface IListingItem {
   date: string;
   type: string;
   userName: string;
+  lng: number;
+  lat: number;
   details?:
     | IHorseDetails
     | IEquipmentFilter
