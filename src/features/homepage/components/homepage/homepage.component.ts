@@ -14,14 +14,33 @@ import Point from 'ol/geom/Point';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
 import { fromLonLat, toLonLat } from 'ol/proj';
-import { IonButton, PopoverController } from '@ionic/angular/standalone';
+import { IonButton, IonIcon, PopoverController } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-import { IListingItem } from '../../../listing/components/listing-item/listing-item.model';
+import {
+  EListingItemView,
+  IListingItem,
+} from '../../../listing/components/listing-item/listing-item.model';
 import { ListingMapInfoComponent } from '../listing-map-info/listing-map-info.component';
+import { LogoComponent } from '../../../shared/components/logo/logo.component';
+import { ListingItemComponent } from '../../../listing/components/listing-item/listing-item.component';
+import { NavigationStore } from '../../../core/store/navigation.store';
+import {
+  INavigationMenuElement,
+  INavigationSubmenuItem,
+} from '../../../core/model/navigation.model';
 
 @Component({
   selector: 'hoof-homepage',
-  imports: [HeroComponent, CarouselComponent, FeaturedListingsComponent, IonButton, RouterLink],
+  imports: [
+    HeroComponent,
+    CarouselComponent,
+    FeaturedListingsComponent,
+    IonButton,
+    RouterLink,
+    LogoComponent,
+    ListingItemComponent,
+    IonIcon,
+  ],
   templateUrl: './homepage.component.html',
 })
 export class HomepageComponent implements AfterViewInit {
@@ -29,6 +48,10 @@ export class HomepageComponent implements AfterViewInit {
   private vectorSource = new VectorSource();
   private store = inject(ListingStore);
   private popoverCtrl = inject(PopoverController);
+  protected navigation = inject(NavigationStore);
+  subCategoriesLinks: INavigationSubmenuItem[] = [];
+
+  EListingItemView = EListingItemView;
 
   featured = this.store.featured;
   latest = this.store.latest;
@@ -36,6 +59,13 @@ export class HomepageComponent implements AfterViewInit {
   constructor() {
     this.store.loadFeatured();
     this.store.loadLatest();
+    this.setUpSubcategoriesLinks();
+  }
+
+  setUpSubcategoriesLinks() {
+    this.subCategoriesLinks = this.navigation
+      .links()
+      .flatMap((link: INavigationMenuElement) => link.submenu?.flatMap(sub => sub.items) || []);
   }
 
   ngAfterViewInit(): void {
