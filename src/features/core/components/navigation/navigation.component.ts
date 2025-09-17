@@ -4,6 +4,7 @@ import { AccordionComponent } from '../../../shared/components/accordion/accordi
 import { SubMenuComponent } from '../sub-menu/sub-menu.component';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ListingFiltersFacadeService } from '../../services/listing-filters-facade.service';
 
 @Component({
   selector: 'hoof-navigation',
@@ -13,4 +14,5 @@ import { CommonModule } from '@angular/common';
 export class NavigationComponent {
   @Input() contrast = false;
   readonly navigation = inject(NavigationService);
+  filtersFacade = inject(ListingFiltersFacadeService);
 }

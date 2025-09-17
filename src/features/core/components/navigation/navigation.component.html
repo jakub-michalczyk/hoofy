@@ -4,6 +4,7 @@
       <a
         class="!text-black border-b border-stone-200 py-4 lg:py-0 px-6 lg:px-0 lg:border-0 hidden lg:block"
         [routerLink]="link.url"
+        [queryParams]="link.slug === 'map' ? {} : filtersFacade.buildQueryParams()"
         (mouseenter)="navigation.build($index)"
         (focus)="navigation.build($index)"
       >

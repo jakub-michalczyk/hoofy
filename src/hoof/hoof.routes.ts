@@ -7,6 +7,7 @@ import { authGuard } from '../features/core/guard/auth.guard';
 import { AccountViewComponent } from '../features/login/components/account-view/account-view.component';
 import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
 import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
+import { MapContainerComponent } from '../features/map/components/map-container/map-container.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,15 @@ export const routes: Routes = [
       { path: ':mainCat', component: ListingComponent },
       { path: ':mainCat/:subCat', component: ListingComponent },
       { path: ':mainCat/:subCat/:id', component: ListingDetailsComponent },
+    ],
+  },
+  {
+    path: 'map',
+    children: [
+      { path: '', component: MapContainerComponent },
+      { path: ':mainCat', component: MapContainerComponent },
+      { path: ':mainCat/:subCat', component: MapContainerComponent },
+      { path: ':mainCat/:subCat/:id', component: MapContainerComponent },
     ],
   },
   {

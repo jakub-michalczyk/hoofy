@@ -5,7 +5,11 @@
     [ngClass]="{ 'h-auto xl:h-64 lg:py-8': nav.submenuElement() }"
   >
     @if (nav.submenuElement(); as root) {
-      <a [routerLink]="root.url" class="hidden lg:block">
+      <a
+        [routerLink]="root.url"
+        [queryParams]="filtersFacade.buildQueryParams()"
+        class="hidden lg:block"
+      >
         <h2 class="h3 flex gap-2 items-center">
           {{ root.text }}
         </h2>
@@ -14,7 +18,7 @@
       <div class="grid gap-6 lg:gap-3 xl:gap-12 grid-cols-1 lg:grid-cols-3 lg:mt-8 xl:pl-12">
         @for (column of root.submenu!; track $index) {
           <div>
-            <a [routerLink]="column.url">
+            <a [routerLink]="column.url" [queryParams]="filtersFacade.buildQueryParams()">
               <h3 class="body-3-bold flex gap-2 items-center">
                 <div class="w-1.5 h-1.5 bg-orange-450 rounded-full"></div>
                 {{ column.title }}
@@ -25,6 +29,7 @@
               @for (item of column.items; track $index) {
                 <a
                   class="block hover:underline"
+                  [queryParams]="filtersFacade.buildQueryParams()"
                   [routerLink]="item.url"
                   (click)="nav.reset()"
                   [ngClass]="{ 'mb-2': !$last }"

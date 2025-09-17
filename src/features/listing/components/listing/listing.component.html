@@ -1,29 +1,49 @@
 <div class="min-h-screen pb-24">
-  <hoof-hero [isListing]="true"></hoof-hero>
+  <hoof-hero [mode]="!mapContainer ? 'listing' : 'map'"></hoof-hero>
 
-  <div class="mt-12 px-0 xl:px-48">
-    <div class="flex-wrap gap-12 flex justify-between pb-12 border-b border-stone-300">
+  <div class="mt-12 px-0" [ngClass]="{ 'xl:px-48': !mapContainer }">
+    <div
+      class="flex-wrap gap-12 flex pb-12 border-b border-stone-300"
+      [ngClass]="mapContainer ? 'justify-center' : 'justify-between'"
+    >
       <hoof-details-filter></hoof-details-filter>
-      <hoof-sort-options></hoof-sort-options>
+      @if (!mapContainer) {
+        <hoof-sort-options></hoof-sort-options>
+      }
     </div>
 
-    @if (store.searchResults(); as listings) {
-      @if (listings.length) {
-        <div
-          class="grid items-stretch pt-16"
-          [ngClass]="
-            store.gridMode() === EGridMode.LIST
-              ? 'grid-cols-1 gap-6 md:gap-12'
-              : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'
-          "
-        >
-          @for (item of listings; track $index) {
-            <hoof-listing-item [data]="item"></hoof-listing-item>
-          }
-        </div>
-        <hoof-pagination class="mt-16 block"></hoof-pagination>
-      } @else {
-        <p class="h2 text-center my-48">Brak ogłoszeń do wyświetlenia.</p>
+    @if (mapContainer) {
+      <hoof-map class="h-screen w-full block"></hoof-map>
+    } @else {
+      @if (store.searchResults(); as listings) {
+        @if (listings.length) {
+          <div
+            class="grid items-stretch pt-16"
+            [ngClass]="
+              store.gridMode() === EGridMode.LIST
+                ? 'grid-cols-1 gap-6 md:gap-12'
+                : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'
+            "
+          >
+            @for (item of listings; track $index) {
+              <hoof-listing-item [data]="item"></hoof-listing-item>
+            }
+          </div>
+
+          <div class="my-12">
+            <hoof-map class="h-96 block"></hoof-map>
+            <a
+              [routerLink]="['/map', store.category(), store.subCategory()]"
+              [queryParams]="facade.buildQueryParams()"
+            >
+              <ion-button fill="solid" class="mt-8">Otwórz mape</ion-button>
+            </a>
+          </div>
+
+          <hoof-pagination class="mt-16 block"></hoof-pagination>
+        } @else {
+          <p class="h2 text-center my-48">Brak ogłoszeń do wyświetlenia.</p>
+        }
       }
     }
   </div>

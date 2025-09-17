@@ -1,28 +1,43 @@
-import { Injectable, inject, signal, computed, Signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { Injectable, inject, signal, computed, Signal, DestroyRef } from '@angular/core';
+import { Router, ParamMap, Params } from '@angular/router';
+import { combineLatest, filter, map, switchMap } from 'rxjs';
 import { LocationService } from './location.service';
 import { ListingStore } from '../../listing/store/listing.store';
 import { NavigationStore } from '../store/navigation.store';
 import { INavigationSubmenuColumn, INavigationSubmenuItem } from '../model/navigation.model';
 import { ESortingOptions } from '../../listing/components/sort-options/sort-options.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class ListingFiltersFacadeService {
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
   public listingStore = inject(ListingStore);
   private navStore = inject(NavigationStore);
   private locService = inject(LocationService);
+  destroyerRef = inject(DestroyRef);
 
   mainCategories: Signal<INavigationSubmenuColumn[]> = computed(() => {
-    const all = this.navStore.getMainCategories();
-    const sel = this.selectedMain();
-    return all.map(cat => ({ ...cat, active: sel?.slug === cat.slug }));
+    const currentSlug = this.listingStore.category();
+    return this.navStore.getMainCategories().map(cat => ({
+      ...cat,
+      active: cat.slug === currentSlug,
+    }));
   });
-  selectedMain = signal<INavigationSubmenuColumn | null>(null);
-  subcategories: WritableSignal<INavigationSubmenuItem[]> = signal([]);
-  selectedSub = signal<INavigationSubmenuItem | null>(null);
+
+  subcategories: Signal<INavigationSubmenuItem[]> = computed(() => {
+    const mainSlug = this.listingStore.category();
+    const main = this.navStore.getMainCategories().find(c => c.slug === mainSlug);
+    return main?.items ?? [];
+  });
+
+  selectedMain: Signal<INavigationSubmenuColumn | null> = computed(
+    () => this.mainCategories().find(c => c.active) ?? null
+  );
+
+  selectedSub: Signal<INavigationSubmenuItem | null> = computed(() => {
+    const subSlug = this.listingStore.subCategory();
+    return this.subcategories().find(s => s.slug === subSlug) ?? null;
+  });
 
   searchTerm = signal<string>('');
   cityTerm = signal<string>('');
@@ -37,46 +52,53 @@ export class ListingFiltersFacadeService {
   }
 
   private syncRouteWithState(): void {
-    this.route.paramMap.subscribe(v => console.log(v));
-    forkJoin([this.route.paramMap, this.route.queryParamMap]).subscribe(([pm, qp]) =>
-      this.applyRoute(pm, qp)
-    );
+    this.router.events
+      .pipe(
+        filter(event => event.constructor.name === 'NavigationEnd'),
+        map(() => this.router.routerState.root),
+        map(route => {
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route;
+        }),
+        switchMap(route => combineLatest([route.paramMap, route.queryParamMap]))
+      )
+      .pipe(takeUntilDestroyed(this.destroyerRef))
+      .subscribe(([pm, qp]) => this.applyRoute(pm, qp));
   }
 
   private applyRoute(pm: ParamMap, qp: ParamMap): void {
+    const isMap = this.isMapRoute();
     const mainSlug = pm.get('mainCat') ?? '';
     const subSlug = pm.get('subCat') ?? '';
-    const mains = this.navStore.getMainCategories();
-    const main = mains.find(c => c.slug === mainSlug) ?? null;
-    const subs = main?.items ?? [];
-    const sub = subs.find(i => i.slug === subSlug) ?? null;
 
-    this.selectedMain.set(main);
-    this.subcategories.set(subs);
-    this.selectedSub.set(sub);
-
-    this.listingStore.setCategory(main?.slug ?? null);
-    this.listingStore.setSubCategory(sub?.slug ?? null);
+    this.listingStore.setCategory(mainSlug || null);
+    this.listingStore.setSubCategory(subSlug || null);
 
     const search = qp.get('search') ?? '';
     const location = qp.get('location') ?? '';
     const from = qp.has('priceFrom') ? +qp.get('priceFrom')! : null;
     const to = qp.has('priceTo') ? +qp.get('priceTo')! : null;
-    const sort = (qp.get('sorting') as ESortingOptions) ?? ESortingOptions.NEWEST;
-    const page = qp.has('page') ? +qp.get('page')! : 1;
 
     this.searchTerm.set(search);
     this.cityTerm.set(location);
     this.priceFrom.set(from);
     this.priceTo.set(to);
-    this.sorting.set(sort);
 
     this.listingStore.setSearchTerm(search);
     this.listingStore.setCity(location);
     this.listingStore.setPriceFrom(from);
     this.listingStore.setPriceTo(to);
-    this.listingStore.setSorting(sort);
-    this.listingStore.setPage(page);
+
+    if (!isMap) {
+      const sort = (qp.get('sorting') as ESortingOptions) ?? ESortingOptions.NEWEST;
+      const page = qp.has('page') ? +qp.get('page')! : 1;
+
+      this.sorting.set(sort);
+      this.listingStore.setSorting(sort);
+      this.listingStore.setPage(page);
+    }
 
     this.listingStore.searchListings();
   }
@@ -86,26 +108,19 @@ export class ListingFiltersFacadeService {
     const location = this.cityTerm();
     const from = this.priceFrom();
     const to = this.priceTo();
-    const sort = this.sorting();
 
     this.listingStore.setSearchTerm(search);
     this.listingStore.setCity(location);
     this.listingStore.setPriceFrom(from);
     this.listingStore.setPriceTo(to);
-    this.listingStore.setPage(1);
-
-    const qp: Params = {
-      page: 1,
-      sorting: sort,
-      ...(search && { search }),
-      ...(location && { location }),
-      ...(from != null && { priceFrom: from }),
-      ...(to != null && { priceTo: to }),
-    };
-
-    const path = ['listing', ...(this.selectedMain()?.slug ? [this.selectedMain()!.slug] : [])];
-    this.router.navigate(path, { queryParams: qp, queryParamsHandling: 'merge' });
     this.listingStore.searchListings();
+  }
+
+  navigateToListing(): void {
+    const path = this.buildPath();
+    const qp = this.buildQueryParams();
+
+    this.router.navigate(path, { queryParams: qp });
   }
 
   onSortingChange(newSort: ESortingOptions): void {
@@ -142,37 +157,59 @@ export class ListingFiltersFacadeService {
     }));
     const selected = updated.find(cat => cat.active) ?? null;
 
-    this.selectedMain.set(selected);
-    this.subcategories.set(selected?.items ?? []);
-    this.selectedSub.set(null);
-
     this.listingStore.setCategory(selected?.slug ?? null);
     this.listingStore.setSubCategory(null);
-
-    if (navigate) {
-      const path = selected?.slug ? ['/listing', selected.slug] : ['/listing'];
-      this.router.navigate(path, { queryParamsHandling: 'merge' });
-      this.onSearch();
-    }
+    return navigate ? this.navigateToListing() : this.onSearch();
   }
 
-  onSubcategoryChange(subSlug: string): void {
+  onSubcategoryChange(subSlug: string, navigate: boolean): void {
     const main = this.selectedMain();
     if (!main) return;
 
     const candidate = main.items.find(item => item.slug === subSlug) ?? null;
     const selected = this.selectedSub()?.slug === candidate?.slug ? null : candidate;
-
-    this.selectedSub.set(selected);
     this.listingStore.setSubCategory(selected?.slug ?? null);
 
-    const base = ['/listing', main.slug];
-    const path = selected ? [...base, selected.slug] : base;
-    this.router.navigate(path, {
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
+    return navigate ? this.navigateToListing() : this.onSearch();
+  }
 
-    this.onSearch();
+  buildQueryParams(): Params {
+    const search = this.searchTerm();
+    const location = this.cityTerm();
+    const from = this.priceFrom();
+    const to = this.priceTo();
+
+    const qp: Params = {
+      ...(search && { search }),
+      ...(location && { location }),
+      ...(from != null && { priceFrom: from }),
+      ...(to != null && { priceTo: to }),
+    };
+
+    if (!this.isMapRoute()) {
+      qp['page'] = 1;
+      qp['sorting'] = this.sorting();
+    }
+
+    return qp;
+  }
+
+  private isMapRoute(): boolean {
+    const firstSegment = this.router.url.split('?')[0].split('/')[1];
+    return firstSegment === 'map';
+  }
+
+  private buildPath(): string[] {
+    const base = this.getBaseRoute();
+    const main = this.listingStore.category();
+    const sub = this.listingStore.subCategory();
+
+    return [base, ...(main ? [main] : []), ...(sub ? [sub] : [])];
+  }
+
+  private getBaseRoute(): 'map' | 'listing' {
+    const raw = this.router.url.split('?')[0];
+    const first = raw.split('/')[1] as string;
+    return first === 'map' ? 'map' : 'listing';
   }
 }
