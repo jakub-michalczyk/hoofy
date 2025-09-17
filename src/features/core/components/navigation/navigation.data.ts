@@ -99,6 +99,6 @@ export const MENU: INavigationMenuElement[] = [
   {
     text: 'Mapa',
     slug: 'map',
-    url: '/map',
+    url: '/map/horses',
   },
 ];

@@ -101,10 +101,9 @@ export const ListingStore = signalStore(
     }
 
     function setPage(page: number) {
-      const totalPages = Math.ceil(store.totalCount() / store.pageSize());
+      const totalPages = Math.max(1, Math.ceil(store.totalCount() / store.pageSize()));
       const next = Math.min(Math.max(page, 1), totalPages);
       patchState(store, { currentPage: next });
-      searchListings();
     }
 
     function getListingById(id: string): Observable<IListingItem | null> {
@@ -122,18 +121,51 @@ export const ListingStore = signalStore(
       latMax: number;
       lngMax: number;
     }): Promise<IListingItem[]> {
+      const category = store.category();
+      const subCategory = store.subCategory();
+      const priceFrom = store.priceFrom();
+      const priceTo = store.priceTo();
+      const horseFilters = filtersStore.horseFilters();
       const collRef = collection(firestore, 'listings').withConverter(listingConverter);
-
-      const q = query(
-        collRef,
+      const constraints: QueryConstraint[] = [
         where('lat', '>=', bounds.latMin),
         where('lat', '<=', bounds.latMax),
         where('lng', '>=', bounds.lngMin),
-        where('lng', '<=', bounds.lngMax)
-      );
+        where('lng', '<=', bounds.lngMax),
+      ];
 
+      if (category) {
+        constraints.push(where('category', '==', category));
+      }
+      if (subCategory) {
+        constraints.push(where('subCategory', '==', subCategory));
+      }
+      if (priceFrom != null) {
+        constraints.push(where('price', '>=', priceFrom));
+      }
+      if (priceTo != null) {
+        constraints.push(where('price', '<=', priceTo));
+      }
+
+      if (horseFilters.age != null) {
+        constraints.push(where('details.age', '<=', horseFilters.age));
+      }
+      if (horseFilters.height != null) {
+        constraints.push(where('details.height', '<=', horseFilters.height));
+      }
+      if (horseFilters.gender && horseFilters.gender !== EHorseGender.ANY) {
+        constraints.push(where('details.gender', '==', horseFilters.gender));
+      }
+      if (horseFilters.breed && horseFilters.breed !== EHorseBreed.ANY) {
+        constraints.push(where('details.breed', '==', horseFilters.breed));
+      }
+      if (horseFilters.coat && horseFilters.coat !== EHorseCoat.ANY) {
+        constraints.push(where('details.coat', '==', horseFilters.coat));
+      }
+
+      const q = query(collRef, ...constraints);
       const snap = await getDocs(q);
-      const items = snap.docs.map(d => d.data() as IListingItem);
+      const items = snap.docs.map(docSnap => docSnap.data() as IListingItem);
 
       patchState(store, { visible: items });
       return items;

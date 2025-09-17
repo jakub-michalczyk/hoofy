@@ -1,22 +1,22 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, HostListener, inject, Input } from '@angular/core';
 import { INavigationSubmenuColumn } from '../../model/navigation.model';
 import { IonButton, IonIcon, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { ESortingOptions } from '../../../listing/components/sort-options/sort-options.model';
 import { ListingFiltersFacadeService } from '../../services/listing-filters-facade.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'hoof-search-filters',
-  imports: [IonSelect, IonSelectOption, FormsModule, IonIcon, IonButton],
+  imports: [IonSelect, IonSelectOption, FormsModule, IonIcon, IonButton, CommonModule],
   templateUrl: './search-filters.component.html',
 })
 export class SearchFiltersComponent {
+  @Input() contrast = false;
   facade = inject(ListingFiltersFacadeService);
 
   mainCategories = this.facade.mainCategories as () => INavigationSubmenuColumn[];
   subcategories = this.facade.subcategories;
-  selectedMain = this.facade.selectedMain;
-  selectedSub = this.facade.selectedSub;
 
   searchTerm = this.facade.searchTerm;
   cityTerm = this.facade.cityTerm;
@@ -32,7 +32,7 @@ export class SearchFiltersComponent {
   }
 
   onSubcategoryChange(slug: string): void {
-    this.facade.onSubcategoryChange(slug);
+    this.facade.onSubcategoryChange(slug, true);
   }
 
   onSearch(): void {

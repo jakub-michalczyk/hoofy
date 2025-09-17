@@ -13,13 +13,12 @@ import { ListingFiltersFacadeService } from '../../../core/services/listing-filt
 })
 export class HeroComponent {
   @Input() bgImage = 'homepage_bg';
-  @Input() isListing = false;
+  @Input() mode: 'home' | 'listing' | 'map' = 'home';
 
   facade = inject(ListingFiltersFacadeService);
 
   mainCategories = this.facade.mainCategories;
   subcategories = this.facade.subcategories;
-  selectedMain = this.facade.selectedMain;
   selectedSub = this.facade.selectedSub;
 
   searchTerm = this.facade.searchTerm;
@@ -33,6 +32,7 @@ export class HeroComponent {
 
   onSearch(): void {
     this.facade.onSearch();
+    this.facade.navigateToListing();
   }
 
   onSortingChange(sort: ESortingOptions): void {
@@ -49,11 +49,9 @@ export class HeroComponent {
   }
 
   toggleCategory(slug: string): void {
-    this.facade.onMainCategoryChange(slug, false);
-  }
-
-  selectSubcategory(slug: string): void {
-    this.facade.onSubcategoryChange(slug);
+    return this.facade.selectedMain()?.slug === slug
+      ? this.facade.onMainCategoryChange('', false)
+      : this.facade.onMainCategoryChange(slug, false);
   }
 
   @HostListener('document:click', ['$event'])
@@ -62,5 +60,9 @@ export class HeroComponent {
     if (!tgt.closest('input') && !tgt.closest('ul')) {
       this.facade.clearSuggestions();
     }
+  }
+
+  get isHomepage() {
+    return this.mode !== 'listing' && this.mode !== 'map';
   }
 }

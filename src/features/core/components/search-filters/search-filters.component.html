@@ -2,19 +2,21 @@
   <div class="relative w-full">
     <input
       type="number"
-      class="_input-transparent rounded-full"
+      class="rounded-full"
       placeholder="Cena od"
       [ngModel]="priceFrom"
       (ngModelChange)="onPriceFromChange($event)"
+      [ngClass]="contrast ? '_input' : '_input-transparent'"
     />
   </div>
   <div class="relative w-full">
     <input
       type="number"
-      class="_input-transparent rounded-full"
+      class="rounded-full"
       placeholder="Cena do"
       [ngModel]="priceTo"
       (ngModelChange)="onPriceToChange($event)"
+      [ngClass]="contrast ? '_input' : '_input-transparent'"
     />
   </div>
 </div>
@@ -24,8 +26,9 @@
     interface="popover"
     label="Kategoria główna"
     label-placement="floating"
-    [value]="selectedMain()?.slug"
+    [value]="facade.selectedMain()?.slug"
     (ionChange)="onMainCategoryChange($event.detail.value)"
+    [ngClass]="{ _contrast: contrast }"
   >
     @for (category of mainCategories(); track $index) {
       <ion-select-option [value]="category.slug">
@@ -38,9 +41,10 @@
     interface="popover"
     label="Kategoria dodatkowa"
     label-placement="floating"
-    [disabled]="!selectedMain()"
-    [value]="selectedSub()?.slug"
+    [disabled]="!facade.selectedMain()"
+    [value]="facade.selectedSub()?.slug"
     (ionChange)="onSubcategoryChange($event.detail.value)"
+    [ngClass]="{ _contrast: contrast }"
   >
     @for (sub of subcategories(); track $index) {
       <ion-select-option [value]="sub.slug">
@@ -48,7 +52,7 @@
       </ion-select-option>
     }
 
-    @if (selectedSub()?.slug) {
+    @if (facade.selectedSub()?.slug) {
       <ion-button
         class="_transparent"
         slot="end"
