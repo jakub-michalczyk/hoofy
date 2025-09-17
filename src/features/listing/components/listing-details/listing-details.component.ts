@@ -1,12 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IListingItem } from '../listing-item/listing-item.model';
-import { Observable, switchMap } from 'rxjs';
+import { combineLatest, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ListingStore } from '../../store/listing.store';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { IonButton, IonIcon, ToastController } from '@ionic/angular/standalone';
 import { AddToFavouritesComponent } from '../../../shared/components/add-to-favourites/add-to-favourites.component';
 import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-details-tags.component';
+import { MapComponent } from '../../../map/components/map/map.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { UserStore } from '../../store/user.store';
+import { IUserData } from '../../../login/models/auth.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ECategoryName } from '../../../core/model/category.model';
+import { FeaturedListingsComponent } from '../../../homepage/components/featured-listings/featured-listings.component';
 
 @Component({
   selector: 'hoof-listing-details',
@@ -17,20 +24,74 @@ import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-det
     AddToFavouritesComponent,
     ListingDetailsTagsComponent,
     IonButton,
+    MapComponent,
+    CarouselComponent,
+    FeaturedListingsComponent,
   ],
   templateUrl: './listing-details.component.html',
 })
 export class ListingDetailsComponent {
   private route = inject(ActivatedRoute);
-  private listingStore = inject(ListingStore);
+  protected listingStore = inject(ListingStore);
   private toastController = inject(ToastController);
+  private destroyerRef = inject(DestroyRef);
+  userListings: WritableSignal<IListingItem[]> = signal([]);
 
+  userStore = inject(UserStore);
+  user$: Observable<IUserData | null> = of({} as IUserData);
   listing$: Observable<IListingItem | null> = this.route.paramMap.pipe(
     switchMap(params => {
       const id = params.get('id');
-      return id ? this.listingStore.getListingById(id) : [null];
+      return id ? this.listingStore.getListingById(id) : of(null);
+    }),
+    tap(listing => {
+      if (listing?.userId) {
+        this.user$ = from(this.userStore.fetchUserProfile(listing.userId));
+      }
     })
   );
+
+  constructor() {
+    this.fetchSimilarListings();
+    this.fetchProfileUser();
+  }
+
+  private fetchSimilarListings() {
+    this.listing$
+      .pipe(takeUntilDestroyed(this.destroyerRef))
+      .subscribe(listing => this.listingStore.loadSimilar(listing?.category as ECategoryName));
+  }
+
+  private fetchProfileUser() {
+    this.listing$
+      .pipe(
+        switchMap(listing => {
+          if (!listing?.userId) {
+            this.userListings.set([]);
+            return of<IListingItem[]>([]);
+          }
+
+          return from(this.userStore.fetchUserProfile(listing.userId)).pipe(
+            switchMap(userData => {
+              const ids = userData?.listings.filter(i => i !== listing.id) ?? [];
+              if (!ids.length) {
+                return of<IListingItem[]>([]);
+              }
+
+              const obsArray = ids.map(id => this.listingStore.getListingById(id));
+
+              return combineLatest(obsArray).pipe(
+                map(items => items.filter((it): it is IListingItem => it !== null))
+              );
+            })
+          );
+        }),
+        takeUntilDestroyed(this.destroyerRef)
+      )
+      .subscribe(items => {
+        this.userListings.set(items);
+      });
+  }
 
   async share(): Promise<void> {
     const url = window.location.href;
