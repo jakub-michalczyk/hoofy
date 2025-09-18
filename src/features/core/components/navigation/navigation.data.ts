@@ -1,5 +1,28 @@
 import { ECategoryName, ESubCategoryName } from '../../model/category.model';
-import { INavigationMenuElement } from '../../model/navigation.model';
+import {
+  INavigationLoggedInMenuElement,
+  INavigationMenuElement,
+} from '../../model/navigation.model';
+
+export const LOGGED_IN_MENU: INavigationLoggedInMenuElement[] = [
+  {
+    text: 'Moje konto',
+    slug: 'account',
+    url: 'account',
+    icon: 'person-outline',
+  },
+  {
+    text: 'Wiadomości',
+    slug: 'chat',
+    url: 'chat',
+    icon: 'chatbubbles-outline',
+  },
+  {
+    text: 'Wyloguj się',
+    slug: 'log-out',
+    icon: 'log-out-outline',
+  },
+];
 
 export const MENU: INavigationMenuElement[] = [
   {

@@ -18,3 +18,7 @@ export interface INavigationMenuElement {
   url?: string;
   submenu?: INavigationSubmenuColumn[];
 }
+
+export interface INavigationLoggedInMenuElement extends INavigationMenuElement {
+  icon: string;
+}

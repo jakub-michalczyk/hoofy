@@ -30,17 +30,15 @@
 
 <ion-popover trigger="account-options" triggerAction="click" class="!p-6">
   <ng-template>
-    <a routerLink="/account" class="p-2 body-2 text-center flex items-center gap-4 justify-center">
-      <ion-icon name="person-outline" class="text-2xl"></ion-icon>
-      Moje konto
-    </a>
-    <a routerLink="/chat" class="p-2 body-2 text-center flex items-center gap-4 justify-center">
-      <ion-icon name="chatbubbles-outline" class="text-2xl"></ion-icon>
-      Wiadomości
-    </a>
-    <button class="body-2 !p-2 flex items-center gap-4 justify-center" (click)="auth.logout()">
-      <ion-icon name="log-out-outline" class="text-2xl"></ion-icon>
-      Wyloguj się
-    </button>
+    @for (menuElem of LOGGED_IN_MENU; track $index) {
+      <a
+        [routerLink]="menuElem.url"
+        class="p-2 body-2 text-center flex items-center gap-4 justify-center"
+        (click)="menuElem.slug === 'log-out' ? auth.logout() : null"
+      >
+        <ion-icon [name]="menuElem.icon" class="text-2xl"></ion-icon>
+        {{ menuElem.text }}
+      </a>
+    }
   </ng-template>
 </ion-popover>
