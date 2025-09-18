@@ -1,5 +1,8 @@
 <nav class="lg:bg-white rounded-full lg:py-4 lg:px-12" [ngClass]="{ 'lg:shadow-2xl': !contrast }">
-  <ul class="flex-col lg:flex-row flex justify-between lg:items-center lg:gap-8">
+  <ul
+    class="flex-col lg:flex-row flex justify-between lg:items-center"
+    [ngClass]="contrast ? 'lg:gap-16' : 'lg:gap-8'"
+  >
     @for (link of navigation.links(); track $index) {
       <a
         class="!text-black border-b border-stone-200 py-4 lg:py-0 px-6 lg:px-0 lg:border-0 hidden lg:block"
@@ -8,20 +11,36 @@
         (mouseenter)="navigation.build($index)"
         (focus)="navigation.build($index)"
       >
-        <li class="body-2 group lg:text-center">
-          <span class="group-hover:font-bold inline-block w-26">
+        <li class="body-2 group lg:text-center flex gap-4 items-center">
+          <span class="group-hover:font-bold inline-block" [ngClass]="{ 'w-26': !contrast }">
             {{ link.text }}
           </span>
+          @if (link.submenu && contrast) {
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          }
         </li>
       </a>
 
-      <hoof-accordion
-        [title]="link.text"
-        class="block lg:hidden"
-        (click)="navigation.build($index)"
-      >
-        <hoof-sub-menu></hoof-sub-menu>
-      </hoof-accordion>
+      @if (link.submenu) {
+        <hoof-accordion
+          [title]="link.text"
+          class="block lg:hidden"
+          (click)="navigation.build($index)"
+        >
+          <hoof-sub-menu></hoof-sub-menu>
+        </hoof-accordion>
+      } @else {
+        <a [routerLink]="link.url">
+          <li
+            class="block lg:hidden body-2 p-4"
+            [ngClass]="{ ' border-b border-stone-200': !!auth.currentUser }"
+          >
+            <span>
+              {{ link.text }}
+            </span>
+          </li>
+        </a>
+      }
 
       @if (!$last && !contrast) {
         <div class="hidden lg:block bg-orange-450 rounded-full w-1.5 h-1.5"></div>

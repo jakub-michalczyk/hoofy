@@ -1,5 +1,7 @@
 <div class="min-h-screen pb-24">
-  <hoof-hero [mode]="!mapContainer ? 'listing' : 'map'"></hoof-hero>
+  <div class="m-2">
+    <hoof-hero [mode]="!mapContainer ? 'listing' : 'map'"></hoof-hero>
+  </div>
 
   <div class="mt-12 px-0" [ngClass]="{ 'xl:px-48': !mapContainer }">
     <div

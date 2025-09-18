@@ -1,8 +1,21 @@
 <div
-  class="overflow-y-auto block transition-transform -translate-x-full w-3/4 md:w-1/2 h-screen bg-white shadow-md fixed top-0 left-0 z-10 p-6"
+  class="overflow-y-auto block transition-transform -translate-x-full w-3/4 md:w-1/2 h-screen bg-white shadow-md fixed top-0 left-0 z-40 p-6 pt-20"
   [ngClass]="{ '!translate-x-0': navigation.sideMenuOpened() }"
 >
-  <hoof-logo></hoof-logo>
   <hoof-navigation class="mt-6 block"></hoof-navigation>
-  <hoof-auth-actions class="block mt-12"></hoof-auth-actions>
+
+  @if (!!auth.currentUser()) {
+    @for (menuElem of LOGGED_IN_MENU; track $index) {
+      <a
+        [routerLink]="menuElem.url"
+        class="p-4 body-2 block"
+        [ngClass]="{ 'border-b border-stone-200': !$last }"
+        (click)="menuElem.slug === 'log-out' ? auth.logout() : null"
+      >
+        {{ menuElem.text }}
+      </a>
+    }
+  } @else {
+    <hoof-auth-actions class="block mt-12"></hoof-auth-actions>
+  }
 </div>
