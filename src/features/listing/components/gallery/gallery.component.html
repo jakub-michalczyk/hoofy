@@ -1,0 +1,98 @@
+<div class="transition-all">
+  <div class="relative">
+    <button
+      class="cursor-pointer absolute top-1/2 left-2 text-xl md:text-2xl text-white bg-orange-450 !rounded-full !p-2 z-10 flex hover:bg-orange-400 _button-prev"
+      [ngClass]="{
+        'opacity-35 hover:bg-orange-450': activeIndex() === 0,
+      }"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </button>
+
+    <button
+      class="cursor-pointer absolute top-1/2 right-2 text-xl md:text-2xl text-white bg-orange-450 !rounded-full !p-2 z-10 flex hover:bg-orange-400 _button-next"
+      [ngClass]="{
+        'opacity-35 hover:bg-orange-450': activeIndex() === images.length - 1,
+      }"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </button>
+
+    <button
+      (click)="toggleLightbox()"
+      class="body-4 md:body-3 flex gap-2 !rounded-full items-center !py-2 !px-4 border absolute top-4 left-4 z-10 bg-white hover:bg-gray-200 transition-colors"
+    >
+      <ion-icon name="expand-outline"></ion-icon>
+      Pełny ekran
+    </button>
+
+    <swiper-container #swiper slides-per-view="1" init="false" class="h-full">
+      @for (image of images; track $index) {
+        <swiper-slide class="h-full">
+          <img [src]="image" alt="Zdjęcie" class="object-cover rounded shadow w-full" />
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+
+  <swiper-container #swiperThumbs slides-per-view="5" init="false" class="mt-4 h-full">
+    @for (image of images; track $index) {
+      <swiper-slide
+        class="h-full cursor-pointer"
+        [ngClass]="{
+          'opacity-50': activeIndex() !== $index,
+          'opacity-100': activeIndex() === $index,
+        }"
+      >
+        <img [src]="image" alt="Zdjęcie" class="object-cover rounded-sm shadow w-full" />
+      </swiper-slide>
+    }
+  </swiper-container>
+</div>
+
+<div
+  class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-8"
+  [class.opacity-0]="!lightBoxActive()"
+  [class.pointer-events-none]="!lightBoxActive()"
+  role="button"
+  tabindex="0"
+  aria-label="Zamknij podgląd"
+  (click)="closeLightboxOnBackdrop()"
+  (keydown.enter)="closeLightboxOnBackdrop()"
+  (keydown.space)="closeLightboxOnBackdrop()"
+>
+  <div
+    class="relative w-4/5 h-11/12"
+    role="button"
+    tabindex="0"
+    (click)="$event.stopPropagation()"
+    (keydown.enter)="$event.stopPropagation()"
+    (keydown.space)="$event.stopPropagation()"
+  >
+    <button
+      class="absolute top-1/2 -left-24 text-3xl text-white bg-orange-450 !rounded-full !p-2 _button-prev-lightbox flex z-10"
+      [ngClass]="{
+        'opacity-35 hover:bg-orange-450': activeIndex() === 0,
+      }"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </button>
+
+    <button
+      class="absolute top-1/2 -right-24 text-3xl text-white bg-orange-450 !rounded-full !p-2 _button-next-lightbox flex z-10"
+      [ngClass]="{
+        'opacity-35 hover:bg-orange-450': activeIndex() === images.length - 1,
+      }"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </button>
+
+    <swiper-container #swiperLightbox slides-per-view="1" init="false" class="w-full h-full">
+      @for (img of images; track $index) {
+        <swiper-slide class="h-full shadow-2xl">
+          <img [src]="img" class="w-full h-full object-cover rounded" alt="Slide Image" />
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+</div>

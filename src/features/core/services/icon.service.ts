@@ -38,6 +38,7 @@ import {
   addCircleOutline,
   calendarClearOutline,
   locateOutline,
+  expandOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -87,6 +88,7 @@ export class IconService {
       'add-circle-outline': addCircleOutline,
       'calendar-clear-outline': calendarClearOutline,
       'locate-outline': locateOutline,
+      'expand-outline': expandOutline,
     });
   }
 }

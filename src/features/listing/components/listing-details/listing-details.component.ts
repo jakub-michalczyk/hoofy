@@ -14,6 +14,7 @@ import { IUserData } from '../../../login/models/auth.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ECategoryName } from '../../../core/model/category.model';
 import { FeaturedListingsComponent } from '../../../homepage/components/featured-listings/featured-listings.component';
+import { GalleryComponent } from '../gallery/gallery.component';
 
 @Component({
   selector: 'hoof-listing-details',
@@ -27,6 +28,7 @@ import { FeaturedListingsComponent } from '../../../homepage/components/featured
     MapComponent,
     CarouselComponent,
     FeaturedListingsComponent,
+    GalleryComponent,
   ],
   templateUrl: './listing-details.component.html',
 })
