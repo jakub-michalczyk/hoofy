@@ -11,6 +11,7 @@ export interface IListingState {
 
   featured: IListingItem[];
   latest: IListingItem[];
+  similar: IListingItem[];
 
   searchResults: IListingItem[];
   isSearching: boolean;

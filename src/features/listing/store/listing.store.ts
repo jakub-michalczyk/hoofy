@@ -19,6 +19,7 @@ import { EHorseBreed, EHorseCoat, EHorseGender } from '../model/filters.model';
 import { IListingState } from '../model/listing.model';
 import { listingConverter } from '../utils/listing-converter';
 import { FiltersStore } from './filters.store';
+import { ECategoryName } from '../../core/model/category.model';
 
 export const LISTING_STATE: IListingState = {
   searchTerm: '',
@@ -28,6 +29,7 @@ export const LISTING_STATE: IListingState = {
   subCategory: null,
   featured: [],
   latest: [],
+  similar: [],
   searchResults: [],
   isSearching: false,
   gridMode: EGridMode.LIST,
@@ -84,6 +86,15 @@ export const ListingStore = signalStore(
         .subscribe(latest => patchState(store, { latest }));
     }
 
+    function loadSimilar(category: ECategoryName) {
+      const coll = collection(firestore, 'listings').withConverter(listingConverter);
+      const q = query(coll, where('category', '==', category), limit(20));
+
+      collectionData(q, { idField: 'id' })
+        .pipe()
+        .subscribe(similar => patchState(store, { similar }));
+    }
+
     function setGridMode(gridMode: EGridMode) {
       patchState(store, { gridMode });
     }
@@ -115,12 +126,29 @@ export const ListingStore = signalStore(
       patchState(store, { totalCount: n });
     }
 
-    async function loadInViewport(bounds: {
-      latMin: number;
-      lngMin: number;
-      latMax: number;
-      lngMax: number;
-    }): Promise<IListingItem[]> {
+    async function loadInViewport(
+      bounds: {
+        latMin: number;
+        lngMin: number;
+        latMax: number;
+        lngMax: number;
+      },
+      listingId?: string
+    ): Promise<IListingItem[]> {
+      if (listingId) {
+        const docRef = doc(firestore, 'listings', listingId).withConverter(listingConverter);
+
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const item = docSnap.data();
+          patchState(store, { visible: [item] });
+          return [item];
+        } else {
+          patchState(store, { visible: [] });
+          return [];
+        }
+      }
+
       const category = store.category();
       const subCategory = store.subCategory();
       const priceFrom = store.priceFrom();
@@ -284,6 +312,7 @@ export const ListingStore = signalStore(
 
       loadFeatured,
       loadLatest,
+      loadSimilar,
 
       setGridMode,
       setSorting,

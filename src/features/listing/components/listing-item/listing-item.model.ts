@@ -20,7 +20,7 @@ export interface IListingItem {
   city: string;
   date: string;
   type: string;
-  userName: string;
+  userId: string;
   lng: number;
   lat: number;
   details?:

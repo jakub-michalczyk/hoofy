@@ -1,53 +1,100 @@
 @if (listing$ | async; as listing) {
-  <div
-    class="mt-32 lg:mt-42 xl:px-24 flex-col md:flex-row flex justify-center w-full h-full gap-8 pb-12 md:pb-24 items-stretch"
-  >
-    <div class="flex justify-between w-full md:w-1/2 h-full">
-      <div class="flex flex-col">
-        <div>
-          <img [src]="listing.images[0]" alt="Zdjęcie" class="object-cover rounded-2xl shadow" />
-        </div>
-        <div class="grid grid-cols-4 gap-4 mt-4 w-full">
-          @for (img of listing.images.slice(1); track $index) {
-            <img [src]="img" alt="Zdjęcie" class="flex-1 fobject-cover rounded shadow" />
-          }
-        </div>
-        <div class="mt-8">
-          <div class="flex gap-4 flex-wrap justify-between items-center">
-            <h1 class="h4 lg:h3">{{ listing.title }}</h1>
-            <div>
-              <div class="flex gap-2 justify-end">
+  @if (user$ | async; as user) {
+    <div
+      class="mt-32 px-6 lg:mt-42 xl:px-24 flex-col md:flex-row flex justify-center w-full h-full gap-8 pb-12 md:pb-24"
+    >
+      <div class="flex flex-col justify-between w-full md:w-1/2 min-h-screen">
+        <div class="flex flex-col">
+          <hoof-gallery [images]="listing.images"></hoof-gallery>
+          <div class="mt-8">
+            <div class="flex gap-4 justify-between">
+              <div>
+                <h1 class="h4 lg:h3">{{ listing.title }}</h1>
                 <button
-                  class="text-xl flex !rounded-full hover:bg-stone-100 transition-colors !p-1"
-                  (click)="share()"
+                  class="body-4-light !border !rounded-2xl !border-stone-200 hover:bg-stone-100 !px-3 !py-1 flex items-center gap-2 min-w-24 text-center justify-center mt-2"
                 >
-                  <ion-icon name="share-outline"></ion-icon>
+                  <ion-icon name="person-outline"></ion-icon>
+                  {{ user.name }}
                 </button>
+              </div>
 
-                <hoof-add-to-favourites [contrast]="true"></hoof-add-to-favourites>
+              <div>
+                <div class="flex gap-2 justify-end">
+                  <a
+                    target="_blank"
+                    [href]="
+                      'https://www.google.com/maps/dir/?api=1&destination=' +
+                      listing.lat +
+                      ',' +
+                      listing.lng
+                    "
+                  >
+                    <button
+                      class="text-xl !rounded-full hover:bg-stone-100 transition-colors !p-1 flex items-center"
+                    >
+                      <ion-icon name="locate-outline"></ion-icon>
+                    </button>
+                  </a>
+
+                  <button
+                    class="text-xl flex !rounded-full hover:bg-stone-100 transition-colors !p-1 items-center"
+                    (click)="share()"
+                  >
+                    <ion-icon name="share-outline"></ion-icon>
+                  </button>
+
+                  <hoof-add-to-favourites [contrast]="true"></hoof-add-to-favourites>
+                </div>
+
+                <div class="mt-2">
+                  <div
+                    class="rounded-full bg-orange-450 text-white px-2 py-1 body-4 flex gap-2 items-center justify-center"
+                  >
+                    <ion-icon name="location-outline"></ion-icon>
+                    {{ listing.city }}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <button
-            class="body-4-light !border !border-stone-200 hover:bg-stone-100 !rounded-full !px-3 !py-1 flex items-center gap-2 max-w-24 text-center justify-center mt-2"
-          >
-            <ion-icon name="person-outline"></ion-icon>
-            {{ listing.userName }}
-          </button>
-          <div class="mt-6 items-stretch">
-            <hoof-listing-details-tags [data]="listing"></hoof-listing-details-tags>
-            <p class="mt-6 body-3 md:body-2 text-gray-500">
-              {{ listing.description }}
-            </p>
-            <div class="mt-12 flex gap-2">
-              <ion-button fill="solid">Napisz wiadomość</ion-button>
-              <ion-button fill="outline">Zarezerwuj</ion-button>
+            <div class="mt-6 flex flex-col justify-between flex-1 min-h-0">
+              <div>
+                <hoof-listing-details-tags [data]="listing"></hoof-listing-details-tags>
+                <p class="mt-6 body-3 md:body-2 text-gray-500">
+                  {{ listing.description }}
+                </p>
+              </div>
+
+              <div class="mt-12 flex gap-2">
+                <ion-button fill="solid">Napisz wiadomość</ion-button>
+                <ion-button fill="outline">Zarezerwuj</ion-button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="w-full md:w-1/2 bg-stone-200 h-96 md:h-screen rounded-2xl relative">
+        <hoof-map
+          class="h-full w-full block"
+          [data]="{ cords: [listing.lng, listing.lat], listingId: listing.id }"
+        ></hoof-map>
+      </div>
     </div>
-    <!-- TODO MAP -->
-    <div class="w-full md:w-1/2 bg-stone-200 h-screen rounded-2xl"></div>
-  </div>
+  }
 }
+
+<section class="px-6 xl:px-24">
+  @if (userListings().length > 0) {
+    <hoof-featured-listings
+      class="mb-12 block"
+      title="Inne ogłoszenia użytkownika"
+      [listings]="userListings"
+    ></hoof-featured-listings>
+  }
+
+  <section>
+    <hoof-carousel
+      carouselTitle="Ogłoszenia z tej samej kategorii"
+      [slides]="listingStore.similar"
+    ></hoof-carousel>
+  </section>
+</section>

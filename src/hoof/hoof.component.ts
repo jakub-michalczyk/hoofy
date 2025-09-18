@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -7,8 +7,9 @@ import { OffCanvasComponent } from '../features/core/components/off-canvas/off-c
 import { TopBarComponent } from '../features/core/components/top-bar/top-bar.component';
 import { NavigationService } from '../features/core/services/navigation.service';
 import { FooterComponent } from '../features/core/components/footer/footer.component';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { IconService } from '../features/core/services/icon.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'hoof-root',
@@ -25,6 +26,8 @@ import { IconService } from '../features/core/services/icon.service';
   templateUrl: './hoof.component.html',
 })
 export class AppComponent {
+  @ViewChild(IonContent, { static: false }) ionContent?: IonContent;
+  router = inject(Router);
   iconService = inject(IconService);
   navigation = inject(NavigationService);
   breakpointObserver = inject(BreakpointObserver);
@@ -34,6 +37,13 @@ export class AppComponent {
   constructor() {
     this.iconService.registerIcons();
     this.initResizeObserver();
+
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .pipe(takeUntilDestroyed(this.destroyerRef))
+      .subscribe(() => {
+        this.ionContent?.scrollToTop(500);
+      });
   }
 
   initResizeObserver() {

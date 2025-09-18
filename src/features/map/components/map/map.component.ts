@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, effect, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  effect,
+  ElementRef,
+  inject,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { PopoverController } from '@ionic/angular/standalone';
 import Map from 'ol/Map';
 import View from 'ol/View';
@@ -15,6 +23,7 @@ import { ListingStore } from '../../../listing/store/listing.store';
 import { IListingItem } from '../../../listing/components/listing-item/listing-item.model';
 import { ListingMapInfoComponent } from '../../../homepage/components/listing-map-info/listing-map-info.component';
 import { FiltersStore } from '../../../listing/store/filters.store';
+import { IMapData } from './map.model';
 
 @Component({
   selector: 'hoof-map',
@@ -24,6 +33,8 @@ import { FiltersStore } from '../../../listing/store/filters.store';
 export class MapComponent implements AfterViewInit {
   @ViewChild('mapContainer', { static: true })
   private mapContainer!: ElementRef<HTMLDivElement>;
+  @Input() data: IMapData = { cords: [19.05, 50.2649] };
+
   private popoverCtrl = inject(PopoverController);
   private map!: Map;
   private vectorSource = new VectorSource();
@@ -37,7 +48,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initMap() {
-    const center = fromLonLat([19.05, 50.2649]);
+    const center = fromLonLat(this.data.cords);
     this.map = new Map({
       target: this.mapContainer.nativeElement,
       layers: [
@@ -53,29 +64,33 @@ export class MapComponent implements AfterViewInit {
     this.map.on('moveend', () => this.loadInViewport());
 
     this.map.on('pointermove', evt => {
-      const hit = this.map.hasFeatureAtPixel(evt.pixel);
-      const mapEl = this.map.getTargetElement();
-      mapEl.classList.toggle('cursor-pointer', hit);
-      mapEl.classList.toggle('cursor-auto', !hit);
+      if (!this.data.listingId) {
+        const hit = this.map.hasFeatureAtPixel(evt.pixel);
+        const mapEl = this.map.getTargetElement();
+        mapEl.classList.toggle('cursor-pointer', hit);
+        mapEl.classList.toggle('cursor-auto', !hit);
+      }
     });
 
     this.map.on('singleclick', async evt => {
-      const features = this.map.getFeaturesAtPixel(evt.pixel);
+      if (!this.data.listingId) {
+        const features = this.map.getFeaturesAtPixel(evt.pixel);
 
-      if (!features?.length) return;
-      const feature = features[0];
-      const listing = feature.get('listing') as IListingItem;
-      if (!listing) return;
-      const pop = await this.popoverCtrl.create({
-        component: ListingMapInfoComponent,
-        componentProps: { listing },
-        event: evt.originalEvent,
-        translucent: true,
-        reference: 'event',
-        alignment: 'center',
-        size: 'auto',
-      });
-      await pop.present();
+        if (!features?.length) return;
+        const feature = features[0];
+        const listing = feature.get('listing') as IListingItem;
+        if (!listing) return;
+        const pop = await this.popoverCtrl.create({
+          component: ListingMapInfoComponent,
+          componentProps: { listing },
+          event: evt.originalEvent,
+          translucent: true,
+          reference: 'event',
+          alignment: 'center',
+          size: 'auto',
+        });
+        await pop.present();
+      }
     });
   }
 
@@ -99,12 +114,15 @@ export class MapComponent implements AfterViewInit {
     const sw = toLonLat([minX, minY]);
     const ne = toLonLat([maxX, maxY]);
 
-    const listings = await this.store.loadInViewport({
-      latMin: sw[1],
-      lngMin: sw[0],
-      latMax: ne[1],
-      lngMax: ne[0],
-    });
+    const listings = await this.store.loadInViewport(
+      {
+        latMin: sw[1],
+        lngMin: sw[0],
+        latMax: ne[1],
+        lngMax: ne[0],
+      },
+      this.data.listingId
+    );
 
     const features = listings.map(item => {
       const feat = new Feature({
