@@ -5,25 +5,52 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  User,
 } from '@angular/fire/auth';
 import { Database } from '@angular/fire/database';
 import { signInWithPopup } from 'firebase/auth';
-import { ref, set } from 'firebase/database';
+import { ref, set, get } from 'firebase/database';
 import { from, switchMap } from 'rxjs';
+import { IUserData } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
   private db = inject(Database);
-  currentUser = signal<User | null>(null);
+  user = signal<IUserData | null>(null);
   initialized = signal(false);
 
   constructor() {
     this.auth.onAuthStateChanged(user => {
-      this.currentUser.set(user);
-      this.initialized.set(true);
+      if (user) {
+        this.createUser(user?.uid);
+        this.initialized.set(true);
+      }
     });
+  }
+
+  async refreshUser(uid: string) {
+    const snap = await get(ref(this.db, `users/${uid}`));
+    this.user.set(snap.exists() ? ({ uid, ...snap.val() } as IUserData) : null);
+  }
+
+  async createUser(uid: string) {
+    const userRef = ref(this.db, `users/${uid}`);
+
+    const snap = await get(userRef);
+    if (snap.exists()) {
+      const existing = snap.val() as IUserData;
+
+      const appUser: IUserData = {
+        uid: existing.uid,
+        displayName: existing.displayName,
+        email: existing.email,
+        profileImg: existing.profileImg,
+        phoneNumber: existing.phoneNumber,
+        listings: [],
+      };
+
+      this.user.set(appUser);
+    }
   }
 
   register(name: string, email: string, password: string) {

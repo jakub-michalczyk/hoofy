@@ -33,7 +33,7 @@
         <a [routerLink]="link.url">
           <li
             class="block lg:hidden body-2 p-4"
-            [ngClass]="{ ' border-b border-stone-200': !!auth.currentUser }"
+            [ngClass]="{ ' border-b border-stone-200': !!auth.user() }"
           >
             <span>
               {{ link.text }}

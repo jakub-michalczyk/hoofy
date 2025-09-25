@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../../login/services/auth.service';
 import { IonIcon, IonPopover } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
@@ -11,7 +11,25 @@ import { LOGGED_IN_MENU } from '../../../core/components/navigation/navigation.d
   templateUrl: './profile-picture.component.html',
 })
 export class ProfilePictureComponent {
-  @Input() isAccountView = false;
-  auth = inject(AuthService);
+  private auth = inject(AuthService);
+  readonly defaultAvatar = '/assets/images/default_avatar.png';
   LOGGED_IN_MENU = LOGGED_IN_MENU;
+
+  readonly photoUrl = computed(() => {
+    const user = this.auth.user();
+    return user?.profileImg ?? this.defaultAvatar;
+  });
+
+  isAccountView = false;
+
+  logout() {
+    this.auth.logout();
+  }
+
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    if (img && img.src !== this.defaultAvatar) {
+      img.src = this.defaultAvatar;
+    }
+  }
 }

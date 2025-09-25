@@ -21,7 +21,7 @@
     </div>
 
     <!-- ACTIONS -->
-    @if (!!auth.currentUser()) {
+    @if (!!auth.user()) {
       <div
         class="gap-8 items-center justify-end hidden lg:flex"
         [ngClass]="!contrast ? 'w-1/4' : 'w-full'"

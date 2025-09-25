@@ -1,13 +1,17 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
-import { AuthService } from '../../services/auth.service';
-import { AccountBannerComponent } from '../account-banner/account-banner.component';
+import { IonButton, IonIcon } from '@ionic/angular/standalone';
+import { AccountViewDataComponent } from '../account-view-data/account-view-data.component';
 
 @Component({
   selector: 'hoof-account-view',
-  imports: [ProfilePictureComponent, AccountBannerComponent],
+  imports: [
+    ProfilePictureComponent,
+    IonButton,
+    IonIcon,
+    ProfilePictureComponent,
+    AccountViewDataComponent,
+  ],
   templateUrl: './account-view.component.html',
 })
-export class AccountViewComponent {
-  auth = inject(AuthService);
-}
+export class AccountViewComponent {}

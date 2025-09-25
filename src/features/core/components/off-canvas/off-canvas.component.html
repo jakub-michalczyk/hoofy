@@ -4,7 +4,7 @@
 >
   <hoof-navigation class="mt-6 block"></hoof-navigation>
 
-  @if (!!auth.currentUser()) {
+  @if (!!auth.user()) {
     @for (menuElem of LOGGED_IN_MENU; track $index) {
       <a
         [routerLink]="menuElem.url"

@@ -35,7 +35,7 @@ export class ChatStore {
   constructor() {
     effect(() => {
       const init = this.auth.initialized();
-      const me = this.auth.currentUser();
+      const me = this.auth.user();
       if (init && me && !this.contactsLoaded) {
         this.contactsLoaded = true;
         this.loadContactsFromConversations();
@@ -44,7 +44,7 @@ export class ChatStore {
   }
 
   private loadContactsFromConversations(): void {
-    const meUid = this.auth.currentUser()!.uid;
+    const meUid = this.auth.user()!.uid;
     const ucRef = ref(this.db, `user-conversations/${meUid}`);
 
     onValue(ucRef, snap => {
@@ -70,7 +70,7 @@ export class ChatStore {
   }
 
   private fetchLastMessage(otherUid: string): void {
-    const meUid = this.auth.currentUser()?.uid;
+    const meUid = this.auth.user()?.uid;
     if (!meUid) return;
 
     const convId = [meUid, otherUid].sort().join('_');
@@ -99,7 +99,7 @@ export class ChatStore {
   }
 
   private subscribeMessages(otherUid: string): void {
-    const meUid = this.auth.currentUser()?.uid;
+    const meUid = this.auth.user()?.uid;
     if (!meUid) return;
 
     const convId = [meUid, otherUid].sort().join('_');
@@ -113,7 +113,7 @@ export class ChatStore {
   }
 
   async sendMessage(): Promise<void> {
-    const meUid = this.auth.currentUser()?.uid;
+    const meUid = this.auth.user()?.uid;
     const otherUid = this.activeUser()?.uid;
     const text = this.newMessage().trim();
     if (!meUid || !otherUid || !text) return;

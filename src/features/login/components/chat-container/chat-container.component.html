@@ -1,4 +1,3 @@
-<hoof-account-banner></hoof-account-banner>
 <div class="h-screen box-border pt-6">
   <div class="relative z-10 w-full flex flex-col md:flex-row gap-6 h-full">
     <div class="md:h-full w-full md:w-1/4 lg:w-1/5 rounded-2xl p-4 bg-stone-100">
@@ -77,9 +76,8 @@
             <div
               class="max-w-2/5 lg:max-w-3/5 mb-2 rounded body-3"
               [ngClass]="{
-                'self-end bg-orange-450 text-white':
-                  msg.senderId === authService.currentUser()?.uid,
-                'self-start bg-gray-100': msg.senderId !== authService.currentUser()?.uid,
+                'self-end bg-orange-450 text-white': msg.senderId === authService.user()?.uid,
+                'self-start bg-gray-100': msg.senderId !== authService.user()?.uid,
               }"
             >
               <div class="px-4 py-2 rounded-lg">
