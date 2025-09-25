@@ -46,7 +46,7 @@ export class AuthService {
         email: existing.email,
         profileImg: existing.profileImg,
         phoneNumber: existing.phoneNumber,
-        listings: [],
+        listings: existing.listings,
       };
 
       this.user.set(appUser);
