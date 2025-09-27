@@ -10,10 +10,11 @@ import {
 } from '../../../listing/components/listing-item/listing-item.model';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { ListingItemComponent } from '../../../listing/components/listing-item/listing-item.component';
+import { IonButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'hoof-account-view-listings',
-  imports: [AccountViewCardComponent, AsyncPipe, CommonModule, ListingItemComponent],
+  imports: [AccountViewCardComponent, AsyncPipe, CommonModule, ListingItemComponent, IonButton],
   templateUrl: './account-view-listings.component.html',
 })
 export class AccountViewListingsComponent {

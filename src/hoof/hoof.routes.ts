@@ -7,7 +7,6 @@ import { AccountViewComponent } from '../features/login/components/account-view/
 import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
 import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
 import { MapContainerComponent } from '../features/map/components/map-container/map-container.component';
-import { AuthGuard } from '../features/core/guard/auth.guard';
 
 export const routes: Routes = [
   {
@@ -45,12 +44,12 @@ export const routes: Routes = [
   {
     path: 'account',
     component: AccountViewComponent,
-    canActivate: [AuthGuard],
+    canActivate: [],
   },
   {
     path: 'chat',
     component: ChatContainerComponent,
-    canActivate: [AuthGuard],
+    canActivate: [],
   },
   {
     path: '**',

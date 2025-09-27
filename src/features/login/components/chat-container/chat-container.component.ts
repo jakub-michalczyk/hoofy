@@ -12,10 +12,11 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { SwiperContainer } from 'swiper/element';
+import { UserChatButtonComponent } from '../user-chat-button/user-chat-button.component';
 
 @Component({
   selector: 'hoof-chat-container',
-  imports: [FormsModule, CommonModule, IonButton],
+  imports: [FormsModule, CommonModule, IonButton, UserChatButtonComponent],
   templateUrl: './chat-container.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

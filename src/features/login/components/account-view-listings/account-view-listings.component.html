@@ -1,17 +1,16 @@
 <hoof-account-view-card title="Twoje ogłoszenia" class="relative block">
-  <div class="mt-12">
-    @if (listings$ | async; as listings) {
-      @if (listingsLength()) {
-        <hoof-listing-item [data]="listings[0]" [view]="EListingView.SIMPLE"></hoof-listing-item>
-      } @else {
-        <div class="body-2 text-gray-600">Brak ogłoszeń</div>
+  <div class="mt-10">
+    <div>
+      @if (listings$ | async; as listings) {
+        @if (listingsLength()) {
+          <hoof-listing-item [data]="listings[0]" [view]="EListingView.SIMPLE"></hoof-listing-item>
+        } @else {
+          <div class="body-2 text-gray-600">Brak ogłoszeń</div>
+        }
       }
-    }
-  </div>
-  <div class="mt-4">
-    <a routerLink="/all-listings" class="body-2 cursor-pointer">
-      <span class="underline">Sprawdź swoje ogłoszenia</span>
-      <span class="body-3 text-gray-600 pl-1">({{ listingsLength() }})</span>
-    </a>
+    </div>
+    <div class="text-right mt-4">
+      <ion-button fill="solid" routerLink="all-listings">Wszystkie ogłoszenia</ion-button>
+    </div>
   </div>
 </hoof-account-view-card>

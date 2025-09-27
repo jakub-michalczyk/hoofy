@@ -3,6 +3,7 @@ import { ProfilePictureComponent } from '../../../shared/components/profile-pict
 import { IonButton, IonIcon } from '@ionic/angular/standalone';
 import { AccountViewDataComponent } from '../account-view-data/account-view-data.component';
 import { AccountViewListingsComponent } from '../account-view-listings/account-view-listings.component';
+import { AccountViewChatComponent } from '../account-view-chat/account-view-chat.component';
 
 @Component({
   selector: 'hoof-account-view',
@@ -13,6 +14,7 @@ import { AccountViewListingsComponent } from '../account-view-listings/account-v
     ProfilePictureComponent,
     AccountViewDataComponent,
     AccountViewListingsComponent,
+    AccountViewChatComponent,
   ],
   templateUrl: './account-view.component.html',
 })

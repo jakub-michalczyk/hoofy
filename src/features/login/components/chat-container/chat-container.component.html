@@ -16,24 +16,7 @@
       <div class="md:mt-12">
         <div class="hidden md:block">
           @for (user of store.filteredContacts(); track $index) {
-            <button
-              class="flex gap-4 items-center flex-wrap justify-start text-left my-6 !p-2 hover:bg-stone-200 rounded cursor-pointer w-full overflow-hidden"
-              (click)="store.selectUser(user)"
-            >
-              <img
-                [src]="user.profileImg"
-                class="rounded-full w-12 h-12 object-cover"
-                alt="Profile Image"
-              />
-              <div>
-                <div class="body-2">{{ user.name }}</div>
-                <div class="body-3-light w-full hidden lg:block">
-                  {{
-                    store.lastMessages()[user.uid].text.slice(0, 20) + '...' || 'Brak wiadomości.'
-                  }}
-                </div>
-              </div>
-            </button>
+            <hoof-user-chat-button [user]="user"></hoof-user-chat-button>
           }
         </div>
         <div class="block md:hidden h-24">

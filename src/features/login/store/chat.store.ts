@@ -46,13 +46,11 @@ export class ChatStore {
   private loadContactsFromConversations(): void {
     const meUid = this.auth.user()!.uid;
     const ucRef = ref(this.db, `user-conversations/${meUid}`);
-
     onValue(ucRef, snap => {
       const convs = snap.val() as Record<string, boolean> | null;
       const partnerUids = convs ? Object.keys(convs) : [];
 
       this.contacts.set([]);
-
       partnerUids.forEach(uid => {
         const userRef = ref(this.db, `users/${uid}`);
         onValue(
@@ -69,7 +67,7 @@ export class ChatStore {
     });
   }
 
-  private fetchLastMessage(otherUid: string): void {
+  fetchLastMessage(otherUid: string): void {
     const meUid = this.auth.user()?.uid;
     if (!meUid) return;
 
