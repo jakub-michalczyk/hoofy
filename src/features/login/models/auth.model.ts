@@ -3,8 +3,10 @@ export enum ELoginMethoded {
 }
 
 export interface IUserData {
-  name: string;
-  phone: string;
+  uid: string;
+  email: string;
+  displayName: string;
+  phoneNumber: string;
   profileImg: string;
   listings: string[];
 }

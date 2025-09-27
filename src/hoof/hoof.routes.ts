@@ -3,7 +3,6 @@ import { HomepageComponent } from '../features/homepage/components/homepage/home
 import { LoginComponent } from '../features/login/components/login/login.component';
 import { RegisterComponent } from '../features/login/components/register/register.component';
 import { ListingComponent } from '../features/listing/components/listing/listing.component';
-import { authGuard } from '../features/core/guard/auth.guard';
 import { AccountViewComponent } from '../features/login/components/account-view/account-view.component';
 import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
 import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
@@ -35,22 +34,22 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [authGuard],
+    canActivate: [],
   },
   {
     path: 'register',
     component: RegisterComponent,
-    canActivate: [authGuard],
+    canActivate: [],
   },
   {
     path: 'account',
     component: AccountViewComponent,
-    canActivate: [authGuard],
+    canActivate: [],
   },
   {
     path: 'chat',
     component: ChatContainerComponent,
-    canActivate: [authGuard],
+    canActivate: [],
   },
   {
     path: '**',

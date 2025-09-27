@@ -1,25 +1,11 @@
-<div class="h-screen flex flex-col gap-6">
-  <!-- BANNER -->
-  <hoof-account-banner [isEditMode]="true"></hoof-account-banner>
-
-  <!-- ACCOUNT -->
-  <div class="flex gap-6 h-full">
-    <div class="border border-stone-200 rounded-2xl h-full bg-red w-full p-12 flex">
-      <hoof-profile-picture [isAccountView]="true" class="mr-16"></hoof-profile-picture>
-      <div class="grid grid-cols-4 body-2">
-        <div>
-          <div class="h3">Imię</div>
-          <div class="mt-2">
-            {{ auth.currentUser()?.displayName }}
-          </div>
-        </div>
-        <div>
-          <div class="h3">E-mail</div>
-          <div class="mt-2">
-            {{ auth.currentUser()?.email }}
-          </div>
-        </div>
-      </div>
+<div class="h-screen flex justify-center w-full mt-24 py-24 px-6">
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 max-w-6xl w-full">
+    <div class="flex flex-col gap-4">
+      <hoof-account-view-data></hoof-account-view-data>
+      <hoof-account-view-chat></hoof-account-view-chat>
+    </div>
+    <div>
+      <hoof-account-view-listings></hoof-account-view-listings>
     </div>
   </div>
 </div>

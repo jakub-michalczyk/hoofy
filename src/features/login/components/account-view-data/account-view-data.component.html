@@ -1,0 +1,54 @@
+<hoof-account-view-card title="Twoje dane" class="relative block">
+  <hoof-profile-picture class="absolute top-0 right-0 p-6"></hoof-profile-picture>
+  <div class="mt-6">
+    <div>
+      <div class="body-2 pl-4 pt-4">
+        @for (elem of data; track $index) {
+          <div class="flex items-center mb-4">
+            <div class="w-42 flex items-center gap-4">
+              <ion-icon class="text-2xl" [name]="elem.icon"></ion-icon>
+              {{ elem.title }}:
+            </div>
+
+            @if (!editMode()) {
+              <div class="body-2-light text-gray-600">
+                {{ auth.user()?.[elem.key] }}
+              </div>
+            } @else {
+              <input
+                type="text"
+                class="_input !pl-4"
+                [value]="formData()[elem.key]"
+                (input)="onInputChange($event, elem.key)"
+              />
+            }
+          </div>
+        }
+
+        <div class="flex items-center" [ngClass]="{ 'mt-4': editMode() }">
+          <div class="w-42 flex items-center gap-4">
+            <ion-icon class="text-2xl" name="lock-closed-outline"></ion-icon>
+            Hasło:
+          </div>
+
+          @if (!editMode()) {
+            <div class="flex gap-1">
+              @for (dot of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
+                <span class="bg-gray-600 rounded-full w-2 h-2"></span>
+              }
+            </div>
+          } @else {
+            <button class="body-2 underline text-left w-full" (click)="presentResetAlert()">
+              Zresetuj hasło
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-right mt-12">
+    <ion-button fill="solid" routerLink="login" (click)="toggleMode()">{{
+      editMode() ? 'Zapisz' : 'Edytuj'
+    }}</ion-button>
+  </div>
+</hoof-account-view-card>

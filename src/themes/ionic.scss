@@ -9,6 +9,9 @@ ion-button {
   @extend .body-3;
   letter-spacing: normal;
   text-transform: none;
+  background-color: var(--background);
+  color: var(--color);
+  border-radius: var(--border-radius);
   --background: #{theme('colors.orange.450')};
   --background-hover: #{theme('colors.white')};
 
@@ -35,6 +38,10 @@ ion-button {
 }
 
 ion-button[fill='outline'] {
+  @extend ._outlined-button;
+}
+
+._outlined-button {
   --background: transparent;
   --background-hover: transparent;
   --color: #{theme('colors.orange.450')};
@@ -42,6 +49,9 @@ ion-button[fill='outline'] {
   --border-width: 1px;
   --border-style: solid;
   --border-color: #{theme('colors.orange.450')};
+
+  border-radius: var(--border-radius);
+
   &._filter {
     --color: #{theme('colors.black')};
     --background: transparent;
@@ -116,4 +126,25 @@ ion-range {
   --bar-background-active: #{theme('colors.orange-450')};
   --knob-background: #{theme('colors.orange-450')};
   --pin-background: #{theme('colors.orange-450')};
+}
+
+ion-alert._hoof-alert {
+  .alert-wrapper {
+    @extend .body-1;
+    padding: 24px 16px;
+    width: 50%;
+  }
+  .alert-title {
+    @extend .h3;
+  }
+  .alert-button {
+    @extend ion-button;
+  }
+  .alert-button-role-cancel {
+    @extend ._outlined-button;
+    border: var(--border-width) var(--border-style) var(--border-color);
+  }
+  .alert-button-group {
+    margin-top: 16px;
+  }
 }

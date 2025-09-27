@@ -25,13 +25,16 @@ export class TopBarComponent implements OnInit {
   readonly navigation = inject(NavigationService);
   protected auth = inject(AuthService);
   protected router = inject(Router);
+  private contrastPaths = ['/account', '/chat'];
 
   contrast = false;
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.contrast = this.isListingDetailPath(event.urlAfterRedirects);
+        this.contrast =
+          this.isListingDetailPath(event.urlAfterRedirects) ||
+          this.contrastPaths.includes(event.urlAfterRedirects);
       }
     });
   }
