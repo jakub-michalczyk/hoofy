@@ -1,7 +1,7 @@
 @if (category(); as cat) {
   @switch (cat) {
     @case ('horses') {
-      <hoof-horse-filter> </hoof-horse-filter>
+      <hoof-horse-filter [fullSize]="fullSize" [addNew]="addNew"> </hoof-horse-filter>
     }
   }
 }

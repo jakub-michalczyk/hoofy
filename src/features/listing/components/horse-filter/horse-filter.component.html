@@ -1,11 +1,15 @@
-<div class="flex items-start md:items-center gap-8 flex-col md:flex-row">
-  <div class="flex items-center gap-8">
+<div
+  class="flex items-start md:items-center flex-col md:flex-row"
+  [ngClass]="fullSize ? 'w-full justify-between gap-4' : 'gap-8'"
+>
+  <div class="flex items-center" [ngClass]="fullSize ? 'w-full md:w-3/5 gap-4' : 'gap-8'">
     <ion-select
       labelPlacement="stacked"
       class="_contrast min-w-36"
       label="Płeć"
       [value]="horse.gender"
       interface="popover"
+      [ngClass]="{ 'w-1/2': fullSize }"
       (ionChange)="update('gender', $event.target.value)"
     >
       @for (gender of genders; track $index) {
@@ -20,6 +24,7 @@
       [value]="horse['coat']"
       interface="popover"
       (ionChange)="update('coat', $event.target.value)"
+      [ngClass]="{ 'w-1/2': fullSize }"
     >
       @for (coat of availableCoats; track $index) {
         <ion-select-option [value]="coat">
@@ -30,6 +35,7 @@
   </div>
 
   <ion-button
+    [ngClass]="{ 'w-full md:w-2/5': fullSize }"
     fill="outline"
     class="_filter h-[58px] min-w-64 flex items-center"
     (click)="openBreedPopover($event)"

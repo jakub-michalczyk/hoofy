@@ -39,7 +39,7 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
       promoted: data['promoted'],
       price: data['price'],
       images: data['images'],
-      city: data['city'],
+      location: data['location'],
       date: data['date'],
       type: data['type'],
       category: data['category'],

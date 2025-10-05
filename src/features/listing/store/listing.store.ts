@@ -9,7 +9,15 @@ import {
   limit,
   QueryConstraint,
 } from '@angular/fire/firestore';
-import { startAfter, getDocs, getCountFromServer, doc, getDoc } from 'firebase/firestore';
+import {
+  startAfter,
+  getDocs,
+  getCountFromServer,
+  doc,
+  getDoc,
+  addDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
@@ -23,7 +31,7 @@ import { ECategoryName } from '../../core/model/category.model';
 
 export const LISTING_STATE: IListingState = {
   searchTerm: '',
-  city: '',
+  location: '',
   listingType: null,
   category: null,
   subCategory: null,
@@ -43,6 +51,10 @@ export const LISTING_STATE: IListingState = {
   pageCursors: [],
   totalCount: 0,
   visible: [],
+  listingCords: {
+    lat: null,
+    lng: null,
+  },
 };
 
 export const ListingStore = signalStore(
@@ -56,12 +68,16 @@ export const ListingStore = signalStore(
       patchState(store, { searchTerm });
     }
 
-    function setCity(city: string) {
-      patchState(store, { city });
+    function setCity(location: string) {
+      patchState(store, { location });
     }
 
     function setCategory(category: string | null) {
       patchState(store, { category, subCategory: null });
+    }
+
+    function addListingCords(lat: number, lng: number) {
+      patchState(store, { listingCords: { lat: lat, lng: lng } });
     }
 
     function setSubCategory(subCategory: string | null) {
@@ -111,6 +127,11 @@ export const ListingStore = signalStore(
       patchState(store, { priceTo });
     }
 
+    async function patchListingImages(listingId: string, urls: string[]): Promise<void> {
+      const ref = doc(firestore, 'listings', listingId);
+      await updateDoc(ref, { images: urls });
+    }
+
     function setPage(page: number) {
       const totalPages = Math.max(1, Math.ceil(store.totalCount() / store.pageSize()));
       const next = Math.min(Math.max(page, 1), totalPages);
@@ -124,6 +145,38 @@ export const ListingStore = signalStore(
 
     function setTotalCount(n: number) {
       patchState(store, { totalCount: n });
+    }
+
+    async function addListing(listing: IListingItem) {
+      const collRef = collection(firestore, 'listings').withConverter(listingConverter);
+
+      const payload = {
+        ...listing,
+        createdAt: Date.now(),
+      } as IListingItem;
+
+      const docRef = await addDoc(collRef, payload);
+
+      const savedSnap = await getDoc(docRef.withConverter(listingConverter));
+
+      if (!savedSnap.exists()) {
+        throw new Error('Failed to create listing');
+      }
+
+      const savedRaw = savedSnap.data() as unknown as Record<string, unknown>;
+
+      const result = {
+        ...(savedRaw as Record<string, unknown>),
+        id: docRef.id,
+      } as unknown as IListingItem;
+
+      const currentResults =
+        typeof store.searchResults === 'function' ? store.searchResults() : undefined;
+      if (Array.isArray(currentResults)) {
+        patchState(store, { searchResults: [result, ...currentResults] });
+      }
+
+      return result;
     }
 
     async function loadInViewport(
@@ -203,7 +256,7 @@ export const ListingStore = signalStore(
       patchState(store, { isSearching: true });
 
       const searchTerm = store.searchTerm();
-      const city = store.city();
+      const city = store.location();
       const listingType = store.listingType();
       const category = store.category();
       const subCategory = store.subCategory();
@@ -328,6 +381,9 @@ export const ListingStore = signalStore(
       loadInViewport,
 
       getListingById,
+      addListingCords,
+      addListing,
+      patchListingImages,
     };
   })
 );

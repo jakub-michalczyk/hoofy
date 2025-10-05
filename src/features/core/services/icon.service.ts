@@ -41,6 +41,8 @@ import {
   expandOutline,
   personCircle,
   callOutline,
+  textOutline,
+  addOutline,
 } from 'ionicons/icons';
 
 @Injectable({ providedIn: 'root' })
@@ -93,6 +95,8 @@ export class IconService {
       'locate-outline': locateOutline,
       'expand-outline': expandOutline,
       'call-outline': callOutline,
+      'text-outline': textOutline,
+      'add-outline': addOutline,
     });
   }
 }

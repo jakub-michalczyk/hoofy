@@ -1,11 +1,12 @@
 import { DocumentSnapshot } from 'firebase/firestore';
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
 import { IListingItem } from '../components/listing-item/listing-item.model';
+import { EListingType } from '../../core/model/category.model';
 
 export interface IListingState {
   searchTerm: string;
-  city: string;
-  listingType: 'ads' | 'services' | null;
+  location: string;
+  listingType: EListingType.ADS | EListingType.SERVICES | null;
   category: string | null;
   subCategory: string | null;
 
@@ -30,4 +31,5 @@ export interface IListingState {
   totalCount: number;
 
   visible: IListingItem[];
+  listingCords: { lat: number | null; lng: number | null };
 }

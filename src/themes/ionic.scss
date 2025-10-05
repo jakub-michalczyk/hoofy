@@ -148,3 +148,7 @@ ion-alert._hoof-alert {
     margin-top: 16px;
   }
 }
+
+ion-content {
+  --background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(239, 239, 239, 1) 100%);
+}

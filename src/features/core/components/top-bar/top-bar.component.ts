@@ -25,7 +25,7 @@ export class TopBarComponent implements OnInit {
   readonly navigation = inject(NavigationService);
   protected auth = inject(AuthService);
   protected router = inject(Router);
-  private contrastPaths = ['/account', '/chat'];
+  private contrastPaths = ['/account', '/chat', '/add-listing'];
 
   contrast = false;
 

@@ -6,6 +6,7 @@ export class NavigationService {
   private readonly store: NavigationStoreInstance = inject(NavigationStore);
 
   readonly links = this.store.links;
+  readonly loggedInLinks = this.store.loggedInLinks;
   readonly submenuElement = this.store.submenuElement;
   readonly sideMenuOpened = this.store.sideMenuOpened;
 

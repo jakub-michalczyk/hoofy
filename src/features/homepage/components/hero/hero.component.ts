@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonIcon } from '@ionic/angular/standalone';
 import { ListingFiltersFacadeService } from '../../../core/services/listing-filters-facade.service';
+import { SearchLocationComponent } from '../../../core/components/search-location/search-location.component';
 
 @Component({
   selector: 'hoof-hero',
   templateUrl: './hero.component.html',
-  imports: [SearchFiltersComponent, CommonModule, IonIcon, FormsModule],
+  imports: [SearchFiltersComponent, CommonModule, IonIcon, FormsModule, SearchLocationComponent],
 })
 export class HeroComponent {
   @Input() bgImage = 'homepage_bg';
@@ -22,11 +23,9 @@ export class HeroComponent {
   selectedSub = this.facade.selectedSub;
 
   searchTerm = this.facade.searchTerm;
-  cityTerm = this.facade.cityTerm;
   priceFrom = this.facade.priceFrom;
   priceTo = this.facade.priceTo;
   sorting = this.facade.sorting;
-  citySuggestions = this.facade.citySuggestions;
 
   sortingOptions = Object.values(ESortingOptions) as ESortingOptions[];
 
@@ -37,15 +36,6 @@ export class HeroComponent {
 
   onSortingChange(sort: ESortingOptions): void {
     this.facade.onSortingChange(sort);
-  }
-
-  onCityInput(): void {
-    const term = this.cityTerm();
-    this.facade.onCityInput(term);
-  }
-
-  selectCity(city: string | null): void {
-    this.facade.selectCity(city);
   }
 
   toggleCategory(slug: string): void {

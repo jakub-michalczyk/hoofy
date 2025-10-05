@@ -1,0 +1,250 @@
+<div class="mt-28 min-h-screen w-full py-12 px-6">
+  <form
+    class="rounded bg-white block max-w-6xl !mx-auto h-full px-6 py-12 md:p-16"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    novalidate
+    aria-labelledby="addListingTitle"
+  >
+    <h2 id="addListingTitle" class="h3 md:h2">Dodaj ogłoszenie</h2>
+    <div class="mt-12">
+      <!-- CATEGORY -->
+      <hoof-category-selector [contrast]="true" [navigateOnChange]="false"></hoof-category-selector>
+      <div class="mt-4">
+        <hoof-details-filter
+          [fullSize]="true"
+          [addNew]="true"
+          class="w-full block"
+        ></hoof-details-filter>
+      </div>
+
+      <div class="mt-2">
+        @if ((!store.category() || !store.subCategory()) && (form.touched || submitted)) {
+          <div id="categoryError" class="text-red-600 body-4 mt-2">
+            <div>Kategoria główna i kategoria dodatkowa są wymagane.</div>
+          </div>
+        }
+      </div>
+
+      <!-- GALLERY -->
+      <div class="flex-col md:flex-row flex gap-4 mt-4">
+        <div class="w-full md:w-1/2 relative">
+          <ng-container *ngTemplateOutlet="imageUpload; context: { index: 0 }"></ng-container>
+        </div>
+
+        <div
+          class="w-full md:w-1/2 grid grid-cols-2 gap-4 relative opacity-30"
+          [ngClass]="{ 'opacity-100': !isFirstImageUploaded }"
+        >
+          @for (id of imageSlots; track $index) {
+            <ng-container *ngTemplateOutlet="imageUpload; context: { index: id }"></ng-container>
+          }
+
+          <!-- DISABLE IMAGES, IF THE FIRST ONE ISN'T UPLOADED -->
+          @if (isFirstImageUploaded) {
+            <div class="w-full h-full absolute top-0 left-0"></div>
+          }
+        </div>
+      </div>
+
+      <div class="mt-2">
+        @if (!anyImageUploaded && (form.touched || submitted)) {
+          <div id="categoryError" class="text-red-600 body-4 mt-2">
+            <div>Musisz przesłać przynajmniej jedno zdjęcie.</div>
+          </div>
+        }
+      </div>
+
+      <div class="flex-col md:flex-row flex gap-4 mt-4">
+        <!-- TITLE -->
+        <div class="w-full">
+          @let title = form.controls['title'];
+
+          <div class="relative w-full">
+            <ion-icon
+              name="text-outline"
+              class="text-2xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
+            ></ion-icon>
+            <input
+              formControlName="title"
+              class="_input min-w-0 md:min-w-64 !text-black"
+              type="text"
+              required
+              placeholder="Tytuł ogłoszenia"
+            />
+          </div>
+
+          @if (title.invalid && (title.touched || submitted)) {
+            <div id="titleError" class="text-red-600 body-4 mt-2">
+              @if (title.errors?.['required']) {
+                <div>Tytuł jest wymagany.</div>
+              }
+
+              @if (title.errors?.['minlength']) {
+                <div>Tytuł musi mieć co najmniej 3 znaki.</div>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- PRICE -->
+        <div class="w-full">
+          <div class="relative w-full">
+            <ion-icon
+              name="pricetag-outline"
+              class="text-2xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
+            ></ion-icon>
+            <input
+              formControlName="price"
+              min="0"
+              class="_input min-w-0 md:min-w-64 !text-black"
+              type="number"
+              placeholder="Cena"
+            />
+          </div>
+          @let price = form.controls['price'];
+
+          @if (price.invalid && (price.touched || submitted)) {
+            <div id="priceError" class="text-red-600 body-4 mt-2">
+              @if (price.errors?.['required']) {
+                <div>Cena jest wymagana.</div>
+              }
+
+              @if (price.errors?.['min']) {
+                <div>Cena nie może być mniejsza niż 0.</div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="flex-col md:flex-row flex gap-4 mt-4">
+        <!-- LOCATION -->
+        <div class="w-full">
+          <hoof-search-location [rounded]="false" class="w-full"></hoof-search-location>
+
+          @let location = form.controls['location'];
+
+          @if (!store.location() && (form.touched || submitted)) {
+            <div id="locationError" class="text-red-600 body-4 mt-2">
+              <div>Lokalizaja jest wymagana.</div>
+            </div>
+          }
+        </div>
+
+        <!-- PHONE NUMBER -->
+        <div class="w-full">
+          <div class="relative w-full">
+            <ion-icon
+              name="call-outline"
+              class="text-2xl absolute top-1/2 -translate-y-1/2 left-[12px] text-stone-400"
+            ></ion-icon>
+            <input
+              formControlName="phone"
+              class="_input min-w-0 md:min-w-64 !text-black"
+              type="number"
+              placeholder="Numer telefonu"
+            />
+          </div>
+        </div>
+      </div>
+
+      @if (store.location()) {
+        <div class="mt-4 mb-2 body-2 flex items-center gap-2">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          Możesz kiknąć na mapę, aby wybrać konkretne miejscce
+        </div>
+        <hoof-map
+          class="h-96 block"
+          [loadFeatures]="false"
+          [addNew]="true"
+          [city]="store.location()"
+        ></hoof-map>
+      }
+
+      <div class="w-full">
+        <div class="relative w-full mt-4">
+          <ion-icon
+            name="text-outline"
+            class="text-2xl absolute top-6 -translate-y-1/2 left-[12px] text-stone-400"
+          ></ion-icon>
+          <textarea
+            formControlName="description"
+            required
+            placeholder="Opis"
+            class="_input resize-none !h-48 !py-3"
+          >
+          </textarea>
+        </div>
+
+        @let description = form.controls['description'];
+
+        @if (description.invalid && (description.touched || submitted)) {
+          <div id="descriptionError" class="text-red-600 body-4 mt-2">
+            @if (description.errors?.['required']) {
+              <div>Opis jest wymagany.</div>
+            }
+
+            @if (description.errors?.['minlength']) {
+              <div>Opis musi mieć minimalnie 10 znaków.</div>
+            }
+          </div>
+        }
+      </div>
+
+      @if (isCategoryService) {
+        <div class="mt-4">
+          <ion-checkbox formControlName="reservation" class="my-2 body-3" labelPlacement="end">
+            Dodaj opcję rezerwacji
+          </ion-checkbox>
+          <p class="body-4 text-gray-600 underline flex gap-2 items-center">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            Na czym polega opcja rezerwacji?
+          </p>
+        </div>
+      }
+
+      <div class="flex gap-2 mt-12">
+        <ion-button type="submit" fill="solid" [disabled]="isInvalid">Dodaj ogłoszenie</ion-button>
+        <ion-button fill="outline" (click)="preview()">Podgląd ogłoszenia</ion-button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #imageUpload let-index="index">
+  <div class="h-full aspect-square relative overflow-hidden">
+    @if (files()[index]?.content && index !== 0) {
+      <!-- REMOVE IMAGE -->
+      <button
+        (click)="removeImage(index)"
+        class="absolute -top-4 -right-4 text-2xl bg-orange-450 !p-4 !pt-6 !pr-6 !rounded-full text-white flex z-50"
+      >
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </button>
+    }
+
+    <button
+      class="bg-white absolute top-0 left-0 opacity-0 hover:opacity-50 transition-opacity cursor-pointer w-full h-full flex justify-center items-center text-gray-300 text-7xl"
+      (click)="triggerFileSelect($event, index)"
+      type="button"
+    >
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+
+    <img
+      [src]="files()[index]?.content || 'assets/images/image_upload.png'"
+      class="rounded w-full h-full object-cover"
+      alt="Image Upload"
+    />
+
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      class="hidden"
+      [attr.data-index]="index"
+      (change)="onFilesSelected($event, index)"
+    />
+  </div>
+</ng-template>

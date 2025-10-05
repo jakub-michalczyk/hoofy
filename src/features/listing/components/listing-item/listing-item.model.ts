@@ -17,7 +17,7 @@ export interface IListingItem {
   promoted?: boolean;
   price?: number;
   images: string[];
-  city: string;
+  location: string;
   date: string;
   type: string;
   userId: string;
