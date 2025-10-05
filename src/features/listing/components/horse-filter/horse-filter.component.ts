@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
 import { ListingStore } from '../../store/listing.store';
 import {
   IonButton,
@@ -26,7 +26,41 @@ import { FiltersStore } from '../../store/filters.store';
   imports: [IonIcon, IonSelect, IonSelectOption, IonButton, IonRange, CommonModule],
   templateUrl: './horse-filter.component.html',
 })
-export class HorseFilterComponent {
+export class HorseFilterComponent implements OnChanges {
+  @Input() fullSize = false;
+  private _addNew = false;
+  @Input()
+  set addNew(v: boolean | string | null | undefined) {
+    this._addNew = typeof v === 'string' ? v === 'true' : !!v;
+  }
+  get addNew(): boolean {
+    return this._addNew;
+  }
+
+  ngOnChanges() {
+    return this.addNew ? this.setValuesForNewListing() : this.resetValues();
+  }
+
+  setValuesForNewListing() {
+    this.genders = Object.values(EHorseGender).filter(gender => gender !== EHorseGender.ANY);
+    this.breeds = Object.values(EHorseBreed).filter(breed => breed !== EHorseBreed.ANY);
+    this.allCoats = Object.values(EHorseCoat).filter(coat => coat !== EHorseCoat.ANY);
+
+    this.filtersStore.updateHorseFilter('gender', EHorseGender.MARE);
+    this.filtersStore.updateHorseFilter('breed', EHorseBreed.OTHER);
+    this.filtersStore.updateHorseFilter('coat', EHorseCoat.OTHER);
+  }
+
+  resetValues() {
+    this.genders = Object.values(EHorseGender);
+    this.breeds = Object.values(EHorseBreed);
+    this.allCoats = Object.values(EHorseCoat);
+
+    this.filtersStore.updateHorseFilter('gender', EHorseGender.ANY);
+    this.filtersStore.updateHorseFilter('breed', EHorseBreed.ANY);
+    this.filtersStore.updateHorseFilter('coat', EHorseCoat.ANY);
+  }
+
   protected listingStore = inject(ListingStore);
   protected filtersStore = inject(FiltersStore);
   private popoverCtrl = inject(PopoverController);

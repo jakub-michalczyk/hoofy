@@ -4,16 +4,18 @@ import {
   INavigationSubmenuColumn,
   INavigationSubmenuItem,
 } from '../model/navigation.model';
-import { MENU } from '../components/navigation/navigation.data';
+import { MENU, TOPBAR_LOGGED } from '../components/navigation/navigation.data';
 
 interface INavigationState {
   links: INavigationMenuElement[];
+  loggedInLinks: INavigationMenuElement[];
   submenuElement: INavigationMenuElement | null;
   sideMenuOpened: boolean;
 }
 
 const initialState: INavigationState = {
   links: MENU,
+  loggedInLinks: TOPBAR_LOGGED,
   submenuElement: null,
   sideMenuOpened: false,
 };

@@ -136,7 +136,7 @@ export class ListingTagsService {
       typeof x['age'] === 'number' &&
       typeof x['gender'] === 'string' &&
       typeof x['breed'] === 'string' &&
-      typeof x['color'] === 'string' &&
+      typeof x['coat'] === 'string' &&
       typeof x['height'] === 'number'
     );
   }

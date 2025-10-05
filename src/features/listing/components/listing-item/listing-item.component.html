@@ -20,7 +20,7 @@
       >
         <div class="absolute top-0 right-0 p-2 hidden md:block">
           <div class="bg-white body-5 rounded-full px-2 py-1">
-            {{ data.city }}
+            {{ data.location }}
           </div>
         </div>
 
@@ -39,7 +39,7 @@
       >
         <div class="flex justify-between items-center">
           <div class="body-4-light">
-            <span class="inline md:hidden">{{ data.city }}, </span
+            <span class="inline md:hidden">{{ data.location }}, </span
             >{{ data.createdAt | date: 'dd.MM.yyyy' }}
           </div>
           @if (view === EListingItemView.SIMPLE) {

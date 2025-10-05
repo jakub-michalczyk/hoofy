@@ -1,0 +1,43 @@
+<div class="flex md:flex-nowrap flex-wrap gap-4">
+  <ion-select
+    interface="popover"
+    label="Kategoria główna"
+    label-placement="floating"
+    [value]="facade.selectedMain()?.slug"
+    (ionChange)="onMainCategoryChange($event.detail.value)"
+    [ngClass]="{ _contrast: contrast }"
+  >
+    @for (category of mainCategories(); track $index) {
+      <ion-select-option [value]="category.slug">
+        {{ category.title }}
+      </ion-select-option>
+    }
+  </ion-select>
+
+  <ion-select
+    interface="popover"
+    label="Kategoria dodatkowa"
+    label-placement="floating"
+    [disabled]="!facade.selectedMain()"
+    [value]="facade.selectedSub()?.slug"
+    (ionChange)="onSubcategoryChange($event.detail.value)"
+    [ngClass]="{ _contrast: contrast }"
+  >
+    @for (sub of subcategories(); track $index) {
+      <ion-select-option [value]="sub.slug">
+        {{ sub.text }}
+      </ion-select-option>
+    }
+
+    @if (facade.selectedSub()?.slug) {
+      <ion-button
+        class="_transparent"
+        slot="end"
+        aria-label="Clear"
+        (click)="onSubcategoryChange('')"
+      >
+        <ion-icon slot="icon-only" name="close-circle-outline" aria-hidden="true"></ion-icon>
+      </ion-button>
+    }
+  </ion-select>
+</div>

@@ -1,22 +1,27 @@
 import { Component, HostListener, inject, Input } from '@angular/core';
-import { INavigationSubmenuColumn } from '../../model/navigation.model';
 import { IonButton, IonIcon, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { ESortingOptions } from '../../../listing/components/sort-options/sort-options.model';
 import { ListingFiltersFacadeService } from '../../services/listing-filters-facade.service';
 import { CommonModule } from '@angular/common';
+import { CategorySelectorComponent } from '../../../listing/components/category-selector/category-selector.component';
 
 @Component({
   selector: 'hoof-search-filters',
-  imports: [IonSelect, IonSelectOption, FormsModule, IonIcon, IonButton, CommonModule],
+  imports: [
+    IonSelect,
+    IonSelectOption,
+    FormsModule,
+    IonIcon,
+    IonButton,
+    CommonModule,
+    CategorySelectorComponent,
+  ],
   templateUrl: './search-filters.component.html',
 })
 export class SearchFiltersComponent {
   @Input() contrast = false;
   facade = inject(ListingFiltersFacadeService);
-
-  mainCategories = this.facade.mainCategories as () => INavigationSubmenuColumn[];
-  subcategories = this.facade.subcategories;
 
   searchTerm = this.facade.searchTerm;
   cityTerm = this.facade.cityTerm;
@@ -26,14 +31,6 @@ export class SearchFiltersComponent {
   citySuggestions = this.facade.citySuggestions;
 
   sortingOptions = Object.values(ESortingOptions) as ESortingOptions[];
-
-  onMainCategoryChange(slug: string): void {
-    this.facade.onMainCategoryChange(slug, true);
-  }
-
-  onSubcategoryChange(slug: string): void {
-    this.facade.onSubcategoryChange(slug, true);
-  }
 
   onSearch(): void {
     this.facade.onSearch();

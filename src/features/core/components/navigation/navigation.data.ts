@@ -4,6 +4,15 @@ import {
   INavigationMenuElement,
 } from '../../model/navigation.model';
 
+export const TOPBAR_LOGGED: INavigationLoggedInMenuElement[] = [
+  {
+    text: 'Dodaj ogłoszenie',
+    slug: 'add-listing',
+    url: 'add-listing',
+    icon: 'add-circle-outline',
+  },
+];
+
 export const LOGGED_IN_MENU: INavigationLoggedInMenuElement[] = [
   {
     text: 'Moje konto',
@@ -11,6 +20,7 @@ export const LOGGED_IN_MENU: INavigationLoggedInMenuElement[] = [
     url: 'account',
     icon: 'person-outline',
   },
+  TOPBAR_LOGGED[0],
   {
     text: 'Wiadomości',
     slug: 'chat',
