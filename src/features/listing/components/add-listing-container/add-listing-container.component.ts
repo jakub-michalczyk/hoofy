@@ -121,10 +121,6 @@ export class AddListingContainerComponent {
     this.files.set(copy);
   }
 
-  preview() {
-    //TODO
-  }
-
   async onSubmit(): Promise<void> {
     this.submitted = true;
 
