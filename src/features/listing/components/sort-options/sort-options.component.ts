@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
   templateUrl: './sort-options.component.html',
 })
 export class SortOptionsComponent {
-  store = inject(ListingStore);
-  router = inject(Router);
-  EGridMode = EGridMode;
-  ESortingOptions = ESortingOptions;
+  protected store = inject(ListingStore);
+  private router = inject(Router);
+  protected EGridMode = EGridMode;
+  protected ESortingOptions = ESortingOptions;
 
   toggleMode() {
     const current = this.store.gridMode();

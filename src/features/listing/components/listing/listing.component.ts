@@ -34,6 +34,6 @@ import { RouterLink } from '@angular/router';
 export class ListingComponent {
   @Input() mapContainer = false;
   protected store = inject(ListingStore);
-  facade = inject(ListingFiltersFacadeService);
-  EGridMode = EGridMode;
+  protected facade = inject(ListingFiltersFacadeService);
+  protected EGridMode = EGridMode;
 }

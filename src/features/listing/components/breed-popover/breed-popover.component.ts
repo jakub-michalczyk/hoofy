@@ -30,10 +30,10 @@ export class BreedPopoverComponent implements OnInit {
   @Input() allBreeds: string[] = [];
   @Input() selected?: string;
 
-  popoverCtrl = inject(PopoverController);
+  private popoverCtrl = inject(PopoverController);
 
-  search = '';
-  filteredBreeds: string[] = [];
+  protected search = '';
+  protected filteredBreeds: string[] = [];
 
   ngOnInit() {
     this.filteredBreeds = [...this.allBreeds];

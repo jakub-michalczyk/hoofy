@@ -36,8 +36,8 @@ export class GalleryComponent implements AfterViewInit {
   @ViewChild('swiperLightbox', { static: true })
   swiperLightboxRef!: ElementRef<SwiperElement>;
 
-  activeIndex = signal(0);
-  lightBoxActive = signal(false);
+  protected activeIndex = signal(0);
+  protected lightBoxActive = signal(false);
 
   private thumbsSwiper?: Swiper;
   private lightboxInitialized = false;

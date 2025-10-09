@@ -12,8 +12,8 @@ import { ListingTagsService } from '../../services/listing-tags.service';
 })
 export class ListingDetailsTagsComponent implements OnChanges {
   @Input() data: IListingItem = {} as IListingItem;
-  tags: ITag[] = [];
-  listingTags = inject(ListingTagsService);
+  protected tags: ITag[] = [];
+  private listingTags = inject(ListingTagsService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
