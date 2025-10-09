@@ -30,9 +30,9 @@ export class CarouselComponent implements AfterViewInit {
   @Input() slides: Signal<IListingItem[]> = signal([]);
   @Input() hasPagination = false;
   @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
-  showPagination = signal(false);
+  protected showPagination = signal(false);
 
-  EListingItemView = EListingItemView;
+  protected EListingItemView = EListingItemView;
 
   constructor() {
     effect(() => {

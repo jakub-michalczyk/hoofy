@@ -13,14 +13,14 @@ import { ACCOUNT_MENU } from '../../../core/components/navigation/navigation.dat
 export class ProfilePictureComponent {
   private auth = inject(AuthService);
   readonly defaultAvatar = '/assets/images/default_avatar.png';
-  ACCOUNT_MENU = ACCOUNT_MENU;
+  protected ACCOUNT_MENU = ACCOUNT_MENU;
 
   readonly photoUrl = computed(() => {
     const user = this.auth.user();
     return user?.profileImg ?? this.defaultAvatar;
   });
 
-  isAccountView = false;
+  protected isAccountView = false;
 
   logout() {
     this.auth.logout();
