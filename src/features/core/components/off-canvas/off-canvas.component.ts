@@ -3,9 +3,10 @@ import { NavigationComponent } from '../navigation/navigation.component';
 import { AuthActionsComponent } from '../../../shared/components/auth-actions/auth-actions.component';
 import { NavigationService } from '../../services/navigation.service';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../login/services/auth.service';
+
 import { ACCOUNT_MENU } from '../navigation/navigation.data';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-off-canvas',

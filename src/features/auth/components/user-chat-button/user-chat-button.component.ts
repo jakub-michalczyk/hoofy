@@ -8,6 +8,6 @@ import { IUserProfile } from '../../models/chat.model';
   templateUrl: './user-chat-button.component.html',
 })
 export class UserChatButtonComponent {
-  store = inject(ChatStore);
+  protected store = inject(ChatStore);
   @Input() user: IUserProfile = {} as IUserProfile;
 }

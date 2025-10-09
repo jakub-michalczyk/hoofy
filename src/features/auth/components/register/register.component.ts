@@ -20,8 +20,8 @@ export class RegisterComponent implements AfterViewInit {
 
   @ViewChild(EmailPasswordComponent) emailPasswordComp!: EmailPasswordComponent;
 
-  termsAccepted = new FormControl(false);
-  isFormInvalid = signal(true);
+  protected termsAccepted = new FormControl(false);
+  protected isFormInvalid = signal(true);
 
   ngAfterViewInit(): void {
     this.emailPasswordComp.form.statusChanges

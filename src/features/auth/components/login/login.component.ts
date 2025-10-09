@@ -22,16 +22,16 @@ import { AuthViewComponent } from '../auth-view/auth-view.component';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements AfterViewInit {
+  @ViewChild(EmailPasswordComponent) emailPasswordComp!: EmailPasswordComponent;
+
   private destroyerRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private router = inject(Router);
-  loginMethods = Object.values(ELoginMethoded);
-  isPasswordResetMode = signal(false);
-  loginErrors = signal('');
 
-  @ViewChild(EmailPasswordComponent) emailPasswordComp!: EmailPasswordComponent;
-
-  isFormInvalid = signal(true);
+  protected loginMethods = Object.values(ELoginMethoded);
+  protected isPasswordResetMode = signal(false);
+  protected loginErrors = signal('');
+  protected isFormInvalid = signal(true);
 
   ngAfterViewInit(): void {
     this.emailPasswordComp.form.statusChanges

@@ -1,9 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
-import { AuthService } from '../../../login/services/auth.service';
+
 import { IonIcon, IonPopover } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ACCOUNT_MENU } from '../../../core/components/navigation/navigation.data';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-profile-picture',

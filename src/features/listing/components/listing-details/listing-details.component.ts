@@ -10,11 +10,12 @@ import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-det
 import { MapComponent } from '../../../map/components/map/map.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { UserStore } from '../../store/user.store';
-import { IUserData } from '../../../login/models/auth.model';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ECategoryName } from '../../../core/model/category.model';
 import { FeaturedListingsComponent } from '../../../homepage/components/featured-listings/featured-listings.component';
 import { GalleryComponent } from '../gallery/gallery.component';
+import { IUserData } from '../../../auth/models/auth.model';
 
 @Component({
   selector: 'hoof-listing-details',
