@@ -30,10 +30,10 @@ export class HomepageComponent {
   private store = inject(ListingStore);
 
   protected navigation = inject(NavigationStore);
-  subCategoriesLinks: INavigationSubmenuItem[] = [];
+  protected subCategoriesLinks: INavigationSubmenuItem[] = [];
 
-  featured = this.store.featured;
-  latest = this.store.latest;
+  protected featured = this.store.featured;
+  protected latest = this.store.latest;
 
   constructor() {
     this.store.loadFeatured();
