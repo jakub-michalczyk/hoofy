@@ -1,24 +1,20 @@
-export interface INavigationSubmenuItem {
-  text: string;
-  slug: string;
-  url?: string;
-}
+export type INavigationSubmenuItem = INavigationBase;
 
-export interface INavigationSubmenuColumn {
-  title: string;
-  slug: string;
+export interface INavigationSubmenuColumn extends INavigationBase {
   items: INavigationSubmenuItem[];
-  url?: string;
   active: boolean;
 }
 
-export interface INavigationMenuElement {
-  text: string;
-  slug: string;
-  url?: string;
+export interface INavigationMenuElement extends INavigationBase {
   submenu?: INavigationSubmenuColumn[];
 }
 
 export interface INavigationLoggedInMenuElement extends INavigationMenuElement {
   icon: string;
+}
+
+export interface INavigationBase {
+  text: string;
+  slug: string;
+  url?: string;
 }

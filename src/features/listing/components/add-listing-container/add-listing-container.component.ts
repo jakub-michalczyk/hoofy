@@ -7,7 +7,7 @@ import {
   ViewChildren,
   WritableSignal,
 } from '@angular/core';
-import { IonButton, IonCheckbox, IonIcon, IonSelectOption } from '@ionic/angular/standalone';
+import { IonButton, IonCheckbox, IonIcon } from '@ionic/angular/standalone';
 import { CategorySelectorComponent } from '../category-selector/category-selector.component';
 import { DetailsFilterComponent } from '../details-filter/details-filter.component';
 import {
@@ -38,7 +38,6 @@ type IFileSlot = { id: number; content: string } | null;
   selector: 'hoof-add-listing-container',
   imports: [
     IonIcon,
-    IonSelectOption,
     CategorySelectorComponent,
     DetailsFilterComponent,
     IonCheckbox,

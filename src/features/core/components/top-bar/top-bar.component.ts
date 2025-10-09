@@ -27,9 +27,13 @@ export class TopBarComponent implements OnInit {
   protected router = inject(Router);
   private contrastPaths = ['/account', '/chat', '/add-listing'];
 
-  contrast = false;
+  protected contrast = false;
 
   ngOnInit(): void {
+    this.checkForContrastPath();
+  }
+
+  checkForContrastPath() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.contrast =

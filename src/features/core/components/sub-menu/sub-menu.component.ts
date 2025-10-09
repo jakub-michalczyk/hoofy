@@ -10,6 +10,6 @@ import { ListingFiltersFacadeService } from '../../services/listing-filters-faca
   templateUrl: './sub-menu.component.html',
 })
 export class SubMenuComponent {
-  nav = inject(NavigationService);
-  filtersFacade = inject(ListingFiltersFacadeService);
+  protected nav = inject(NavigationService);
+  protected filtersFacade = inject(ListingFiltersFacadeService);
 }

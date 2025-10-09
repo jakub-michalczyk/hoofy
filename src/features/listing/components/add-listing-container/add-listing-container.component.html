@@ -123,8 +123,6 @@
         <div class="w-full">
           <hoof-search-location [rounded]="false" class="w-full"></hoof-search-location>
 
-          @let location = form.controls['location'];
-
           @if (!store.location() && (form.touched || submitted)) {
             <div id="locationError" class="text-red-600 body-4 mt-2">
               <div>Lokalizaja jest wymagana.</div>

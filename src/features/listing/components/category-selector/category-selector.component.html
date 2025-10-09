@@ -9,7 +9,7 @@
   >
     @for (category of mainCategories(); track $index) {
       <ion-select-option [value]="category.slug">
-        {{ category.title }}
+        {{ category.text }}
       </ion-select-option>
     }
   </ion-select>

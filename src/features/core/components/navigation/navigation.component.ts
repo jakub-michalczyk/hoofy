@@ -16,6 +16,6 @@ import { AuthService } from '../../../login/services/auth.service';
 export class NavigationComponent {
   @Input() contrast = false;
   readonly navigation = inject(NavigationService);
-  filtersFacade = inject(ListingFiltersFacadeService);
-  auth = inject(AuthService);
+  protected filtersFacade = inject(ListingFiltersFacadeService);
+  protected auth = inject(AuthService);
 }
