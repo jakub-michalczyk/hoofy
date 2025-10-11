@@ -16,18 +16,17 @@ export class HeroComponent {
   @Input() bgImage = 'homepage_bg';
   @Input() mode: 'home' | 'listing' | 'map' = 'home';
 
-  facade = inject(ListingFiltersFacadeService);
+  private facade = inject(ListingFiltersFacadeService);
 
-  mainCategories = this.facade.mainCategories;
-  subcategories = this.facade.subcategories;
-  selectedSub = this.facade.selectedSub;
+  protected mainCategories = this.facade.mainCategories;
+  protected subcategories = this.facade.subcategories;
+  protected selectedSub = this.facade.selectedSub;
+  protected searchTerm = this.facade.searchTerm;
+  protected priceFrom = this.facade.priceFrom;
+  protected priceTo = this.facade.priceTo;
+  protected sorting = this.facade.sorting;
 
-  searchTerm = this.facade.searchTerm;
-  priceFrom = this.facade.priceFrom;
-  priceTo = this.facade.priceTo;
-  sorting = this.facade.sorting;
-
-  sortingOptions = Object.values(ESortingOptions) as ESortingOptions[];
+  protected sortingOptions = Object.values(ESortingOptions) as ESortingOptions[];
 
   onSearch(): void {
     this.facade.onSearch();

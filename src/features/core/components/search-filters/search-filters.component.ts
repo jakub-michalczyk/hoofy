@@ -1,5 +1,4 @@
 import { Component, HostListener, inject, Input } from '@angular/core';
-import { IonButton, IonIcon, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { ESortingOptions } from '../../../listing/components/sort-options/sort-options.model';
 import { ListingFiltersFacadeService } from '../../services/listing-filters-facade.service';
@@ -8,15 +7,7 @@ import { CategorySelectorComponent } from '../../../listing/components/category-
 
 @Component({
   selector: 'hoof-search-filters',
-  imports: [
-    IonSelect,
-    IonSelectOption,
-    FormsModule,
-    IonIcon,
-    IonButton,
-    CommonModule,
-    CategorySelectorComponent,
-  ],
+  imports: [FormsModule, CommonModule, CategorySelectorComponent],
   templateUrl: './search-filters.component.html',
 })
 export class SearchFiltersComponent {

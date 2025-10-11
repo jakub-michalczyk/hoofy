@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
   templateUrl: './pagination.component.html',
 })
 export class PaginationComponent {
-  store = inject(ListingStore);
-  router = inject(Router);
-  pageRange = 5;
+  protected store = inject(ListingStore);
+  private router = inject(Router);
+  protected pageRange = 5;
 
   get currentPage() {
     return this.store.currentPage();

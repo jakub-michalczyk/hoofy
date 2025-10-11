@@ -23,10 +23,10 @@ import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-det
 export class ListingItemComponent {
   @Input() data?: IListingItem;
   @Input() view = EListingItemView.DETAILED;
-  store = inject(ListingStore);
+  protected store = inject(ListingStore);
 
-  EGridMode = EGridMode;
-  EListingItemView = EListingItemView;
+  protected EGridMode = EGridMode;
+  protected EListingItemView = EListingItemView;
 
   get isDetailedMode() {
     if (

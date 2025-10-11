@@ -7,7 +7,7 @@ import {
   ViewChildren,
   WritableSignal,
 } from '@angular/core';
-import { IonButton, IonCheckbox, IonIcon, IonSelectOption } from '@ionic/angular/standalone';
+import { IonButton, IonCheckbox, IonIcon } from '@ionic/angular/standalone';
 import { CategorySelectorComponent } from '../category-selector/category-selector.component';
 import { DetailsFilterComponent } from '../details-filter/details-filter.component';
 import {
@@ -38,7 +38,6 @@ type IFileSlot = { id: number; content: string } | null;
   selector: 'hoof-add-listing-container',
   imports: [
     IonIcon,
-    IonSelectOption,
     CategorySelectorComponent,
     DetailsFilterComponent,
     IonCheckbox,
@@ -55,21 +54,21 @@ type IFileSlot = { id: number; content: string } | null;
 export class AddListingContainerComponent {
   @ViewChildren('fileInput') fileInputs!: QueryList<ElementRef<HTMLInputElement>>;
 
-  form: FormGroup;
-  submitted = false;
-  uploading = false;
-  CATEGORIES_GROUPED_BY_TYPE = CATEGORIES_GROUPED_BY_TYPE;
+  protected form: FormGroup;
+  protected submitted = false;
+  private uploading = false;
+  protected CATEGORIES_GROUPED_BY_TYPE = CATEGORIES_GROUPED_BY_TYPE;
 
-  imageSlots = [1, 2, 3, 4];
+  protected imageSlots = [1, 2, 3, 4];
 
-  files: WritableSignal<IFileSlot[]> = signal(Array(5).fill(null));
-  activeIndex: number | null = null;
+  protected files: WritableSignal<IFileSlot[]> = signal(Array(5).fill(null));
+  private activeIndex: number | null = null;
 
-  fb = inject(FormBuilder);
-  store = inject(ListingStore);
-  filtersStore = inject(FiltersStore);
-  router = inject(Router);
-  auth = inject(Auth);
+  private fb = inject(FormBuilder);
+  protected store = inject(ListingStore);
+  private filtersStore = inject(FiltersStore);
+  private router = inject(Router);
+  private auth = inject(Auth);
 
   private imageUpload = inject(ImageUploadService);
 

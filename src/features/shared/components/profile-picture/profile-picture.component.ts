@@ -1,26 +1,27 @@
 import { Component, computed, inject } from '@angular/core';
-import { AuthService } from '../../../login/services/auth.service';
+
 import { IonIcon, IonPopover } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { LOGGED_IN_MENU } from '../../../core/components/navigation/navigation.data';
+import { CommonModule } from '@angular/common';
+import { ACCOUNT_MENU } from '../../../core/components/navigation/navigation.data';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-profile-picture',
-  imports: [IonIcon, RouterLink, IonPopover, CommonModule, NgOptimizedImage],
+  imports: [IonIcon, RouterLink, IonPopover, CommonModule],
   templateUrl: './profile-picture.component.html',
 })
 export class ProfilePictureComponent {
   private auth = inject(AuthService);
   readonly defaultAvatar = '/assets/images/default_avatar.png';
-  LOGGED_IN_MENU = LOGGED_IN_MENU;
+  protected ACCOUNT_MENU = ACCOUNT_MENU;
 
   readonly photoUrl = computed(() => {
     const user = this.auth.user();
     return user?.profileImg ?? this.defaultAvatar;
   });
 
-  isAccountView = false;
+  protected isAccountView = false;
 
   logout() {
     this.auth.logout();

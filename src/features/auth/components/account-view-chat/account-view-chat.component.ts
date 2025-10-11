@@ -12,8 +12,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './account-view-chat.component.html',
 })
 export class AccountViewChatComponent {
-  chat = inject(ChatStore);
-  lastUserMessaged = {} as IUserProfile;
+  protected chat = inject(ChatStore);
+  protected lastUserMessaged = {} as IUserProfile;
 
   constructor() {
     effect(() => {

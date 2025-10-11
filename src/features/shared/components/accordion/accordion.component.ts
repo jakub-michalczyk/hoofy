@@ -34,7 +34,7 @@ import { IonIcon } from '@ionic/angular/standalone';
 })
 export class AccordionComponent {
   @Input() title = '';
-  open = signal(false);
+  protected open = signal(false);
 
   toggle() {
     this.open.update(v => !v);

@@ -5,9 +5,10 @@ import { NavigationService } from '../../services/navigation.service';
 import { SubMenuComponent } from '../sub-menu/sub-menu.component';
 import { LogoComponent } from '../../../shared/components/logo/logo.component';
 import { AuthActionsComponent } from '../../../shared/components/auth-actions/auth-actions.component';
-import { AuthService } from '../../../login/services/auth.service';
+
 import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-top-bar',
@@ -27,9 +28,13 @@ export class TopBarComponent implements OnInit {
   protected router = inject(Router);
   private contrastPaths = ['/account', '/chat', '/add-listing'];
 
-  contrast = false;
+  protected contrast = false;
 
   ngOnInit(): void {
+    this.checkForContrastPath();
+  }
+
+  checkForContrastPath() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.contrast =

@@ -21,8 +21,8 @@ import { FormErrorComponent } from '../form-error/form-error.component';
 export class EmailPasswordComponent implements OnInit {
   @Input() repeatPassword = false;
   @Input() hasPassword = true;
-  form!: FormGroup;
-  fb = inject(FormBuilder);
+  public form!: FormGroup;
+  private fb = inject(FormBuilder);
 
   ngOnInit(): void {
     const controls = {

@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ListingFiltersFacadeService } from '../../services/listing-filters-facade.service';
 import { IonIcon } from '@ionic/angular/standalone';
-import { AuthService } from '../../../login/services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-navigation',
@@ -16,6 +16,6 @@ import { AuthService } from '../../../login/services/auth.service';
 export class NavigationComponent {
   @Input() contrast = false;
   readonly navigation = inject(NavigationService);
-  filtersFacade = inject(ListingFiltersFacadeService);
-  auth = inject(AuthService);
+  protected filtersFacade = inject(ListingFiltersFacadeService);
+  protected auth = inject(AuthService);
 }

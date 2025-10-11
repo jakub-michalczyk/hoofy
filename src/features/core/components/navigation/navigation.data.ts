@@ -13,7 +13,7 @@ export const TOPBAR_LOGGED: INavigationLoggedInMenuElement[] = [
   },
 ];
 
-export const LOGGED_IN_MENU: INavigationLoggedInMenuElement[] = [
+export const ACCOUNT_MENU: INavigationLoggedInMenuElement[] = [
   {
     text: 'Moje konto',
     slug: 'account',
@@ -41,7 +41,7 @@ export const MENU: INavigationMenuElement[] = [
     url: '/listing',
     submenu: [
       {
-        title: 'Konie',
+        text: 'Konie',
         slug: ECategoryName.HORSES,
         url: `/listing/${ECategoryName.HORSES}`,
         active: false,
@@ -64,7 +64,7 @@ export const MENU: INavigationMenuElement[] = [
         ],
       },
       {
-        title: 'Sprzęt i akcesoria',
+        text: 'Sprzęt i akcesoria',
         slug: 'equipment',
         url: '/listing/equipment',
         active: false,
@@ -75,7 +75,7 @@ export const MENU: INavigationMenuElement[] = [
         ],
       },
       {
-        title: 'Żywienie i pielęgnacja',
+        text: 'Żywienie i pielęgnacja',
         slug: 'care',
         url: '/listing/care',
         active: false,
@@ -93,7 +93,7 @@ export const MENU: INavigationMenuElement[] = [
     url: '/listing',
     submenu: [
       {
-        title: 'Pensjonaty',
+        text: 'Pensjonaty',
         slug: 'stables',
         url: '/listing/stables',
         active: false,
@@ -107,7 +107,7 @@ export const MENU: INavigationMenuElement[] = [
         ],
       },
       {
-        title: 'Specjaliści',
+        text: 'Specjaliści',
         slug: 'specialists',
         url: '/listing/specialists',
         active: false,
@@ -117,7 +117,7 @@ export const MENU: INavigationMenuElement[] = [
         ],
       },
       {
-        title: 'Trening i jazda',
+        text: 'Trening i jazda',
         slug: 'training',
         url: '/listing/training',
         active: false,

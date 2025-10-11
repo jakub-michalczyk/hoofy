@@ -23,13 +23,7 @@ import { ListingStore } from '../../../listing/store/listing.store';
 import { IListingItem } from '../../../listing/components/listing-item/listing-item.model';
 import { ListingMapInfoComponent } from '../../../homepage/components/listing-map-info/listing-map-info.component';
 import { FiltersStore } from '../../../listing/store/filters.store';
-import { IMapData } from './map.model';
-
-interface INominatimResult {
-  lat: string;
-  lon: string;
-  display_name?: string;
-}
+import { IMapData, INominatimResult } from './map.model';
 
 @Component({
   selector: 'hoof-map',

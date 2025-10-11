@@ -15,14 +15,14 @@ type ProfileKey = 'displayName' | 'email' | 'phoneNumber';
   templateUrl: './account-view-data.component.html',
 })
 export class AccountViewDataComponent {
-  editMode = signal(false);
-  alertCtrl = inject(AlertController);
-  auth = inject(AuthService);
+  protected editMode = signal(false);
+  protected alertCtrl = inject(AlertController);
+  protected auth = inject(AuthService);
 
-  originalData = signal<Partial<Record<ProfileKey, string>>>({});
-  formData = signal<Partial<Record<ProfileKey, string>>>({});
+  protected originalData = signal<Partial<Record<ProfileKey, string>>>({});
+  protected formData = signal<Partial<Record<ProfileKey, string>>>({});
 
-  data: { title: string; key: ProfileKey; icon: string }[] = [
+  protected data: { title: string; key: ProfileKey; icon: string }[] = [
     { title: 'Imię', key: 'displayName', icon: 'person-circle-outline' },
     { title: 'E-mail', key: 'email', icon: 'mail-outline' },
     { title: 'Telefon', key: 'phoneNumber', icon: 'call-outline' },

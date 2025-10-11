@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { HomepageComponent } from '../features/homepage/components/homepage/homepage.component';
-import { LoginComponent } from '../features/login/components/login/login.component';
-import { RegisterComponent } from '../features/login/components/register/register.component';
 import { ListingComponent } from '../features/listing/components/listing/listing.component';
-import { AccountViewComponent } from '../features/login/components/account-view/account-view.component';
-import { ChatContainerComponent } from '../features/login/components/chat-container/chat-container.component';
 import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
 import { MapContainerComponent } from '../features/map/components/map-container/map-container.component';
 import { AddListingContainerComponent } from '../features/listing/components/add-listing-container/add-listing-container.component';
+import { LoginComponent } from '../features/auth/components/login/login.component';
+import { RegisterComponent } from '../features/auth/components/register/register.component';
+import { AccountViewComponent } from '../features/auth/components/account-view/account-view.component';
+import { ChatContainerComponent } from '../features/auth/components/chat-container/chat-container.component';
 
 export const routes: Routes = [
   {

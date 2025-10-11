@@ -1,6 +1,6 @@
 import { signalStore, withMethods, withState } from '@ngrx/signals';
 import { getDatabase, ref, get } from 'firebase/database';
-import { IUserData } from '../../login/models/auth.model';
+import { IUserData } from '../models/auth.model';
 
 export interface IUserState {
   profile: IUserData | null;

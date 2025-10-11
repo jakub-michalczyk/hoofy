@@ -9,12 +9,13 @@ import { AddToFavouritesComponent } from '../../../shared/components/add-to-favo
 import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-details-tags.component';
 import { MapComponent } from '../../../map/components/map/map.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
-import { UserStore } from '../../store/user.store';
-import { IUserData } from '../../../login/models/auth.model';
+import { UserStore } from '../../../auth/store/user.store';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ECategoryName } from '../../../core/model/category.model';
 import { FeaturedListingsComponent } from '../../../homepage/components/featured-listings/featured-listings.component';
 import { GalleryComponent } from '../gallery/gallery.component';
+import { IUserData } from '../../../auth/models/auth.model';
 
 @Component({
   selector: 'hoof-listing-details',
@@ -37,11 +38,11 @@ export class ListingDetailsComponent {
   protected listingStore = inject(ListingStore);
   private toastController = inject(ToastController);
   private destroyerRef = inject(DestroyRef);
-  userListings: WritableSignal<IListingItem[]> = signal([]);
+  protected userListings: WritableSignal<IListingItem[]> = signal([]);
 
-  userStore = inject(UserStore);
-  user$: Observable<IUserData | null> = of({} as IUserData);
-  listing$: Observable<IListingItem | null> = this.route.paramMap.pipe(
+  private userStore = inject(UserStore);
+  protected user$: Observable<IUserData | null> = of({} as IUserData);
+  protected listing$: Observable<IListingItem | null> = this.route.paramMap.pipe(
     switchMap(params => {
       const id = params.get('id');
       return id ? this.listingStore.getListingById(id) : of(null);

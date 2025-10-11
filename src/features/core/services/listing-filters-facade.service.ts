@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed, Signal, DestroyRef } from '@angular/core';
+import { Injectable, inject, signal, computed, DestroyRef } from '@angular/core';
 import { Router, ParamMap, Params } from '@angular/router';
 import { combineLatest, filter, map, switchMap } from 'rxjs';
 import { LocationService } from './location.service';
@@ -11,12 +11,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Injectable({ providedIn: 'root' })
 export class ListingFiltersFacadeService {
   private router = inject(Router);
-  public listingStore = inject(ListingStore);
+  private listingStore = inject(ListingStore);
   private navStore = inject(NavigationStore);
   private locService = inject(LocationService);
-  destroyerRef = inject(DestroyRef);
+  private destroyerRef = inject(DestroyRef);
 
-  mainCategories: Signal<INavigationSubmenuColumn[]> = computed(() => {
+  public mainCategories = computed<INavigationSubmenuColumn[]>(() => {
     const currentSlug = this.listingStore.category();
     return this.navStore.getMainCategories().map(cat => ({
       ...cat,
@@ -24,31 +24,52 @@ export class ListingFiltersFacadeService {
     }));
   });
 
-  subcategories: Signal<INavigationSubmenuItem[]> = computed(() => {
+  public subcategories = computed<INavigationSubmenuItem[]>(() => {
     const mainSlug = this.listingStore.category();
     const main = this.navStore.getMainCategories().find(c => c.slug === mainSlug);
     return main?.items ?? [];
   });
 
-  selectedMain: Signal<INavigationSubmenuColumn | null> = computed(
-    () => this.mainCategories().find(c => c.active) ?? null
-  );
+  public selectedMain = computed<INavigationSubmenuColumn | null>(() => {
+    return this.mainCategories().find(c => c.active) ?? null;
+  });
 
-  selectedSub: Signal<INavigationSubmenuItem | null> = computed(() => {
+  public selectedSub = computed<INavigationSubmenuItem | null>(() => {
     const subSlug = this.listingStore.subCategory();
     return this.subcategories().find(s => s.slug === subSlug) ?? null;
   });
 
-  searchTerm = signal<string>('');
-  cityTerm = signal<string>('');
-  priceFrom = signal<number | null>(null);
-  priceTo = signal<number | null>(null);
-  sorting = signal<ESortingOptions>(ESortingOptions.NEWEST);
+  public searchTerm = signal<string>(this.listingStore.searchTerm());
+  public cityTerm = signal<string>(this.listingStore.location());
+  public priceFrom = signal<number | null>(this.listingStore.priceFrom());
+  public priceTo = signal<number | null>(this.listingStore.priceTo());
+  public sorting = signal<ESortingOptions>(this.listingStore.sorting());
 
-  citySuggestions = signal<string[]>([]);
+  public citySuggestions = signal<string[]>([]);
 
   constructor() {
     this.syncRouteWithState();
+    this.syncLocalSignalsWithStore();
+  }
+
+  private syncLocalSignalsWithStore(): void {
+    const update = () => {
+      this.searchTerm.set(this.listingStore.searchTerm());
+      this.cityTerm.set(this.listingStore.location());
+      this.priceFrom.set(this.listingStore.priceFrom());
+      this.priceTo.set(this.listingStore.priceTo());
+      this.sorting.set(this.listingStore.sorting());
+    };
+
+    // initial sync
+    update();
+
+    this.router.events
+      .pipe(
+        filter(e => e.constructor.name === 'NavigationEnd'),
+        takeUntilDestroyed(this.destroyerRef)
+      )
+      .subscribe(() => update());
   }
 
   private syncRouteWithState(): void {

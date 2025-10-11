@@ -9,7 +9,7 @@ import { IonIcon } from '@ionic/angular/standalone';
 })
 export class AddToFavouritesComponent {
   @Input() contrast = false;
-  added = signal(false);
+  protected added = signal(false);
 
   onChange() {
     this.added.set(!this.added());

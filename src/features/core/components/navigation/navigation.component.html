@@ -2,6 +2,7 @@
   class="lg:bg-white rounded-full lg:py-4 lg:px-12 flex items-center"
   [ngClass]="{ 'lg:shadow-2xl': !contrast }"
 >
+  <!-- MENU LINKS -->
   <ul
     class="flex-col lg:flex-row flex justify-between lg:items-center"
     [ngClass]="contrast ? 'lg:gap-16' : 'lg:gap-8'"
@@ -50,6 +51,8 @@
       }
     }
   </ul>
+
+  <!-- LOGGED IN LINKS -->
   @if (!!auth.user()) {
     <ul class="flex gap-2 items-center">
       @for (link of navigation.loggedInLinks(); track $index) {

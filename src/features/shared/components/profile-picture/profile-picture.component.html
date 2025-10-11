@@ -22,7 +22,7 @@
 
 <ion-popover trigger="account-options" triggerAction="click" class="!p-6">
   <ng-template>
-    @for (menuElem of LOGGED_IN_MENU; track $index) {
+    @for (menuElem of ACCOUNT_MENU; track $index) {
       <a
         [routerLink]="menuElem.url"
         class="p-2 body-2 text-center flex items-center gap-4 justify-center"

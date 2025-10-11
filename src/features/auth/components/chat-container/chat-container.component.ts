@@ -21,8 +21,8 @@ import { UserChatButtonComponent } from '../user-chat-button/user-chat-button.co
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ChatContainerComponent implements AfterViewInit {
-  store = inject(ChatStore);
-  authService = inject(AuthService);
+  protected store = inject(ChatStore);
+  protected authService = inject(AuthService);
   @ViewChild('swiper') swiperRef?: ElementRef<SwiperContainer>;
 
   ngAfterViewInit(): void {

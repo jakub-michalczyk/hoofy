@@ -23,18 +23,18 @@ import { CommonModule } from '@angular/common';
 })
 export class FooterComponent implements AfterViewInit {
   @ViewChild('footerTop', { static: true })
-  footerTop!: ElementRef<HTMLElement>;
+  private footerTop!: ElementRef<HTMLElement>;
   @ViewChildren('footerItem', { read: ElementRef })
-  footerItems!: QueryList<ElementRef<HTMLElement>>;
+  private footerItems!: QueryList<ElementRef<HTMLElement>>;
 
-  navigation = inject(NavigationService);
-  year = new Date().getFullYear();
+  protected navigation = inject(NavigationService);
+  protected year = new Date().getFullYear();
 
-  socials = SOCIALS;
-  cities = CITIES;
-  footerMenu = FOOTER_MENU;
+  protected socials = SOCIALS;
+  protected cities = CITIES;
+  protected footerMenu = FOOTER_MENU;
 
-  menuWrapped = false;
+  protected menuWrapped = false;
 
   ngAfterViewInit(): void {
     this.checkWrap();

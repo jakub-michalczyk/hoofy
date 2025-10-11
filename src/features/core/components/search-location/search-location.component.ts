@@ -11,9 +11,9 @@ import { CommonModule } from '@angular/common';
 })
 export class SearchLocationComponent {
   @Input() rounded = true;
-  facade = inject(ListingFiltersFacadeService);
-  cityTerm = this.facade.cityTerm;
-  citySuggestions = this.facade.citySuggestions;
+  private facade = inject(ListingFiltersFacadeService);
+  protected cityTerm = this.facade.cityTerm;
+  protected citySuggestions = this.facade.citySuggestions;
 
   onCityInput(event: Event): void {
     event.preventDefault();

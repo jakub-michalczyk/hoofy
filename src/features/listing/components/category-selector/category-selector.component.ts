@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class CategorySelectorComponent {
   @Input() contrast = false;
   @Input() navigateOnChange = false;
-  facade = inject(ListingFiltersFacadeService);
+  protected facade = inject(ListingFiltersFacadeService);
 
   mainCategories = this.facade.mainCategories as () => INavigationSubmenuColumn[];
   subcategories = this.facade.subcategories;

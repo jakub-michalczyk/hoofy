@@ -9,9 +9,9 @@ import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
   templateUrl: './newsletter.component.html',
 })
 export class NewsletterComponent {
-  firestore = inject(Firestore);
-  toastController = inject(ToastController);
-  email = signal('');
+  private firestore = inject(Firestore);
+  private toastController = inject(ToastController);
+  protected email = signal('');
 
   async subscribe(event: Event) {
     event.preventDefault();
