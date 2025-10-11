@@ -3,11 +3,11 @@ import { HomepageComponent } from '../features/homepage/components/homepage/home
 import { ListingComponent } from '../features/listing/components/listing/listing.component';
 import { ListingDetailsComponent } from '../features/listing/components/listing-details/listing-details.component';
 import { MapContainerComponent } from '../features/map/components/map-container/map-container.component';
-import { AddListingContainerComponent } from '../features/listing/components/add-listing-container/add-listing-container.component';
 import { LoginComponent } from '../features/auth/components/login/login.component';
 import { RegisterComponent } from '../features/auth/components/register/register.component';
 import { AccountViewComponent } from '../features/auth/components/account-view/account-view.component';
 import { ChatContainerComponent } from '../features/auth/components/chat-container/chat-container.component';
+import { AddEditListingContainerComponent } from '../features/listing/components/add-edit-listing-container/add-edit-listing-container.component';
 
 export const routes: Routes = [
   {
@@ -16,7 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'add-listing',
-    component: AddListingContainerComponent,
+    component: AddEditListingContainerComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: AddEditListingContainerComponent,
   },
   {
     path: 'listing',

@@ -18,11 +18,11 @@ export interface IListingItem {
   price?: number;
   images: string[];
   location: string;
-  date: string;
   type: string;
   userId: string;
   lng: number;
   lat: number;
+  phone: string;
   details?:
     | IHorseDetails
     | IEquipmentFilter
