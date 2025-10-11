@@ -7,7 +7,7 @@ import { LogoComponent } from '../../../shared/components/logo/logo.component';
 import { AuthActionsComponent } from '../../../shared/components/auth-actions/auth-actions.component';
 
 import { ProfilePictureComponent } from '../../../shared/components/profile-picture/profile-picture.component';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
@@ -19,6 +19,7 @@ import { AuthService } from '../../../auth/services/auth.service';
     LogoComponent,
     AuthActionsComponent,
     ProfilePictureComponent,
+    RouterLink,
   ],
   templateUrl: './top-bar.component.html',
 })
