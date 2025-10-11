@@ -39,6 +39,7 @@ export class TopBarComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.contrast =
           this.isListingDetailPath(event.urlAfterRedirects) ||
+          this.isEditListingPath(event.urlAfterRedirects) ||
           this.contrastPaths.includes(event.urlAfterRedirects);
       }
     });
@@ -46,6 +47,11 @@ export class TopBarComponent implements OnInit {
 
   private isListingDetailPath(url: string): boolean {
     const regex = /^\/listing\/[^/]+\/[^/]+\/[^/]+$/;
+    return regex.test(url);
+  }
+
+  private isEditListingPath(url: string): boolean {
+    const regex = /^\/edit\/[^/]+$/;
     return regex.test(url);
   }
 }

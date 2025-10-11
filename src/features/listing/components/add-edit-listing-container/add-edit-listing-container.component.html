@@ -2,11 +2,11 @@
   <form
     class="rounded bg-white block max-w-6xl !mx-auto h-full px-6 py-12 md:p-16"
     [formGroup]="form"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="onSubmit($event)"
     novalidate
     aria-labelledby="addListingTitle"
   >
-    <h2 id="addListingTitle" class="h3 md:h2">Dodaj ogłoszenie</h2>
+    <h2 id="addListingTitle" class="h3 md:h2">{{ !editMode() ? 'Dodaj' : 'Edytuj' }} ogłoszenie</h2>
     <div class="mt-12">
       <!-- CATEGORY -->
       <hoof-category-selector [contrast]="true" [navigateOnChange]="false"></hoof-category-selector>
@@ -203,7 +203,9 @@
       }
 
       <div class="flex gap-2 mt-12">
-        <ion-button type="submit" fill="solid" [disabled]="isInvalid">Dodaj ogłoszenie</ion-button>
+        <ion-button type="submit" fill="solid" [disabled]="isInvalid">
+          {{ !editMode() ? 'Dodaj' : 'Edytuj' }} ogłoszenie
+        </ion-button>
       </div>
     </div>
   </form>
@@ -214,7 +216,7 @@
     @if (files()[index]?.content && index !== 0) {
       <!-- REMOVE IMAGE -->
       <button
-        (click)="removeImage(index)"
+        (click)="removeImage($event, index)"
         class="absolute -top-4 -right-4 text-2xl bg-orange-450 !p-4 !pt-6 !pr-6 !rounded-full text-white flex z-50"
       >
         <ion-icon name="close-circle-outline"></ion-icon>

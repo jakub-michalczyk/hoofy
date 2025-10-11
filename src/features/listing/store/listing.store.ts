@@ -17,6 +17,7 @@ import {
   getDoc,
   addDoc,
   updateDoc,
+  setDoc,
 } from 'firebase/firestore';
 
 import { EGridMode, ESortingOptions } from '../components/sort-options/sort-options.model';
@@ -174,6 +175,26 @@ export const ListingStore = signalStore(
         typeof store.searchResults === 'function' ? store.searchResults() : undefined;
       if (Array.isArray(currentResults)) {
         patchState(store, { searchResults: [result, ...currentResults] });
+      }
+
+      return result;
+    }
+
+    async function updateListing(listingId: string, listing: IListingItem) {
+      const docRef = doc(firestore, 'listings', listingId).withConverter(listingConverter);
+      await setDoc(docRef, listing, { merge: false });
+
+      const savedSnap = await getDoc(docRef.withConverter(listingConverter));
+      if (!savedSnap.exists()) throw new Error('Failed to update listing');
+
+      const savedRaw = savedSnap.data() as unknown as Record<string, unknown>;
+      const result = { ...(savedRaw as Record<string, unknown>), id: listingId } as IListingItem;
+
+      const currentResults =
+        typeof store.searchResults === 'function' ? store.searchResults() : undefined;
+      if (Array.isArray(currentResults)) {
+        const updated = currentResults.map(r => (r.id === listingId ? result : r));
+        patchState(store, { searchResults: updated });
       }
 
       return result;
@@ -362,6 +383,7 @@ export const ListingStore = signalStore(
       setCity,
       setCategory,
       setSubCategory,
+      updateListing,
 
       loadFeatured,
       loadLatest,

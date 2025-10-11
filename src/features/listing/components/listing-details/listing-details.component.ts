@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { IListingItem } from '../listing-item/listing-item.model';
 import { combineLatest, from, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ListingStore } from '../../store/listing.store';
@@ -16,6 +16,7 @@ import { ECategoryName } from '../../../core/model/category.model';
 import { FeaturedListingsComponent } from '../../../homepage/components/featured-listings/featured-listings.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { IUserData } from '../../../auth/models/auth.model';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'hoof-listing-details',
@@ -30,6 +31,7 @@ import { IUserData } from '../../../auth/models/auth.model';
     CarouselComponent,
     FeaturedListingsComponent,
     GalleryComponent,
+    RouterLink,
   ],
   templateUrl: './listing-details.component.html',
 })
@@ -40,6 +42,7 @@ export class ListingDetailsComponent {
   private destroyerRef = inject(DestroyRef);
   protected userListings: WritableSignal<IListingItem[]> = signal([]);
 
+  protected auth = inject(AuthService);
   private userStore = inject(UserStore);
   protected user$: Observable<IUserData | null> = of({} as IUserData);
   protected listing$: Observable<IListingItem | null> = this.route.paramMap.pipe(

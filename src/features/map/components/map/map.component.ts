@@ -69,9 +69,19 @@ export class MapComponent implements AfterViewInit {
   private async setupMap() {
     const resolved = await this.resolveCityCoords();
     const initial = resolved ?? this.getInitialCoords();
+    this.checkForMarkers();
     this.initMapWithCoords(initial);
     this.loadInViewport();
     this.loadEvents();
+  }
+
+  private checkForMarkers() {
+    const lat = this.store.listingCords.lat();
+    const lng = this.store.listingCords.lng();
+
+    if (this.addNew && lat !== null && lng) {
+      this.loadNewAddedMarker(lat, lng);
+    }
   }
 
   private async onCityChanged(city?: string) {
@@ -243,8 +253,7 @@ export class MapComponent implements AfterViewInit {
             {
               text: 'Dodaj',
               handler: () => {
-                this.addNewMarker(lat, lng);
-                this.loadInViewport();
+                this.loadNewAddedMarker(lat, lng);
               },
             },
           ],
@@ -271,6 +280,11 @@ export class MapComponent implements AfterViewInit {
         await pop.present();
       }
     });
+  }
+
+  loadNewAddedMarker(lat: number, lng: number) {
+    this.addNewMarker(lat, lng);
+    this.loadInViewport();
   }
 
   private addNewMarker(lat: number, lng: number, listing?: IListingItem) {
@@ -322,6 +336,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private async loadInViewport(): Promise<void> {
+    if (!this.map) {
+      return;
+    }
+
     const extent = this.map.getView().calculateExtent(this.map.getSize());
     const [minX, minY, maxX, maxY] = extent;
     const sw = toLonLat([minX, minY]);

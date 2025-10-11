@@ -65,8 +65,15 @@
               </div>
 
               <div class="mt-12 flex gap-2">
-                <ion-button fill="solid">Napisz wiadomość</ion-button>
-                <ion-button fill="outline">Zarezerwuj</ion-button>
+                @if (listing.userId !== auth.user()?.uid) {
+                  <ion-button fill="solid">Napisz wiadomość</ion-button>
+                  <ion-button fill="outline">Zarezerwuj</ion-button>
+                } @else {
+                  <a [routerLink]="['/edit', listing.id]">
+                    <ion-button fill="solid">Edytuj</ion-button>
+                  </a>
+                  <ion-button fill="outline">Usuń</ion-button>
+                }
               </div>
             </div>
           </div>

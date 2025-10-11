@@ -40,7 +40,6 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
       price: data['price'],
       images: data['images'],
       location: data['location'],
-      date: data['date'],
       type: data['type'],
       category: data['category'],
       subCategory: data['subCategory'],
@@ -48,6 +47,7 @@ export const listingConverter: FirestoreDataConverter<IListingItem> = {
       details: data['details'],
       lng: data['lng'],
       lat: data['lat'],
+      phone: data['phone'],
     };
   },
 };
