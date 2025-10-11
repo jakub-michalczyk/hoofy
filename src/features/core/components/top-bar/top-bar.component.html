@@ -26,6 +26,18 @@
         class="gap-8 items-center justify-end hidden lg:flex"
         [ngClass]="!contrast ? 'w-1/4' : 'w-full'"
       >
+        <!-- LOGGED IN LINKS -->
+        <ul class="flex gap-2 items-center">
+          @for (link of navigation.loggedInLinks(); track $index) {
+            <a [routerLink]="link.url">
+              <li
+                class="border border-orange-450 text-orange-450 body-4 rounded-2xl px-4 py-1 text-nowrap hover:bg-orange-450 hover:text-white"
+              >
+                {{ link.text }}
+              </li></a
+            >
+          }
+        </ul>
         <hoof-profile-picture></hoof-profile-picture>
       </div>
     } @else {

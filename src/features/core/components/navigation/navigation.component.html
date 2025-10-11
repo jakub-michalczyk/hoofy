@@ -4,7 +4,7 @@
 >
   <!-- MENU LINKS -->
   <ul
-    class="flex-col lg:flex-row flex justify-between lg:items-center"
+    class="w-full lg:w-auto flex-col lg:flex-row flex justify-between lg:items-center"
     [ngClass]="contrast ? 'lg:gap-16' : 'lg:gap-8'"
   >
     @for (link of navigation.links(); track $index) {
@@ -34,7 +34,7 @@
           <hoof-sub-menu></hoof-sub-menu>
         </hoof-accordion>
       } @else {
-        <a [routerLink]="link.url">
+        <a [routerLink]="link.url" class="block lg:hidden">
           <li
             class="block lg:hidden body-2 p-4"
             [ngClass]="{ ' border-b border-stone-200': !!auth.user() }"
@@ -51,19 +51,4 @@
       }
     }
   </ul>
-
-  <!-- LOGGED IN LINKS -->
-  @if (!!auth.user()) {
-    <ul class="flex gap-2 items-center">
-      @for (link of navigation.loggedInLinks(); track $index) {
-        <a [routerLink]="link.url">
-          <li
-            class="border border-orange-450 text-orange-450 body-4 rounded-2xl px-4 py-1 text-nowrap hover:bg-orange-450 hover:text-white"
-          >
-            {{ link.text }}
-          </li></a
-        >
-      }
-    </ul>
-  }
 </nav>
