@@ -7,6 +7,7 @@ import { AddToFavouritesComponent } from '../../../shared/components/add-to-favo
 import { ListingStore } from '../../store/listing.store';
 import { EGridMode } from '../sort-options/sort-options.model';
 import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-details-tags.component';
+import { TitleComponent } from '../../../shared/components/title/title.component';
 
 @Component({
   selector: 'hoof-listing-item',
@@ -15,7 +16,7 @@ import { ListingDetailsTagsComponent } from '../listing-details-tags/listing-det
     RouterLink,
     DatePipe,
     CommonModule,
-
+    TitleComponent,
     ListingDetailsTagsComponent,
   ],
   templateUrl: './listing-item.component.html',

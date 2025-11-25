@@ -3,6 +3,7 @@
 @theme {
   --color-stone-250: #ddd5d5;
   --color-orange-450: #f19a3e;
+  --color-stone-150: #f0f0f0;
 }
 
 @layer base {
