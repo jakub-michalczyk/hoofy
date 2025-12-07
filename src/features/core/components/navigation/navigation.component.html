@@ -5,7 +5,7 @@
   <!-- MENU LINKS -->
   <ul
     class="w-full lg:w-auto flex-col lg:flex-row flex justify-between lg:items-center"
-    [ngClass]="contrast ? 'lg:gap-16' : 'lg:gap-8'"
+    [ngClass]="contrast ? 'lg:gap-24' : 'lg:gap-12'"
   >
     @for (link of navigation.links(); track $index) {
       <a
@@ -44,10 +44,6 @@
             </span>
           </li>
         </a>
-      }
-
-      @if (!$last && !contrast) {
-        <div class="hidden lg:block bg-orange-450 rounded-full w-1.5 h-1.5"></div>
       }
     }
   </ul>
